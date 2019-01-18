@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">艺语</string>
+    <string name="welcom">欢迎来到艺语App</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_home">首页</string>
+    <string name="title_trends">动态</string>
+    <string name="title_publish">发布</string>
+    <string name="title_messages">消息</string>
+    <string name="title_my">我的</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+</resources>

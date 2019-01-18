@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/title_home" />
+
+    <item
+        android:id="@+id/trendsFragment"
+        android:icon="@drawable/ic_trends_black_24dp"
+        android:title="@string/title_trends" />
+    <item
+        android:id="@+id/publishFragment"
+        android:icon="@drawable/ic_publish_black_24dp"
+        android:title="@string/title_publish"/>
+    <item
+        android:id="@+id/messageFragment"
+        android:icon="@drawable/ic_message_black_24dp"
+        android:title="@string/title_messages" />
+    <item
+        android:id="@+id/myFragment"
+        android:icon="@drawable/ic_my_black_24dp"
+        android:title="@string/title_my" />
+</menu>
