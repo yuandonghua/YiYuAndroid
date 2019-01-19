@@ -101,4 +101,7 @@ dependencies {
     testImplementation rootProject.ext.dependencies["canary-release"]
     testImplementation rootProject.ext.dependencies["junit"]
     implementation files('libs/open_sdk_r6019_lite.jar')
+
+    //主题切换动画
+    implementation rootProject.ext.dependencies["rippleanimation"]
 }

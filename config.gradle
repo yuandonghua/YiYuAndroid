@@ -23,7 +23,9 @@ ext {
     ]
 
     dependencies = [
-            //第三方登陆
+            //主题切换动画
+            "rippleanimation"          : "com.wuyr:rippleanimation:1.0.0",
+            //微信登陆
             "wechat-sdk"               : "com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+",
             //jetpack
             "navigation-ui"            : "android.arch.navigation:navigation-ui:${version["nav_version"]}",
