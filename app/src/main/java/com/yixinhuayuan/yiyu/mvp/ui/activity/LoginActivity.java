@@ -160,6 +160,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     public void showUserInfo(String str) {
         userInfo.setText(str);
+        GlobalConfiguration.LOGIN = true;
+        finish();
     }
 
     @Override

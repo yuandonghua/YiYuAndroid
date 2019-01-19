@@ -65,6 +65,8 @@ public class WelcomActivity extends BaseActivity<WelcomPresenter> implements Wel
      */
     private void openMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
+//        Intent intent = new Intent(this, SettingsActivity.class);
+
         startActivity(intent);
         finish();
     }

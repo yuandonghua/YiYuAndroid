@@ -40,10 +40,15 @@ public final class GlobalConfiguration implements ConfigModule {
      * QQ平台的APPID
      */
     public static String QQ_APP_ID = "101545090";
+    /**
+     * 用户是否登录
+     */
+    public static Boolean LOGIN = false;
 
     @Override
     public void applyOptions(Context context, GlobalConfigModule.Builder builder) {
-        if (!BuildConfig.LOG_DEBUG) { //Release 时, 让框架不再打印 Http 请求和响应的信息
+        //Release 时, 让框架不再打印 Http 请求和响应的信息
+        if (!BuildConfig.LOG_DEBUG) {
             builder.printHttpLogLevel(RequestInterceptor.Level.NONE);
         }
 

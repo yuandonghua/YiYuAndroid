@@ -19,9 +19,12 @@ import com.yixinhuayuan.yiyu.mvp.contract.MyContract;
 import com.yixinhuayuan.yiyu.mvp.presenter.MyPresenter;
 
 import com.yixinhuayuan.yiyu.R;
+import com.yixinhuayuan.yiyu.mvp.ui.view.DayNightToggleButton;
+import com.yixinhuayuan.yiyu.mvp.ui.view.ToggleSettings;
 
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
+import butterknife.BindView;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -39,6 +42,8 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * ================================================
  */
 public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.View {
+    @BindView(R.id.dayNightToggleButton)
+    DayNightToggleButton dayNightToggleButton;
 
     public static MyFragment newInstance() {
         MyFragment fragment = new MyFragment();
@@ -62,7 +67,24 @@ public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        NavHostFragment.findNavController(this).navigate(R.id.action_myFragment_to_loginActivity);
+
+        initThemeButton();
+        //跳转登陆页面
+//        NavHostFragment.findNavController(this).navigate(R.id.action_myFragment_to_loginActivity);
+    }
+
+    /**
+     * 初始化主题风格view
+     */
+    private void initThemeButton() {
+        ToggleSettings mBuilderSettings = new ToggleSettings.Builder()
+                .setToggleUnCheckedColor(getResources().getColor(R.color.colorPrimaryDark))
+                .setBackgroundUncheckedColor(getResources().getColor(R.color.gray))
+                .setToggleCheckedColor(getResources().getColor(R.color.colorAccent))
+                .setBackgroundCheckedColor(getResources().getColor(R.color.colorPrimaryDark))
+                .setDuration(200)
+                .buildSettings();
+        dayNightToggleButton.setToggleSettings(mBuilderSettings);
     }
 
     /**
