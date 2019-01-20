@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,16 +16,21 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.dim.skin.SkinConfig;
+import com.dim.skin.SkinStyle;
+import com.dim.skin.hepler.SkinCompat;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 
 import com.wuyr.rippleanimation.RippleAnimation;
+import com.yixinhuayuan.yiyu.app.GlobalConfiguration;
 import com.yixinhuayuan.yiyu.di.component.DaggerMyComponent;
 import com.yixinhuayuan.yiyu.mvp.contract.MyContract;
 import com.yixinhuayuan.yiyu.mvp.presenter.MyPresenter;
 
 import com.yixinhuayuan.yiyu.R;
+import com.yixinhuayuan.yiyu.mvp.ui.activity.SettingActivity;
 import com.yixinhuayuan.yiyu.mvp.ui.view.DayNightToggleButton;
 import com.yixinhuayuan.yiyu.mvp.ui.view.ToggleSettings;
 
@@ -38,7 +44,7 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
 
 /**
  * ================================================
- * Description:
+ * Description:我的页面
  * <p>
  * Created by MVPArmsTemplate on 01/15/2019 17:19
  * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
@@ -49,22 +55,13 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * ================================================
  */
 public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.View {
+
     /**
      * 主题切换按钮
      */
     @BindView(R.id.dayNightToggleButton)
     DayNightToggleButton dayNightToggleButton;
-    /**
-     * 根布局
-     */
-    @BindView(R.id.container)
-    ViewGroup container;
-    /**
-     * 子view数组
-     */
-    private View[] mChildViews;
-    private boolean mDayOrNight = true;
-    private int mDayOrNightColor;
+    private boolean initDayOrNight = true;
 
     public static MyFragment newInstance() {
         MyFragment fragment = new MyFragment();
@@ -88,88 +85,90 @@ public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-//        initStatusBar();
-        initThemeButton();
         //跳转登陆页面
-//        NavHostFragment.findNavController(this).navigate(R.id.action_myFragment_to_loginActivity);
+//        NavHostFragment.findNavController(this).navigate(R.id.action_myFragment_to_settingActivity);
+        initThemeButton();
     }
+
 
     /**
      * 初始化主题风格view
      */
     private void initThemeButton() {
-        //获取所有子view
-        mChildViews = new View[container.getChildCount()];
-        for (int i = 0; i < mChildViews.length; i++) {
-            mChildViews[i] = container.getChildAt(i);
-        }
 
         ToggleSettings mBuilderSettings = new ToggleSettings.Builder()
-                .setToggleUnCheckedColor(getResources().getColor(R.color.colorPrimaryDark))
+                .setToggleUnCheckedColor(getResources().getColor(R.color.light_day))
                 .setBackgroundUncheckedColor(getResources().getColor(R.color.gray))
-                .setToggleCheckedColor(getResources().getColor(R.color.white))
+                .setToggleCheckedColor(getResources().getColor(R.color.night_day))
                 .setBackgroundCheckedColor(getResources().getColor(R.color.gray))
                 .setDuration(200)
                 .buildSettings();
         dayNightToggleButton.setToggleSettings(mBuilderSettings);
+        if (SkinConfig.getSkinStyle(getActivity()) == SkinStyle.Dark) {
+            //需要延时设置默认模式按钮样式,初始化按钮设置
+            new Handler().postDelayed(() -> {
+                if (dayNightToggleButton != null) {
+                    dayNightToggleButton.toggle();
+                }
+            }, 50);
+        }
         dayNightToggleButton.setOnCheckChangeListener(new DayNightToggleButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(View buttonView, boolean isChecked) {
-                //夜间模式切换
-                //切换动画
-                RippleAnimation.create(buttonView).setDuration(250).start();
-                //日间操作
-                if (mDayOrNight) {
-                    mDayOrNight = false;
-                    mDayOrNightColor = getResources().getColor(R.color.black);
-                } else {
-                    //夜间操作
-                    mDayOrNight = true;
-                    mDayOrNightColor = getResources().getColor(R.color.white);
+                if (isChecked && SkinConfig.getSkinStyle(getActivity()) == SkinStyle.Light) {
+                    //日间模式
+                    selectDayOrNight(buttonView, SkinStyle.Dark);
+                } else if (!isChecked && SkinConfig.getSkinStyle(getActivity()) == SkinStyle.Dark) {
+                    //夜间模式
+                    selectDayOrNight(buttonView, SkinStyle.Light);
                 }
-
-
-//                switch (view.getId()) {
-//                    case R.id.red:
-//                        color = Color.RED;
-//                        break;
-//                    case R.id.green:
-//                        color = Color.GREEN;
-//                        break;
-//                    case R.id.blue:
-//                        color = Color.BLUE;
-//                        break;
-//                    case R.id.yellow:
-//                        color = Color.YELLOW;
-//                        break;
-//                    case R.id.black:
-//                        color = Color.DKGRAY;
-//                        break;
-//                    case R.id.cyan:
-//                        color = Color.CYAN;
-//                        break;
-//                    default:
-//                        color = Color.TRANSPARENT;
-//                        break;
-//                }
-                updateColor(mDayOrNightColor);
 
             }
         });
+
+
     }
 
     /**
-     * 更新UI主题颜色
+     * 切换皮肤设置
      *
-     * @param color
+     * @param buttonView
+     * @param skinStyle
      */
-    private void updateColor(int color) {
-        for (View view : mChildViews) {
-            if (view instanceof TextView) {
-                ((TextView) view).setTextColor(color);
-            } else {
-                view.setBackgroundColor(color);
-            }
+    private void selectDayOrNight(View buttonView, SkinStyle skinStyle) {
+        //切换动画
+        RippleAnimation.create(buttonView).setDuration(250).start();
+        //切换皮肤
+        SkinCompat.setSkinStyle(getActivity(), skinStyle, mSkinStyleChangeListenerImp);
+    }
+
+    private SkinStyleChangeListenerImp mSkinStyleChangeListenerImp = new SkinStyleChangeListenerImp();
+
+    class SkinStyleChangeListenerImp implements SkinCompat.SkinStyleChangeListener {
+
+        @Override
+        public void beforeChange() {
+
+        }
+
+        @Override
+        public void afterChange() {
+
+//            mRl.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    mRl.setVisibility(View.VISIBLE);
+//
+//                    CRAnimation crA =
+//                            new CircularRevealCompat(mRl).circularReveal(
+//                                    mFloatingActionButton.getLeft() + mFloatingActionButton.getWidth() / 2, mFloatingActionButton.getTop() + mFloatingActionButton.getHeight() / 2, 0, mRl.getHeight());
+//
+//                    if (crA != null)
+//                        crA.start();
+//                }
+//            },600);
+
+
         }
 
     }

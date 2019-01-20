@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_myFragment_to_loginActivity"
             app:destination="@id/loginActivity" />
+        <action
+            android:id="@+id/action_myFragment_to_settingActivity"
+            app:destination="@id/settingActivity" />
     </fragment>
     <fragment
         android:id="@+id/messageFragment"
@@ -46,4 +49,8 @@
         android:id="@+id/loginActivity"
         android:name="com.yixinhuayuan.yiyu.mvp.ui.activity.LoginActivity"
         android:label="LoginActivity" />
+    <activity
+        android:id="@+id/settingActivity"
+        android:name="com.yixinhuayuan.yiyu.mvp.ui.activity.SettingActivity"
+        android:label="SettingActivity" />
 </navigation>

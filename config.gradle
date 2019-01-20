@@ -15,6 +15,7 @@ ext {
             dagger2SdkVersion       : "2.19",
             glideSdkVersion         : "4.8.0",
             butterknifeSdkVersion   : "8.8.1",
+//            butterknifeSdkVersion   : "10.0.0",
             rxlifecycleSdkVersion   : "1.0",
             rxlifecycle2SdkVersion  : "2.2.2",
             espressoSdkVersion      : "3.0.1",
@@ -23,6 +24,8 @@ ext {
     ]
 
     dependencies = [
+            //主题
+            "Colorful"                 : "com.github.garretyoder:Colorful:2.3.4",
             //主题切换动画
             "rippleanimation"          : "com.wuyr:rippleanimation:1.0.0",
             //微信登陆

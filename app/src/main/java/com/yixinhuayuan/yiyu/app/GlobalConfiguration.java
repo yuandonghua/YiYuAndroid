@@ -45,6 +45,7 @@ public final class GlobalConfiguration implements ConfigModule {
      */
     public static Boolean LOGIN = false;
 
+
     @Override
     public void applyOptions(Context context, GlobalConfigModule.Builder builder) {
         //Release 时, 让框架不再打印 Http 请求和响应的信息

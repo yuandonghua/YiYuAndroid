@@ -3,6 +3,7 @@ package com.yixinhuayuan.yiyu.app;
 import android.app.Application;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.app.SkinHelper;
 
 import com.jess.arms.base.delegate.AppLifecycles;
 import com.jess.arms.integration.cache.IntelligentCache;
@@ -14,11 +15,14 @@ import butterknife.ButterKnife;
 
 import com.yixinhuayuan.yiyu.BuildConfig;
 
+
 import timber.log.Timber;
+
 
 /**
  * ================================================
  * 展示 {@link AppLifecycles} 的用法
+ * Application声明周期
  * <p>
  * Created by MVPArmsTemplate on 01/14/2019 15:33
  * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
@@ -60,6 +64,9 @@ public class AppLifecyclesImpl implements AppLifecycles {
         ArmsUtils.obtainAppComponentFromContext(application).extras()
                 .put(IntelligentCache.getKeyOfKeep(RefWatcher.class.getName())
                         , BuildConfig.USE_CANARY ? LeakCanary.install(application) : RefWatcher.DISABLED);
+
+        //引用主题
+        SkinHelper.init(application);
     }
 
     @Override

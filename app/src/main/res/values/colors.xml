@@ -6,4 +6,16 @@
     <color name="white">#FFFFFF</color>
     <color name="gray">#bfbfbf</color>
     <color name="black">#515151</color>
+    <color name="transparent">#00000000</color>
+    <color name="red">#FF6363</color>
+    <color name="green">#62BE33</color>
+    <color name="normal_black">#262932</color>
+    <color name="night_tv_color">#ffdddddd</color>
+    <color name="night_title">#262932</color>
+    <color name="night_bg">#3A3743</color>
+    <color name="light_bg">#E3F2FD</color>
+    <color name="light_day">@color/colorPrimary</color>
+    <color name="night_day">#FFFFFF</color>
+
+    <color name="button_bg">#4E89FF</color>
 </resources>

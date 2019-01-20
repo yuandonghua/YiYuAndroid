@@ -17,6 +17,8 @@ import android.view.View;
 
 import com.yixinhuayuan.yiyu.R;
 
+import timber.log.Timber;
+
 
 /**
  * Created by SilenceDut on 16/6/3.
@@ -116,7 +118,7 @@ public class DayNightToggleButton extends View {
         return mToggleSettings;
     }
 
-    private void animateToggle( boolean toggleToNight) {
+    public void animateToggle( boolean toggleToNight) {
         final float originX;
         final float endX;
         final float originY;

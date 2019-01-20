@@ -2,15 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="100dp">
-
-    </RelativeLayout>
+    android:orientation="vertical"
+    android:background="@color/light_bg"
+    app:nightBackground="@color/night_bg"
+    tools:ignore="MissingPrefix">
 
     <RelativeLayout
         android:id="@+id/rl_theme"
@@ -30,6 +27,10 @@
             android:layout_width="60dp"
             android:layout_height="30dp"
             android:layout_alignParentRight="true"
+            app:dnToggleCheckedColor="@color/night_day"
+            app:dnToggleUncheckedColor="@color/light_day"
+            app:dnBackgroundCheckedColor="@color/gray"
+            app:dnBackgroundUncheckedColor="@color/gray"
             android:layout_centerVertical="true"
             android:layout_gravity="center" />
 
@@ -40,21 +41,19 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/iv_Theme"
-            android:textStyle="bold"
+            android:text="主题风格"
             android:textSize="18sp"
-            android:text="主题风格" />
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/tv_desc_theme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:textStyle="bold"
-            android:text="夜间模式"
-            android:textColor="@color/gray"
             android:layout_toLeftOf="@+id/dayNightToggleButton"
-            android:textSize="16sp"/>
+            android:text="夜间模式"
+            android:textSize="16sp"
+            android:textStyle="bold" />
     </RelativeLayout>
-
-
 </LinearLayout>

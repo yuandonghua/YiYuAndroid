@@ -7,6 +7,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.3.0'
+//        classpath 'com.jakewharton:butterknife-gradle-plugin:10.0.0'
         //gradle3.0.0以上使用（3.1.0以上无效，因此依旧建议新建一个baseApplication）             
 //        classpath 'com.library.tangxiaolv:dexknife-plus:1.0.5.alpha'
         //gradle3.0.0以下使用

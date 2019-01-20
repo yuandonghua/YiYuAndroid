@@ -139,4 +139,13 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     public void killMyself() {
         finish();
     }
+
+    public void day() {
+
+        recreate();
+    }
+
+    public void night() {
+
+    }
 }
