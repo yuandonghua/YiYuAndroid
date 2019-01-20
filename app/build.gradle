@@ -6,7 +6,7 @@ android {
         config {
             keyAlias '艺语'
             keyPassword '123qwe'
-            storeFile file('C:/Users/admin/Desktop/android/YiYuAndroid/yiyu')
+//            storeFile file('C:/Users/admin/Desktop/android/YiYuAndroid/yiyu')
             storePassword '123qwe'
         }
     }
