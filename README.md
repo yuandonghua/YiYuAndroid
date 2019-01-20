@@ -1,6 +1,7 @@
 # YiYuAndroid
 艺语Android端
-
+### 打包
+1. GlobalConfiguration类加上@Keep注解，打包在主包内
 ### 夜间模式和日间模式切换注意事项
 1. 根布局加上此属性tools:ignore="MissingPrefix"
 2. 夜间模式用次属性app:nightBackground=""
