@@ -6,7 +6,7 @@ android {
         config {
             keyAlias '艺语'
             keyPassword '123qwe'
-//            storeFile file('C:/Users/admin/Desktop/android/YiYuAndroid/yiyu')
+            storeFile file('C:/Users/admin/Desktop/YiYu/YiYuAndroid/yiyu')
             storePassword '123qwe'
         }
     }
@@ -126,7 +126,6 @@ dependencies {
     implementation rootProject.ext.dependencies["rippleanimation"]
 
     //主题
-    implementation 'joda-time:joda-time:2.3'
     implementation 'com.github.zzz40500:CommonAdapter:1.0'
     implementation project(':baselibrary')
 }

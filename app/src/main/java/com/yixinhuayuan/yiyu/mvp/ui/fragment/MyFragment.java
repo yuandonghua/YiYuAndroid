@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.dim.skin.SkinConfig;
@@ -30,6 +31,7 @@ import com.yixinhuayuan.yiyu.mvp.contract.MyContract;
 import com.yixinhuayuan.yiyu.mvp.presenter.MyPresenter;
 
 import com.yixinhuayuan.yiyu.R;
+import com.yixinhuayuan.yiyu.mvp.ui.activity.LoginActivity;
 import com.yixinhuayuan.yiyu.mvp.ui.activity.SettingActivity;
 import com.yixinhuayuan.yiyu.mvp.ui.view.DayNightToggleButton;
 import com.yixinhuayuan.yiyu.mvp.ui.view.ToggleSettings;
@@ -37,6 +39,7 @@ import com.yixinhuayuan.yiyu.mvp.ui.view.ToggleSettings;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import butterknife.BindView;
+import butterknife.OnClick;
 import timber.log.Timber;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
@@ -86,8 +89,8 @@ public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         //跳转登陆页面
-//        NavHostFragment.findNavController(this).navigate(R.id.action_myFragment_to_settingActivity);
-        initThemeButton();
+        NavHostFragment.findNavController(this).navigate(R.id.action_myFragment_to_loginActivity);
+        //initThemeButton();
     }
 
 
@@ -153,21 +156,6 @@ public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.
 
         @Override
         public void afterChange() {
-
-//            mRl.postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    mRl.setVisibility(View.VISIBLE);
-//
-//                    CRAnimation crA =
-//                            new CircularRevealCompat(mRl).circularReveal(
-//                                    mFloatingActionButton.getLeft() + mFloatingActionButton.getWidth() / 2, mFloatingActionButton.getTop() + mFloatingActionButton.getHeight() / 2, 0, mRl.getHeight());
-//
-//                    if (crA != null)
-//                        crA.start();
-//                }
-//            },600);
-
 
         }
 
@@ -258,4 +246,5 @@ public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.
     public void killMyself() {
 
     }
+
 }

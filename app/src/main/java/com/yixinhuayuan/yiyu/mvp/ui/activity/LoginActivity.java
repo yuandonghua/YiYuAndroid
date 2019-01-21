@@ -121,6 +121,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
      */
     @OnClick(R.id.btnLoginWX)
     void loginWX() {
+
     }
 
     /**
@@ -161,7 +162,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     public void showUserInfo(String str) {
         userInfo.setText(str);
         GlobalConfiguration.LOGIN = true;
-        finish();
+        // finish();
     }
 
     @Override

@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/light_bg"
+    android:orientation="vertical"
     app:nightBackground="@color/night_bg"
     tools:ignore="MissingPrefix">
+
 
     <RelativeLayout
         android:id="@+id/rl_theme"
@@ -27,12 +28,12 @@
             android:layout_width="60dp"
             android:layout_height="30dp"
             android:layout_alignParentRight="true"
-            app:dnToggleCheckedColor="@color/night_day"
-            app:dnToggleUncheckedColor="@color/light_day"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
             app:dnBackgroundCheckedColor="@color/gray"
             app:dnBackgroundUncheckedColor="@color/gray"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center" />
+            app:dnToggleCheckedColor="@color/night_day"
+            app:dnToggleUncheckedColor="@color/light_day" />
 
         <TextView
             android:id="@+id/tv_title_theme"
