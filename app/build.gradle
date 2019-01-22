@@ -128,4 +128,10 @@ dependencies {
     //主题
     implementation 'com.github.zzz40500:CommonAdapter:1.0'
     implementation project(':baselibrary')
+
+    // 微信登陆
+    implementation rootProject.ext.dependencies['wechat-sdk']
+
+    // 使用retrofit
+    implementation rootProject.ext.dependencies['retrofit-url-manager']
 }

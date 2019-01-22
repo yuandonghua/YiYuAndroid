@@ -15,6 +15,12 @@ import com.jess.arms.integration.ConfigModule;
 import com.jess.arms.utils.ArmsUtils;
 
 import com.tencent.connect.common.Constants;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXTextObject;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.yixinhuayuan.yiyu.app.GlobalConfiguration;
@@ -34,6 +40,7 @@ import butterknife.OnClick;
 import timber.log.Timber;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
+import static com.tencent.mm.opensdk.modelmsg.SendMessageToWX.Req.WXSceneTimeline;
 
 
 /**
@@ -78,6 +85,10 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
      */
     @BindView(R.id.userInfo)
     TextView userInfo;
+    /**
+     * 微信API实例对象
+     */
+    private IWXAPI iwxapi;
 
 
     @Override
@@ -100,6 +111,10 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         if (mTencent == null) {
             mTencent = Tencent.createInstance(GlobalConfiguration.QQ_APP_ID, this);
         }
+        if (iwxapi == null) {
+            iwxapi = WXAPIFactory.createWXAPI(this, GlobalConfiguration.WX_APP_ID);
+
+        }
     }
 
     @OnClick(R.id.btnBack)
@@ -121,7 +136,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
      */
     @OnClick(R.id.btnLoginWX)
     void loginWX() {
-
+        mPresenter.WXLogin(iwxapi);
     }
 
     /**
@@ -129,6 +144,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
      */
     @OnClick(R.id.btnLoginWB)
     void loginWB() {
+
+
     }
 
     @Override

@@ -2,10 +2,13 @@ package com.yixinhuayuan.yiyu.mvp.presenter;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Message;
 import android.text.TextUtils;
+import android.widget.Toast;
 
+import com.jess.arms.http.OkHttpUrlLoader;
 import com.jess.arms.integration.AppManager;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.mvp.BasePresenter;
@@ -19,9 +22,13 @@ import javax.inject.Inject;
 import com.jess.arms.utils.ArmsUtils;
 import com.tencent.connect.UserInfo;
 import com.tencent.connect.common.Constants;
+import com.tencent.mm.opensdk.modelbase.BaseReq;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
+import com.yixinhuayuan.yiyu.app.GlobalConfiguration;
 import com.yixinhuayuan.yiyu.mvp.contract.LoginContract;
 import com.yixinhuayuan.yiyu.mvp.model.QQLoginModel;
 
@@ -138,6 +145,26 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
                 mTencent.setOpenId(openId);
             }
         } catch (Exception e) {
+        }
+    }
+
+    /**
+     * 调用微信登录API
+     *
+     * @param iwxapi
+     */
+    public void WXLogin(IWXAPI iwxapi) {
+        iwxapi.registerApp(GlobalConfiguration.WX_APP_ID);
+        // 判断是否安装微信
+        if (iwxapi.isWXAppInstalled()) {
+            SendAuth.Req req = new SendAuth.Req();
+            req.scope = "snsapi_userinfo";
+            req.state = "1";
+            // 发送请求或响应到微信
+            iwxapi.sendReq(req);
+
+        } else {
+            Toast.makeText((Activity) mRootView, "请下载最新版微信", Toast.LENGTH_SHORT).show();
         }
     }
 

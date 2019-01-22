@@ -44,6 +44,10 @@ public final class GlobalConfiguration implements ConfigModule {
      * 用户是否登录
      */
     public static Boolean LOGIN = false;
+    /**
+     * 微信平台的APPID
+     */
+    public static final String WX_APP_ID = "wxa03c0f02b7704031";
 
 
     @Override
