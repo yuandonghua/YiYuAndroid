@@ -18,4 +18,7 @@
     <color name="night_day">#FFFFFF</color>
 
     <color name="button_bg">#4E89FF</color>
+
+    <color name="background_color">#F2F2F2</color>
+    <color name="control_background">#FFFFFF</color>
 </resources>

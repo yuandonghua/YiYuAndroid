@@ -3,7 +3,7 @@ package com.yixinhuayuan.yiyu;
 /**
  * Instrumented test, which will execute on an Android device.
  *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
+ * @see <parseJsonUserInfo href="http://d.android.com/tools/testing">Testing documentation</parseJsonUserInfo>
  */
 public class ExampleInstrumentedTest {
 

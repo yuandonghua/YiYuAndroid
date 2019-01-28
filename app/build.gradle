@@ -132,6 +132,12 @@ dependencies {
     // 微信登陆
     implementation rootProject.ext.dependencies['wechat-sdk']
 
+    // 使用okhttp
+    implementation rootProject.ext.dependencies['okhttp3']
+    // 使用okhttp3-logging-interceptor
+    implementation rootProject.ext.dependencies['okhttp3-logging-interceptor']
     // 使用retrofit
     implementation rootProject.ext.dependencies['retrofit-url-manager']
+    // gson解析
+    implementation rootProject.ext.dependencies['gson']
 }
