@@ -100,28 +100,42 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
     }
 
     // 第三方应用发送到微信的请求处理后的响应结果，会回调到该方法
+
+    /**
+     * 第三方应用发送到微信的请求处理后的响应结果，会回调到该方法
+     * <p>
+     * 这里 我们在resp.errCode返回0时也就是发送成功时，拿到code并调用方法通过code获取access_token。
+     *
+     * @param resp
+     */
     @Override
     public void onResp(BaseResp resp) {
         int result = 0;
         //Toast.makeText(this, "baseresp.getType = " + resp.getType(),Toast.LENGTH_SHORT).show();
         switch (resp.errCode) {
+            // 发送成功
             case BaseResp.ErrCode.ERR_OK:
                 result = R.string.errcode_success;
                 // 拿到 code
                 SendAuth.Resp sResp = (SendAuth.Resp) resp;
                 String code = sResp.code;
+                // 调用获取access_token的方法
                 getAccessToken(code);
                 break;
+            // 发送取消
             case BaseResp.ErrCode.ERR_USER_CANCEL:
                 result = R.string.errcode_cancel;
                 break;
+            //发送被拒绝
             case BaseResp.ErrCode.ERR_AUTH_DENIED:
                 result = R.string.errcode_deny;
                 break;
+            // 不支持错误
             case BaseResp.ErrCode.ERR_UNSUPPORT:
                 result = R.string.errcode_unsupported;
                 break;
             default:
+                // 发送返回
                 result = R.string.errcode_unknown;
                 break;
         }
@@ -187,7 +201,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
     }
 
     /**
-     * 获取 用户信息
+     * 获取微信UserInfo(用户信息)
      *
      * @param access_token
      * @param openid

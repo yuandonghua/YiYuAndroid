@@ -4,35 +4,169 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_bg"
+    android:background="@color/background_color1"
     android:orientation="vertical"
     app:nightBackground="@color/night_bg"
     tools:ignore="MissingPrefix">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background_color2">
+
+        <ImageView
+            android:id="@+id/userAvatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/user_avatar" />
+
+        <TextView
+            android:id="@+id/nickName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/userSign"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/userAvatar"
+            android:text="天秋微凉"
+            android:textColor="#333333"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/userSign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/userAvatar"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/userAvatar"
+            android:text="未来的一切的都是未知"
+            android:textColor="#555555"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/userDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/nickName"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="10dp"
+            android:drawableEnd="@drawable/arrow_left"
+            android:paddingRight="15dp"
+            android:text="个人主页  "
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <View
+            android:id="@+id/the_view_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/userAvatar"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="#BEBEBE" />
+
+        <TextView
+            android:id="@+id/attentionQuantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/the_view_line"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="8dp"
+            android:text="关注:24"
+            android:textColor="#333333"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/fanQuantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/the_view_line"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="8dp"
+            android:layout_toRightOf="@+id/attentionQuantity"
+            android:text="粉丝:24"
+            android:textColor="#333333"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/control_background"
+        android:layout_marginTop="10dp"
+        android:background="@color/background_color2"
         android:orientation="vertical">
 
-        <RelativeLayout
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/user_avatar" />
-
-        </RelativeLayout>
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/arrow_left"
+            android:paddingLeft="30dp"
+            android:paddingTop="15dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="15dp"
+            android:text="我的作品"
+            android:textColor="#333333"
+            android:textSize="20sp" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:background="#CBCBCB" />
+            android:background="#BEBEBE" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/arrow_left"
+            android:paddingLeft="30dp"
+            android:paddingTop="15dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="15dp"
+            android:text="我的动态"
+            android:textColor="#333333"
+            android:textSize="20sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="#BEBEBE" />
+
+        <TextView
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/arrow_left"
+            android:paddingLeft="30dp"
+            android:paddingTop="15dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="15dp"
+            android:text="我的收藏"
+            android:textColor="#333333"
+            android:textSize="20sp" />
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/background_color2"
+        android:drawableEnd="@drawable/arrow_left"
+        android:paddingLeft="30dp"
+        android:paddingTop="15dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="15dp"
+        android:text="设置"
+        android:textColor="#333333"
+        android:textSize="20sp" />
+
 
     <RelativeLayout
         android:id="@+id/rl_theme"

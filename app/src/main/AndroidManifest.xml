@@ -17,16 +17,13 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".mvp.ui.activity.MyCenterActivity"></activity>
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:launchMode="singleTask"
-            android:taskAffinity="com.yixinhuayuan.yiyu">
-
-        </activity>
-
+            android:taskAffinity="com.yixinhuayuan.yiyu"></activity>
         <activity android:name=".mvp.ui.activity.SettingActivity" /> <!-- qq登陆 -->
         <activity
             android:name="com.tencent.tauth.AuthActivity"

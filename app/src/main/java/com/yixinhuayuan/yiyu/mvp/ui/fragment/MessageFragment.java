@@ -6,6 +6,7 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +60,7 @@ public class MessageFragment extends BaseFragment<MessagePresenter> implements M
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-
+        Log.d("AA", "MessageFragment正在初始化数据.....");
     }
 
     /**

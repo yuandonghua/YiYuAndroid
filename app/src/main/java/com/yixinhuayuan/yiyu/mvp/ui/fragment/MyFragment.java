@@ -9,6 +9,7 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dim.skin.SkinConfig;
 import com.dim.skin.SkinStyle;
@@ -65,6 +67,11 @@ public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.
     @BindView(R.id.dayNightToggleButton)
     DayNightToggleButton dayNightToggleButton;
     private boolean initDayOrNight = true;
+    /**
+     * 跳到个人中心的控件
+     */
+    @BindView(R.id.userDetails)
+    TextView userDetails;
 
     public static MyFragment newInstance() {
         MyFragment fragment = new MyFragment();
@@ -86,11 +93,17 @@ public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.
         return inflater.inflate(R.layout.fragment_my, container, false);
     }
 
+    public int a = 0;
+
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
+        Log.d("AA", "MyFragment正在初始化数据");
+       // a++;
         //跳转登陆页面
         NavHostFragment.findNavController(this).navigate(R.id.action_myFragment_to_loginActivity);
         //initThemeButton();
+
+
     }
 
 
@@ -246,5 +259,12 @@ public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.
     public void killMyself() {
 
     }
+
+    @OnClick(R.id.userDetails)
+    void toUserDetails() {
+
+        Toast.makeText(getContext(), "你点击了个人主页", Toast.LENGTH_SHORT).show();
+    }
+
 
 }
