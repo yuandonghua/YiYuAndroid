@@ -98,14 +98,11 @@ public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         Log.d("AA", "MyFragment正在初始化数据");
-       // a++;
         //跳转登陆页面
-        NavHostFragment.findNavController(this).navigate(R.id.action_myFragment_to_loginActivity);
+        // NavHostFragment.findNavController(this).navigate(R.id.action_myFragment_to_loginActivity);
         //initThemeButton();
-
-
+        startActivity(new Intent(getContext(), LoginActivity.class));
     }
-
 
     /**
      * 初始化主题风格view
@@ -141,8 +138,6 @@ public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.
 
             }
         });
-
-
     }
 
     /**
@@ -164,12 +159,10 @@ public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.
 
         @Override
         public void beforeChange() {
-
         }
 
         @Override
         public void afterChange() {
-
         }
 
     }

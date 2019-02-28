@@ -1,12 +1,16 @@
 package com.yixinhuayuan.yiyu.mvp.ui.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -14,6 +18,10 @@ import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 
+import com.jpeng.jptabbar.JPTabBar;
+import com.jpeng.jptabbar.anno.NorIcons;
+import com.jpeng.jptabbar.anno.SeleIcons;
+import com.jpeng.jptabbar.anno.Titles;
 import com.yixinhuayuan.yiyu.di.component.DaggerMainComponent;
 import com.yixinhuayuan.yiyu.mvp.contract.MainContract;
 import com.yixinhuayuan.yiyu.mvp.presenter.MainPresenter;
@@ -28,8 +36,6 @@ import butterknife.BindView;
 import timber.log.Timber;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
-
-
 /**
  * ================================================
  * Description:
@@ -43,9 +49,43 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * ================================================
  */
 public class MainActivity extends BaseActivity<MainPresenter> implements MainContract.View {
-    @BindView(R.id.bottom_navigation)
+   /* @BindView(R.id.bottom_navigation)
     BottomNavigationView bottomNavigationView;
-    private NavController mNavController;
+    private NavController mNavController;*/
+
+    /**
+     * 底部导航栏实例
+     */
+    @BindView(R.id.mian_activity_nav)
+    JPTabBar main_acty_nav;
+    /**
+     * 设置底部导航栏 标题
+     */
+    @Titles
+    private static final String[] mTitles = {"首页"
+            , "动态"
+            , null
+            , "消息"
+            , "我的"};
+    /**
+     * 设置底部导航栏 选中图标
+     */
+    @SeleIcons
+    private static final int[] mSeleIcons = {R.drawable.select_home
+            , R.drawable.select_trends
+            , R.drawable.select_publish
+            , R.drawable.select_message
+            , R.drawable.select_my};
+    /**
+     * 设置底部导航栏 未选中图标
+     */
+    @NorIcons
+    private static final int[] mNormalIcons = {R.drawable.no_select_home
+            , R.drawable.no_select_trends
+            , R.drawable.no_select_publish
+            , R.drawable.no_select_message
+            , R.drawable.no_select_my};
+
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -62,11 +102,15 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         return R.layout.activity_main; //如果你不需要框架帮你设置 setContentView(id) 需要自行设置,请返回 0
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-//        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        mNavController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupWithNavController(bottomNavigationView, mNavController);
+        // bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        // mNavController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        // NavigationUI.setupWithNavController(bottomNavigationView, mNavController);
+
+        // 底部导航栏的一些属性设置和事件处理
+        mPresenter.mianNavSomeSet(main_acty_nav);
     }
 
     @Override

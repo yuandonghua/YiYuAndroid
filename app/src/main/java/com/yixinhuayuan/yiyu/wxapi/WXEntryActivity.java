@@ -37,6 +37,9 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
 
+/**
+ * 在微信授权页面,授权成功后(点击授权按钮)会回调该Activity进行用户数据的获取
+ */
 public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler {
 
     /**

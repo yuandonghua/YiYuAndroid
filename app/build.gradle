@@ -6,7 +6,7 @@ android {
         config {
             keyAlias '艺语'
             keyPassword '123qwe'
-            storeFile file('C:/Users/admin/Desktop/YiYu/YiYuAndroid/yiyu')
+            storeFile file('D:/ThePcDesktop/YiYu/YiYuAndroid/yiyu')
             storePassword '123qwe'
         }
     }
@@ -28,11 +28,20 @@ android {
     }
     buildTypes {
         debug {
-            signingConfig signingConfigs.config
-            buildConfigField "boolean", "LOG_DEBUG", "true"
-            buildConfigField "boolean", "USE_CANARY", "true"
+            //signingConfig signingConfigs.config
+            //buildConfigField "boolean", "LOG_DEBUG", "true"
+            // buildConfigField "boolean", "USE_CANARY", "true"
+            // minifyEnabled true
+            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            buildConfigField "boolean", "USE_CANARY", "false"
             minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            multiDexKeepProguard file('multidex-config.pro')
+            signingConfig signingConfigs.config
         }
         release {
             buildConfigField "boolean", "LOG_DEBUG", "false"
@@ -131,6 +140,8 @@ dependencies {
 
     // 微信登陆
     implementation rootProject.ext.dependencies['wechat-sdk']
+    // 微博登录的配置
+    implementation 'com.sina.weibo.sdk:core:4.3.6:openDefaultRelease@aar'
 
     // 使用okhttp
     implementation rootProject.ext.dependencies['okhttp3']
@@ -140,4 +151,7 @@ dependencies {
     implementation rootProject.ext.dependencies['retrofit-url-manager']
     // gson解析
     implementation rootProject.ext.dependencies['gson']
+
+    // JPTabBar 底部导航栏
+    implementation 'com.jpeng:JPTabBar:1.4.0'
 }

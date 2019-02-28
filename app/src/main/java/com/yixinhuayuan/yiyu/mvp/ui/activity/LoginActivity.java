@@ -14,6 +14,8 @@ import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.integration.ConfigModule;
 import com.jess.arms.utils.ArmsUtils;
 
+import com.sina.weibo.sdk.WbSdk;
+import com.sina.weibo.sdk.auth.AuthInfo;
 import com.tencent.connect.common.Constants;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
@@ -115,6 +117,13 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             iwxapi = WXAPIFactory.createWXAPI(this, GlobalConfiguration.WX_APP_ID);
 
         }
+        // 初始化WbSdk对象
+        WbSdk.install(this,
+                new AuthInfo(this,
+                        GlobalConfiguration.WB_APP_KEY,
+                        GlobalConfiguration.REDIRECT_URL,
+                        GlobalConfiguration.SCOPE));
+
     }
 
     @OnClick(R.id.btnBack)
@@ -144,7 +153,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
      */
     @OnClick(R.id.btnLoginWB)
     void loginWB() {
-
 
     }
 
@@ -191,6 +199,5 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-
 
 }

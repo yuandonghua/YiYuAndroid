@@ -43,4 +43,5 @@ public class MainModel extends BaseModel implements MainContract.Model {
         this.mGson = null;
         this.mApplication = null;
     }
+
 }

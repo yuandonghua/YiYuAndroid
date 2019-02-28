@@ -6,7 +6,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 /**
- * 获取微信数据的网络请求接口
+ * 获取微信登录用户数据的网络请求接口
  */
 public interface GetWXData {
     //public static String GETWXDATAURL = "https://api.weixin.qq.com/";
