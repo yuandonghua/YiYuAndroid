@@ -61,8 +61,9 @@ public final class GlobalConfiguration implements ConfigModule {
      * 但是没有定义将无法使用 SDK 认证登录。
      * 建议使用默认回调页：https://api.weibo.com/oauth2/default.html
      * </p>
+     * http://www.sina.com
      */
-    public static final String REDIRECT_URL = "http://www.sina.com";
+    public static final String REDIRECT_URL = "https://api.weibo.com/oauth2/default.html";
     /**
      * Scope 是 OAuth2.0 授权机制中 authorize 接口的一个参数。通过 Scope，平台将开放更多的微博
      * 核心功能给开发者，同时也加强用户隐私保护，提升了用户体验，用户在新 OAuth2.0 授权页中有权利

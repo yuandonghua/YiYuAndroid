@@ -1,5 +1,6 @@
 package com.yixinhuayuan.yiyu.mvp.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,6 +17,7 @@ import com.jess.arms.utils.ArmsUtils;
 
 import com.sina.weibo.sdk.WbSdk;
 import com.sina.weibo.sdk.auth.AuthInfo;
+import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.tencent.connect.common.Constants;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
@@ -92,6 +94,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
      */
     private IWXAPI iwxapi;
 
+    private SsoHandler mSsoHandler;
+
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -110,21 +114,19 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        if (mTencent == null) {
-            mTencent = Tencent.createInstance(GlobalConfiguration.QQ_APP_ID, this);
-        }
-        if (iwxapi == null) {
-            iwxapi = WXAPIFactory.createWXAPI(this, GlobalConfiguration.WX_APP_ID);
 
+        // 初始化 腾讯Tencent
+        mTencent = mPresenter.initTencent(mTencent, this);
+        // 初始化 微信IWXAPI
+        iwxapi = mPresenter.initIWXAPI(iwxapi, this);
+        // 初始化 微博WbSdk
+        mPresenter.initWbSdk(this);
+        // 初始化 微博SsoHandler
+        if (mSsoHandler == null) {
+            mSsoHandler = new SsoHandler(LoginActivity.this);
         }
-        // 初始化WbSdk对象
-        WbSdk.install(this,
-                new AuthInfo(this,
-                        GlobalConfiguration.WB_APP_KEY,
-                        GlobalConfiguration.REDIRECT_URL,
-                        GlobalConfiguration.SCOPE));
-
     }
+
 
     @OnClick(R.id.btnBack)
     void back() {
@@ -153,7 +155,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
      */
     @OnClick(R.id.btnLoginWB)
     void loginWB() {
-
+        mPresenter.WBLogin(mSsoHandler);
     }
 
     @Override

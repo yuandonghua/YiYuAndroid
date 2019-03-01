@@ -2,10 +2,14 @@ package com.yixinhuayuan.yiyu.mvp.presenter;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Message;
+import android.support.v4.provider.SelfDestructiveThread;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.jess.arms.http.OkHttpUrlLoader;
@@ -20,17 +24,25 @@ import timber.log.Timber;
 import javax.inject.Inject;
 
 import com.jess.arms.utils.ArmsUtils;
+import com.sina.weibo.sdk.WbSdk;
+import com.sina.weibo.sdk.auth.AuthInfo;
+import com.sina.weibo.sdk.auth.Oauth2AccessToken;
+import com.sina.weibo.sdk.auth.WbAuthListener;
+import com.sina.weibo.sdk.auth.WbConnectErrorMessage;
+import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.tencent.connect.UserInfo;
 import com.tencent.connect.common.Constants;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 import com.yixinhuayuan.yiyu.app.GlobalConfiguration;
 import com.yixinhuayuan.yiyu.mvp.contract.LoginContract;
 import com.yixinhuayuan.yiyu.mvp.model.QQLoginModel;
+import com.yixinhuayuan.yiyu.mvp.ui.activity.LoginActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -168,4 +180,79 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
         }
     }
 
+    /**
+     * QQ登录
+     * 初始化 Tencent
+     *
+     * @param mTencent
+     * @param context
+     * @return
+     */
+    public Tencent initTencent(Tencent mTencent, Context context) {
+        Tencent tencent = null;
+        if (mTencent == null) {
+            tencent = Tencent.createInstance(GlobalConfiguration.QQ_APP_ID, context);
+        }
+        return tencent;
+    }
+
+    /**
+     * 微信登录
+     * 初始化 IWXAPI
+     *
+     * @param mIwxapi
+     * @param context
+     * @return
+     */
+    public IWXAPI initIWXAPI(IWXAPI mIwxapi, Context context) {
+        IWXAPI iwxapi = null;
+        if (mIwxapi == null) {
+            iwxapi = WXAPIFactory.createWXAPI(context, GlobalConfiguration.WX_APP_ID);
+        }
+        return iwxapi;
+    }
+
+    /**
+     * 微博登录
+     * 初始化 WbSdk
+     *
+     * @param context
+     */
+    public void initWbSdk(Context context) {
+        WbSdk.install(context,
+                new AuthInfo(context,
+                        GlobalConfiguration.WB_APP_KEY,
+                        GlobalConfiguration.REDIRECT_URL,
+                        GlobalConfiguration.SCOPE));
+    }
+
+    /**
+     * 微博登录
+     * 登录
+     *
+     * @param mSsoHandler
+     */
+    public void WBLogin(SsoHandler mSsoHandler) {
+        mSsoHandler.authorize(new WbAuthListener() {
+            String TAG = "WBLogin";
+
+            @Override
+            public void onSuccess(Oauth2AccessToken oauth2AccessToken) {
+                Log.d(TAG, "onSuccess:------>Oauth2AccessToken:" + oauth2AccessToken);
+
+            }
+
+            @Override
+            public void cancel() {
+                Log.d(TAG, "cancel: ------->?????");
+            }
+
+            @Override
+            public void onFailure(WbConnectErrorMessage wbConnectErrorMessage) {
+                Log.d(TAG, "onFailure: ---------->WbConnectErrorMessage:" + wbConnectErrorMessage);
+            }
+        });
+    }
+
 }
+
