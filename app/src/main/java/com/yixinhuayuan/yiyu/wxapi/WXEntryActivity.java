@@ -1,7 +1,5 @@
 package com.yixinhuayuan.yiyu.wxapi;
 
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
@@ -19,29 +17,34 @@ import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.yixinhuayuan.yiyu.R;
 import com.yixinhuayuan.yiyu.app.GlobalConfiguration;
-import com.yixinhuayuan.yiyu.wxapi.wxhttp.WXHttpClient;
-import com.yixinhuayuan.yiyu.wxapi.wxhttp.http_interface.GetWXData;
+import com.yixinhuayuan.yiyu.app.utils.GlobalGetOrPostRequest;
+import com.yixinhuayuan.yiyu.app.utils.GlobalHttpClient;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.FormBody;
+import okhttp3.Headers;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 /**
  * 在微信授权页面,授权成功后(点击授权按钮)会回调该Activity进行用户数据的获取
  */
 public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler {
-
+    /**
+     * 获取微信数据的网络请求url
+     */
+    private String url = "https://api.weixin.qq.com/";
     /**
      * 微信的APP_SECRET
      */
@@ -54,22 +57,6 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
     private static boolean IS_LOGIN = false;
     // IWXAPI 是第三方app和微信通信的openapi接口
     private IWXAPI wxapi;
-
-    // private String userInfoData;
-
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            // Bundle bundle = new Bundle();
-            //bundle.putString("WXUSERINFO", userInfoData);
-            if (msg.arg1 == 1) {
-                //finish();
-                //Intent intent = new Intent(WXEntryActivity.this, LoginActivity.class);
-                //startActivity();
-            }
-
-        }
-    };
 
     @Override
     public int initView(@Nullable Bundle savedInstanceState) {
@@ -142,8 +129,6 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                 result = R.string.errcode_unknown;
                 break;
         }
-        // Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-        //  wxInfo.setText("ErrCoe: " + result);
     }
 
     @Override
@@ -157,8 +142,8 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
      * @param code
      */
     private void getAccessToken(String code) {
-        WXHttpClient.retrofit()
-                .create(GetWXData.class)
+        GlobalHttpClient.retrofit(this.url)
+                .create(GlobalGetOrPostRequest.class)
                 .getWXAccessToken(GlobalConfiguration.WX_APP_ID
                         , APP_SECRET
                         , code
@@ -199,8 +184,6 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                         Toast.makeText(WXEntryActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                     }
                 });
-
-
     }
 
     /**
@@ -210,8 +193,8 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
      * @param openid
      */
     public void getWXUserInfo(String access_token, String openid) {
-        WXHttpClient.retrofit()
-                .create(GetWXData.class)
+        GlobalHttpClient.retrofit(this.url)
+                .create(GlobalGetOrPostRequest.class)
                 .getWXUserInfo(access_token, openid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -225,8 +208,10 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                     public void onNext(ResponseBody responseBody) {
                         try {
                             String userInfoData = responseBody.string();
-                            String userInfo = parseJsonUserInfo(userInfoData);
-                            wxInfo.setText(userInfo);
+                            //String userInfo = parseJsonUserInfo(userInfoData);
+                            WXRegistryUser(new JSONObject(userInfoData).getString("openid"));
+                            //wxInfo.setText(userInfo);
+
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (JSONException e) {
@@ -247,49 +232,48 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
 
     }
 
+    private void WXRegistryUser(String openId) {
 
-    /**
-     * 解析获取到的UserInfo信息
-     *
-     * @param userInfo
-     * @return
-     * @throws JSONException
-     */
-    public String parseJsonUserInfo(String userInfo) throws JSONException {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                //http://yy.363626256.top/api/login
+                // 创建OkHttp实例
+                OkHttpClient httpClient = new OkHttpClient();
+                // 创建表单
+                FormBody.Builder formBody = new FormBody.Builder();
+                formBody.add("account", openId)
+                        .add("type", "3");
+                // 创建Request对象
+                Request request = new Request.Builder()
+                        .url("http://yy.363626256.top/api/login")
+                        .post(formBody.build())
+                        .build();
+                try {
+                    Response response = httpClient.newCall(request).execute();
+                    String string = response.body().string();
+                    Headers headers = response.headers();
+                    String authorization = headers.get("Authorization");
 
-        JSONObject json = new JSONObject(userInfo);
-        String openid1 = json.getString("openid");
-        String nickname = json.getString("nickname");
-        int sex = json.getInt("sex");
-        String province = json.getString("province");
-        String city = json.getString("city");
-        String country = json.getString("country");
-        String headimgurl = json.getString("headimgurl");
-        String unionid = json.getString("unionid");
-        List<String> jsonArrayData = new ArrayList<>();
-        JSONArray jsonArray = json.getJSONArray("privilege");
-        for (int i = 0; i < jsonArray.length(); i++) {
-            String jsonArrayString = jsonArray.getString(i);
-            jsonArrayData.add(jsonArrayString);
-        }
+                    Log.d("WXRegistryUser", "注册用户请求: " + string);
+                    Log.d("WXRegistryUser", "注册用户请求头信息:" + authorization);
+                    FormBody.Builder formBody1 = new FormBody.Builder();
+                    Request request1 = new Request.Builder()
+                            .url("http://yy.363626256.top/api/me")
+                            .post(formBody1.build())
+                            .addHeader("Authorization", authorization)
+                            .build();
+                    Response response1 = httpClient.newCall(request).execute();
+                    String string2 = response1.body().string();
+                    Log.d("WXRegistryUser", "获取到的用户数据:" + string2);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
-        StringBuffer jsonDataBuf = new StringBuffer();
-        jsonDataBuf.append("openid: " + openid1 + "\n");
-        jsonDataBuf.append("nickname: " + nickname + "\n");
-        jsonDataBuf.append("sex: " + sex + "\n");
-        jsonDataBuf.append("province: " + province + "\n");
-        jsonDataBuf.append("city: " + city + "\n");
-        jsonDataBuf.append("country: " + country + "\n");
-        jsonDataBuf.append("headimgurl: " + headimgurl + "\n");
-        for (String jads : jsonArrayData) {
-            jsonDataBuf.append("jsonArrayData : " + jads + "\n");
-        }
-        jsonDataBuf.append("\n");
-        jsonDataBuf.append("unionid: " + unionid + "\n");
 
-        return jsonDataBuf.toString();
+            }
+        }.start();
     }
-
 }
-
 

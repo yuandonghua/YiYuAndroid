@@ -101,7 +101,7 @@ public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.
         //跳转登陆页面
         // NavHostFragment.findNavController(this).navigate(R.id.action_myFragment_to_loginActivity);
         //initThemeButton();
-        startActivity(new Intent(getContext(), LoginActivity.class));
+        //startActivity(new Intent(getContext(), LoginActivity.class));
     }
 
     /**
@@ -253,10 +253,12 @@ public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.
 
     }
 
+    //
     @OnClick(R.id.userDetails)
     void toUserDetails() {
 
         Toast.makeText(getContext(), "你点击了个人主页", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(getContext(), LoginActivity.class));
     }
 
 

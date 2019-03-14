@@ -18,13 +18,23 @@ import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.mvp.BasePresenter;
 import com.jess.arms.http.imageloader.ImageLoader;
 
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 import timber.log.Timber;
 
 import javax.inject.Inject;
 
 import com.jess.arms.utils.ArmsUtils;
 import com.sina.weibo.sdk.WbSdk;
+import com.sina.weibo.sdk.auth.AccessTokenKeeper;
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WbAuthListener;
@@ -40,13 +50,18 @@ import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 import com.yixinhuayuan.yiyu.app.GlobalConfiguration;
+import com.yixinhuayuan.yiyu.app.utils.GlobalGetOrPostRequest;
+import com.yixinhuayuan.yiyu.app.utils.GlobalHttpClient;
 import com.yixinhuayuan.yiyu.mvp.contract.LoginContract;
+import com.yixinhuayuan.yiyu.mvp.model.LoginModel;
 import com.yixinhuayuan.yiyu.mvp.model.QQLoginModel;
 import com.yixinhuayuan.yiyu.mvp.ui.activity.LoginActivity;
+import com.yixinhuayuan.yiyu.wxapi.WXEntryActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 
@@ -118,6 +133,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
         if (mTencent != null && mTencent.isSessionValid()) {
             qqLoginFlag = 2;
             UserInfo mInfo = new UserInfo((Activity) mRootView, mTencent.getQQToken());
+            mInfo.getOpenId(mIUiListener);
             mInfo.getUserInfo(mIUiListener);
         }
     }
@@ -135,8 +151,20 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
             } else if (qqLoginFlag == 2) {
                 mRootView.showUserInfo(values.toString());
 
-            }
+                try {
+                    String openid = values.getString("openid");
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            super.run();
+                            QQRegistryUser(openid);
+                        }
+                    }.start();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
+            }
 
         }
     };
@@ -227,6 +255,11 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
     }
 
     /**
+     * 用于请求微博用户数的Url
+     */
+    private String wbUrl = "https://api.weibo.com/";
+
+    /**
      * 微博登录
      * 登录
      *
@@ -238,7 +271,40 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
 
             @Override
             public void onSuccess(Oauth2AccessToken oauth2AccessToken) {
-                Log.d(TAG, "onSuccess:------>Oauth2AccessToken:" + oauth2AccessToken);
+                if (oauth2AccessToken.isSessionValid()) {
+                    Log.d(TAG, "onSuccess:------>Oauth2AccessToken:" + oauth2AccessToken);
+                    String token = oauth2AccessToken.getToken();
+                    String uid = oauth2AccessToken.getUid();
+                    Log.d(TAG, "token is:" + token + "   uid is:" + uid);
+
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            super.run();
+                            OkHttpClient okHttpClient = new OkHttpClient();
+
+                            Request request = new Request.Builder()
+                                    .url("https://api.weibo.com/2/users/show.json?access_token=" +
+                                            token + "&uid=" + uid)
+                                    .build();
+                            try {
+                                Response response = okHttpClient.newCall(request).execute();
+                                String string = response.body().string();
+                                Log.d(TAG, "微博用户数据: " + string);
+                                /*
+                                 * 微博登录没有请求成功,原因:
+                                 * applications over the unaudited use restrictions!
+                                 * 应用程序超过未经审核的使用限制!
+                                 */
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }.start();
+
+
+                }
 
             }
 
@@ -252,6 +318,43 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
                 Log.d(TAG, "onFailure: ---------->WbConnectErrorMessage:" + wbConnectErrorMessage);
             }
         });
+    }
+
+    /**
+     * 通过获取到的QQ用户信息进行注册
+     */
+    public void QQRegistryUser(String openId) {
+        Log.d("QQRegistryUser", "QQ用户信息OpenID: " + openId);
+
+        OkHttpClient httpClient = new OkHttpClient();
+        FormBody.Builder formBody = new FormBody.Builder();
+        formBody.add("account", openId)
+                .add("type", "2");
+
+        Request request = new Request.Builder()
+                .url("http://yy.363626256.top/api/login")
+                .post(formBody.build())
+                .build();
+        try {
+            Response response = httpClient.newCall(request).execute();
+            String string = response.body().string();
+            String authorization = response.headers().get("Authorization");
+
+            FormBody.Builder formBody1 = new FormBody.Builder();
+            Request request1 = new Request.Builder()
+                    .url("http://yy.363626256.top/api/me")
+                    .post(formBody1.build())
+                    .addHeader("Authorization", authorization)
+                    .build();
+            Response response1 = httpClient.newCall(request1).execute();
+            String string1 = response1.body().string();
+            Log.d("QQRegistryUser", "获取注册后的用户数据: " + string1);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
 }

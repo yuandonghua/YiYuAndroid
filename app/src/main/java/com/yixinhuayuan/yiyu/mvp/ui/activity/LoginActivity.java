@@ -120,7 +120,11 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         // 初始化 微信IWXAPI
         iwxapi = mPresenter.initIWXAPI(iwxapi, this);
         // 初始化 微博WbSdk
-        mPresenter.initWbSdk(this);
+        AuthInfo mAuthInfo = new AuthInfo(this
+                , GlobalConfiguration.WB_APP_KEY
+                , GlobalConfiguration.REDIRECT_URL
+                , GlobalConfiguration.SCOPE);
+        WbSdk.install(this, mAuthInfo);
         // 初始化 微博SsoHandler
         if (mSsoHandler == null) {
             mSsoHandler = new SsoHandler(LoginActivity.this);
@@ -199,7 +203,13 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 requestCode == Constants.REQUEST_APPBAR) {
             Tencent.onActivityResultData(requestCode, resultCode, data, mPresenter.mIUiListener);
         }
+        //新浪 login
+        if (mSsoHandler != null) {
+            mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
+        }
         super.onActivityResult(requestCode, resultCode, data);
+
+
     }
 
 }

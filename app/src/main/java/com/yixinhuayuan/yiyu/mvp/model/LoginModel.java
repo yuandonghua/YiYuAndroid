@@ -2,6 +2,7 @@ package com.yixinhuayuan.yiyu.mvp.model;
 
 import android.app.Application;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.jess.arms.integration.IRepositoryManager;
@@ -19,6 +20,8 @@ import com.yixinhuayuan.yiyu.mvp.contract.LoginContract;
 
 import org.json.JSONObject;
 
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
 import timber.log.Timber;
 
 
@@ -41,6 +44,7 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
     @Inject
     Application mApplication;
 
+
     @Inject
     public LoginModel(IRepositoryManager repositoryManager) {
         super(repositoryManager);
@@ -52,5 +56,6 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
         this.mGson = null;
         this.mApplication = null;
     }
+
 
 }

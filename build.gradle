@@ -31,6 +31,7 @@ allprojects {
         // 微博登录的配置
         maven { url "https://dl.bintray.com/thelasterstar/maven/" }
     }
+
 }
 
 task clean(type: Delete) {
