@@ -56,6 +56,7 @@
             android:textSize="17sp" />
 
         <TextView
+            android:id="@+id/tv_edit_userinfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_myCenter_userSign"
@@ -67,6 +68,37 @@
             android:text="编辑资料"
             android:textColor="#ffffff"
             android:textSize="19sp" />
+
+        <LinearLayout
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/tv_edit_userinfo"
+            android:id="@+id/attention_or_fan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="关注 0"
+                android:textColor="#ffffff"
+                android:textSize="19sp" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#ffffff" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="粉丝 0"
+                android:textColor="#ffffff"
+                android:textSize="19sp" />
+        </LinearLayout>
     </RelativeLayout>
 
     <android.support.design.widget.TabLayout

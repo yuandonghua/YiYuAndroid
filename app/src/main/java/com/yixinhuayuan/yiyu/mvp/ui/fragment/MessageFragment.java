@@ -1,6 +1,9 @@
 package com.yixinhuayuan.yiyu.mvp.ui.fragment;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.NonNull;
@@ -20,6 +23,7 @@ import com.yixinhuayuan.yiyu.mvp.contract.MessageContract;
 import com.yixinhuayuan.yiyu.mvp.presenter.MessagePresenter;
 
 import com.yixinhuayuan.yiyu.R;
+import com.yixinhuayuan.yiyu.mvp.ui.activity.LoginActivity;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -37,6 +41,7 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * ================================================
  */
 public class MessageFragment extends BaseFragment<MessagePresenter> implements MessageContract.View {
+
 
     public static MessageFragment newInstance() {
         MessageFragment fragment = new MessageFragment();
@@ -60,7 +65,18 @@ public class MessageFragment extends BaseFragment<MessagePresenter> implements M
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        Log.d("AA", "MessageFragment正在初始化数据.....");
+
+        /**
+         * 判断是否登陆过,没有登录过直接跳转到登录界面
+         */
+        @SuppressLint("WrongConstant")
+        SharedPreferences sp = getContext().getSharedPreferences(getContext().getPackageName()
+                , Context.MODE_APPEND);
+        boolean is_login = sp.getBoolean("is_login", false);
+        if (!is_login) {
+            startActivity(new Intent(getContext(), LoginActivity.class));
+        }
+
     }
 
     /**
@@ -130,7 +146,7 @@ public class MessageFragment extends BaseFragment<MessagePresenter> implements M
     public void killMyself() {
 
 
-
-
     }
+
+
 }

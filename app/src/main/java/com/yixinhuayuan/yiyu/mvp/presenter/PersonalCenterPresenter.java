@@ -11,7 +11,7 @@ import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 
 import javax.inject.Inject;
 
-import com.yixinhuayuan.yiyu.mvp.contract.MyCenterActivityContract;
+import com.yixinhuayuan.yiyu.mvp.contract.PersonalCenterContract;
 
 
 /**
@@ -27,7 +27,7 @@ import com.yixinhuayuan.yiyu.mvp.contract.MyCenterActivityContract;
  * ================================================
  */
 @ActivityScope
-public class MyCenterPresenter extends BasePresenter<MyCenterActivityContract.Model, MyCenterActivityContract.View> {
+public class PersonalCenterPresenter extends BasePresenter<PersonalCenterContract.Model, PersonalCenterContract.View> {
     @Inject
     RxErrorHandler mErrorHandler;
     @Inject
@@ -38,7 +38,7 @@ public class MyCenterPresenter extends BasePresenter<MyCenterActivityContract.Mo
     AppManager mAppManager;
 
     @Inject
-    public MyCenterPresenter(MyCenterActivityContract.Model model, MyCenterActivityContract.View rootView) {
+    public PersonalCenterPresenter(PersonalCenterContract.Model model, PersonalCenterContract.View rootView) {
         super(model, rootView);
     }
 

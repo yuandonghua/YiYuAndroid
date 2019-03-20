@@ -1,17 +1,20 @@
 package com.yixinhuayuan.yiyu.di.module;
 
+import com.jess.arms.di.scope.ActivityScope;
+
 import dagger.Binds;
 import dagger.Module;
+import dagger.Provides;
 
-import com.yixinhuayuan.yiyu.mvp.contract.PersonalCenterContract;
-import com.yixinhuayuan.yiyu.mvp.model.PersonalCenterModel;
+import com.yixinhuayuan.yiyu.mvp.contract.EditUserInfoContract;
+import com.yixinhuayuan.yiyu.mvp.model.EditUserInfoModel;
 
 
 /**
  * ================================================
  * Description:
  * <p>
- * Created by MVPArmsTemplate on 01/29/2019 17:10
+ * Created by MVPArmsTemplate on 03/18/2019 20:01
  * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
  * <a href="https://github.com/JessYanCoding">Follow me</a>
  * <a href="https://github.com/JessYanCoding/MVPArms">Star me</a>
@@ -20,8 +23,8 @@ import com.yixinhuayuan.yiyu.mvp.model.PersonalCenterModel;
  * ================================================
  */
 @Module
-public abstract class MyCenterActivityModule {
+public abstract class EditUserInfoModule {
 
     @Binds
-    abstract PersonalCenterContract.Model bindMyCenterActivityModel(PersonalCenterModel model);
+    abstract EditUserInfoContract.Model bindEditUserInfoModel(EditUserInfoModel model);
 }

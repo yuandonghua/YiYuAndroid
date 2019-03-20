@@ -10,11 +10,13 @@ import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 
 import com.yixinhuayuan.yiyu.di.component.DaggerMyCenterActivityComponent;
-import com.yixinhuayuan.yiyu.mvp.contract.MyCenterActivityContract;
-import com.yixinhuayuan.yiyu.mvp.presenter.MyCenterPresenter;
+import com.yixinhuayuan.yiyu.mvp.contract.PersonalCenterContract;
+import com.yixinhuayuan.yiyu.mvp.presenter.PersonalCenterPresenter;
 
 import com.yixinhuayuan.yiyu.R;
 
+
+import butterknife.OnClick;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -31,7 +33,7 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * <a href="https://github.com/JessYanCoding/MVPArmsTemplate">模版请保持更新</a>
  * ================================================
  */
-public class MyCenterActivity extends BaseActivity<MyCenterPresenter> implements MyCenterActivityContract.View {
+public class PersonalCenterActivity extends BaseActivity<PersonalCenterPresenter> implements PersonalCenterContract.View {
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -79,4 +81,10 @@ public class MyCenterActivity extends BaseActivity<MyCenterPresenter> implements
     public void killMyself() {
         finish();
     }
+
+    @OnClick(R.id.tv_edit_userinfo)
+    void gotoEditUserInfo() {
+        startActivity(new Intent(this, EditUserInfoActivity.class));
+    }
+
 }

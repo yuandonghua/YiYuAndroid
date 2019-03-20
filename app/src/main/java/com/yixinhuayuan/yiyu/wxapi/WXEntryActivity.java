@@ -1,5 +1,8 @@
 package com.yixinhuayuan.yiyu.wxapi;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
@@ -7,6 +10,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.dim.widget.TextView;
+import com.google.gson.Gson;
 import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
@@ -19,6 +23,8 @@ import com.yixinhuayuan.yiyu.R;
 import com.yixinhuayuan.yiyu.app.GlobalConfiguration;
 import com.yixinhuayuan.yiyu.app.utils.GlobalGetOrPostRequest;
 import com.yixinhuayuan.yiyu.app.utils.GlobalHttpClient;
+import com.yixinhuayuan.yiyu.app.utils.jsoninstance.GetMyUserInfoJson;
+import com.yixinhuayuan.yiyu.app.utils.jsoninstance.RegistryUserJson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -110,7 +116,9 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                 SendAuth.Resp sResp = (SendAuth.Resp) resp;
                 String code = sResp.code;
                 // 调用获取access_token的方法
+
                 getAccessToken(code);
+
                 break;
             // 发送取消
             case BaseResp.ErrCode.ERR_USER_CANCEL:
@@ -142,48 +150,54 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
      * @param code
      */
     private void getAccessToken(String code) {
-        GlobalHttpClient.retrofit(this.url)
-                .create(GlobalGetOrPostRequest.class)
-                .getWXAccessToken(GlobalConfiguration.WX_APP_ID
-                        , APP_SECRET
-                        , code
-                        , "authorization_code")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ResponseBody>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                GlobalHttpClient.retrofit(url)
+                        .create(GlobalGetOrPostRequest.class)
+                        .getWXAccessToken(GlobalConfiguration.WX_APP_ID
+                                , APP_SECRET
+                                , code
+                                , "authorization_code")
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<ResponseBody>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
 
-                    }
+                            }
 
-                    @Override
-                    public void onNext(ResponseBody responseBody) {
+                            @Override
+                            public void onNext(ResponseBody responseBody) {
 
-                        try {
-                            String accessTokenData = responseBody.string();
-                            JSONObject jsonObject = new JSONObject(accessTokenData);
-                            String access_token = jsonObject.getString("access_token");
-                            String openid = jsonObject.getString("openid");
-                            wxInfo.setText("access_token: " + access_token + "\n" + "openid: " + openid);
-                            getWXUserInfo(access_token, openid);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                                try {
+                                    String accessTokenData = responseBody.string();
+                                    JSONObject jsonObject = new JSONObject(accessTokenData);
+                                    String access_token = jsonObject.getString("access_token");
+                                    String openid = jsonObject.getString("openid");
+                                    wxInfo.setText("access_token: " + access_token + "\n" + "openid: " + openid);
+                                    getWXUserInfo(access_token, openid);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
 
-                    }
+                            }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Toast.makeText(WXEntryActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
-                    }
+                            @Override
+                            public void onError(Throwable e) {
+                                Toast.makeText(WXEntryActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
+                            }
 
-                    @Override
-                    public void onComplete() {
-                        Toast.makeText(WXEntryActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                            @Override
+                            public void onComplete() {
+                                Toast.makeText(WXEntryActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+        }.start();
     }
 
     /**
@@ -193,87 +207,113 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
      * @param openid
      */
     public void getWXUserInfo(String access_token, String openid) {
-        GlobalHttpClient.retrofit(this.url)
-                .create(GlobalGetOrPostRequest.class)
-                .getWXUserInfo(access_token, openid)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ResponseBody>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                GlobalHttpClient.retrofit(url)
+                        .create(GlobalGetOrPostRequest.class)
+                        .getWXUserInfo(access_token, openid)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<ResponseBody>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
 
-                    }
+                            }
 
-                    @Override
-                    public void onNext(ResponseBody responseBody) {
-                        try {
-                            String userInfoData = responseBody.string();
-                            //String userInfo = parseJsonUserInfo(userInfoData);
-                            WXRegistryUser(new JSONObject(userInfoData).getString("openid"));
-                            //wxInfo.setText(userInfo);
+                            @Override
+                            public void onNext(ResponseBody responseBody) {
+                                try {
+                                    String userInfoData = responseBody.string();
+                                    //String userInfo = parseJsonUserInfo(userInfoData);
+                                    WXRegistryUser(new JSONObject(userInfoData).getString("openid"));
+                                    //wxInfo.setText(userInfo);
 
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Toast.makeText(WXEntryActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
-                    }
+                            @Override
+                            public void onError(Throwable e) {
+                                Toast.makeText(WXEntryActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
+                            }
 
-                    @Override
-                    public void onComplete() {
-                        Toast.makeText(WXEntryActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                            @Override
+                            public void onComplete() {
+                                Toast.makeText(WXEntryActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+        }.start();
 
     }
 
+    /**
+     * 通过获取到的微信的OpenId和其他用户数据进行登录注册并获取用户信息
+     *
+     * @param openId
+     */
     private void WXRegistryUser(String openId) {
+
 
         new Thread() {
             @Override
             public void run() {
                 super.run();
-                //http://yy.363626256.top/api/login
-                // 创建OkHttp实例
+
                 OkHttpClient httpClient = new OkHttpClient();
-                // 创建表单
-                FormBody.Builder formBody = new FormBody.Builder();
-                formBody.add("account", openId)
+                FormBody.Builder registryUserBody = new FormBody.Builder();
+                registryUserBody.add("account", openId)
                         .add("type", "3");
-                // 创建Request对象
+                // 请求注册登录接口
                 Request request = new Request.Builder()
                         .url("http://yy.363626256.top/api/login")
-                        .post(formBody.build())
+                        .post(registryUserBody.build())
                         .build();
                 try {
-                    Response response = httpClient.newCall(request).execute();
-                    String string = response.body().string();
-                    Headers headers = response.headers();
-                    String authorization = headers.get("Authorization");
-
-                    Log.d("WXRegistryUser", "注册用户请求: " + string);
+                    // 得到请求登录注册接口返回的数据
+                    Response RegistryResponse = httpClient.newCall(request).execute();
+                    // 解析注册或登录返回的数据
+                    RegistryUserJson registrUserData = new Gson().fromJson(RegistryResponse.body().string(), RegistryUserJson.class);
+                    // 获取到注册或登录的请求头参数
+                    String authorization = RegistryResponse.headers().get("Authorization");
                     Log.d("WXRegistryUser", "注册用户请求头信息:" + authorization);
-                    FormBody.Builder formBody1 = new FormBody.Builder();
+
+                    // 通过获取到的请求头参数进行获取用户数据请求
+                    FormBody.Builder getUserInfoBody = new FormBody.Builder();
                     Request request1 = new Request.Builder()
                             .url("http://yy.363626256.top/api/me")
-                            .post(formBody1.build())
+                            .post(getUserInfoBody.build())
                             .addHeader("Authorization", authorization)
                             .build();
+                    // 获取到返回的用户数据并解析
                     Response response1 = httpClient.newCall(request).execute();
-                    String string2 = response1.body().string();
-                    Log.d("WXRegistryUser", "获取到的用户数据:" + string2);
+                    GetMyUserInfoJson getMyUserInfo = new Gson().fromJson(response1.body().string()
+                            , GetMyUserInfoJson.class);
+                    GetMyUserInfoJson.DataBean userInfo = getMyUserInfo.getData();
+
+                    Log.d("WXRegistryUser", "获取到的用户数据Code:" + getMyUserInfo.getCode());
+
+                    // 保存登录状态户用户数据
+                    @SuppressLint("WrongConstant")
+                    SharedPreferences sp = getSharedPreferences(getBaseContext().getPackageName()
+                            , Context.MODE_APPEND);
+                    SharedPreferences.Editor edit = sp.edit();
+                    edit.putBoolean("is_login", getMyUserInfo.isStatus());
+                    edit.putString("account", userInfo.getAccount());
+                    edit.putInt("id", userInfo.getId());
+                    edit.putInt("sta", userInfo.getStatus());
+                    edit.putInt("type", userInfo.getType());
+                    edit.putInt("user_id", userInfo.getUser_id());
+                    edit.commit();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-
             }
         }.start();
     }
 }
-

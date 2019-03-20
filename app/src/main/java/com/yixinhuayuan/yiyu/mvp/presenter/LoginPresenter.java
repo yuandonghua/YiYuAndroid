@@ -1,9 +1,11 @@
 package com.yixinhuayuan.yiyu.mvp.presenter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Message;
 import android.support.v4.provider.SelfDestructiveThread;
@@ -12,6 +14,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.jess.arms.http.OkHttpUrlLoader;
 import com.jess.arms.integration.AppManager;
 import com.jess.arms.di.scope.ActivityScope;
@@ -52,6 +55,8 @@ import com.tencent.tauth.UiError;
 import com.yixinhuayuan.yiyu.app.GlobalConfiguration;
 import com.yixinhuayuan.yiyu.app.utils.GlobalGetOrPostRequest;
 import com.yixinhuayuan.yiyu.app.utils.GlobalHttpClient;
+import com.yixinhuayuan.yiyu.app.utils.jsoninstance.GetMyUserInfoJson;
+import com.yixinhuayuan.yiyu.app.utils.jsoninstance.RegistryUserJson;
 import com.yixinhuayuan.yiyu.mvp.contract.LoginContract;
 import com.yixinhuayuan.yiyu.mvp.model.LoginModel;
 import com.yixinhuayuan.yiyu.mvp.model.QQLoginModel;
@@ -153,14 +158,11 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
 
                 try {
                     String openid = values.getString("openid");
-                    new Thread() {
-                        @Override
-                        public void run() {
-                            super.run();
-                            QQRegistryUser(openid);
-                        }
-                    }.start();
-                } catch (JSONException e) {
+
+                    QQRegistryUser(openid);
+
+                } catch (
+                        JSONException e) {
                     e.printStackTrace();
                 }
 
@@ -321,39 +323,61 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
     }
 
     /**
-     * 通过获取到的QQ用户信息进行注册
+     * 通过获取到的QQ信息,请求自己服务器的注册接登录口和获取用数据接口,并进行用户数据保存
      */
     public void QQRegistryUser(String openId) {
-        Log.d("QQRegistryUser", "QQ用户信息OpenID: " + openId);
 
-        OkHttpClient httpClient = new OkHttpClient();
-        FormBody.Builder formBody = new FormBody.Builder();
-        formBody.add("account", openId)
-                .add("type", "2");
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                OkHttpClient httpClient = new OkHttpClient();
+                FormBody.Builder registryUserBody = new FormBody.Builder();
+                registryUserBody.add("account", openId)
+                        .add("type", "2");
+                // 请求服务的注册登录接口
+                Request request = new Request.Builder()
+                        .url("http://yy.363626256.top/api/login")
+                        .post(registryUserBody.build())
+                        .build();
+                try {
+                    // 获取注册登录接口返回的数据,并解析处理
+                    Response registryUserResponse = httpClient.newCall(request).execute();
+                    RegistryUserJson registryUserJson = new Gson().fromJson(registryUserResponse.body().string()
+                            , RegistryUserJson.class);
+                    // 获取注册登录接口的的请求头信息用于获取用户信息使用
+                    String authorization = registryUserResponse.headers().get("Authorization");
+                    // 请求获取用户信息的接口
+                    FormBody.Builder getUserInfoBody = new FormBody.Builder();
+                    Request request1 = new Request.Builder()
+                            .url("http://yy.363626256.top/api/me")
+                            .post(getUserInfoBody.build())
+                            .addHeader("Authorization", authorization)
+                            .build();
+                    // 获取请求获取用户新的接口返回的数据并解析处理
+                    Response userInfoResponse = httpClient.newCall(request1).execute();
+                    GetMyUserInfoJson getMyUserInfo = new Gson().fromJson(userInfoResponse.body().string()
+                            , GetMyUserInfoJson.class);
+                    GetMyUserInfoJson.DataBean userInfo = getMyUserInfo.getData();
+                    Log.d("QQRegistryUser", "获取注册后的用户数据: " + getMyUserInfo.getCode());
+                    // 保存登录状态户用户数据
+                    LoginActivity context = (LoginActivity) LoginPresenter.this.mRootView;
+                    @SuppressLint("WrongConstant")
+                    SharedPreferences sp = context.getSharedPreferences(context.getPackageName(), Context.MODE_APPEND);
+                    SharedPreferences.Editor edit = sp.edit();
+                    edit.putBoolean("is_login", getMyUserInfo.isStatus());
+                    edit.putString("account", userInfo.getAccount());
+                    edit.putInt("id", userInfo.getId());
+                    edit.putInt("sta", userInfo.getStatus());
+                    edit.putInt("type", userInfo.getType());
+                    edit.putInt("user_id", userInfo.getUser_id());
+                    edit.commit();
 
-        Request request = new Request.Builder()
-                .url("http://yy.363626256.top/api/login")
-                .post(formBody.build())
-                .build();
-        try {
-            Response response = httpClient.newCall(request).execute();
-            String string = response.body().string();
-            String authorization = response.headers().get("Authorization");
-
-            FormBody.Builder formBody1 = new FormBody.Builder();
-            Request request1 = new Request.Builder()
-                    .url("http://yy.363626256.top/api/me")
-                    .post(formBody1.build())
-                    .addHeader("Authorization", authorization)
-                    .build();
-            Response response1 = httpClient.newCall(request1).execute();
-            String string1 = response1.body().string();
-            Log.d("QQRegistryUser", "获取注册后的用户数据: " + string1);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
 
     }
 

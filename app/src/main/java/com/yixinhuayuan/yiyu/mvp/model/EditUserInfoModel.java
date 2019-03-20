@@ -10,14 +10,14 @@ import com.jess.arms.di.scope.ActivityScope;
 
 import javax.inject.Inject;
 
-import com.yixinhuayuan.yiyu.mvp.contract.MyCenterActivityContract;
+import com.yixinhuayuan.yiyu.mvp.contract.EditUserInfoContract;
 
 
 /**
  * ================================================
  * Description:
  * <p>
- * Created by MVPArmsTemplate on 01/29/2019 17:10
+ * Created by MVPArmsTemplate on 03/18/2019 20:01
  * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
  * <a href="https://github.com/JessYanCoding">Follow me</a>
  * <a href="https://github.com/JessYanCoding/MVPArms">Star me</a>
@@ -26,14 +26,14 @@ import com.yixinhuayuan.yiyu.mvp.contract.MyCenterActivityContract;
  * ================================================
  */
 @ActivityScope
-public class MyCenterModel extends BaseModel implements MyCenterActivityContract.Model {
+public class EditUserInfoModel extends BaseModel implements EditUserInfoContract.Model {
     @Inject
     Gson mGson;
     @Inject
     Application mApplication;
 
     @Inject
-    public MyCenterModel(IRepositoryManager repositoryManager) {
+    public EditUserInfoModel(IRepositoryManager repositoryManager) {
         super(repositoryManager);
     }
 

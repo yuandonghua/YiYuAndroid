@@ -1,6 +1,9 @@
 package com.yixinhuayuan.yiyu.mvp.ui.fragment;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -34,6 +37,7 @@ import com.yixinhuayuan.yiyu.mvp.presenter.MyPresenter;
 
 import com.yixinhuayuan.yiyu.R;
 import com.yixinhuayuan.yiyu.mvp.ui.activity.LoginActivity;
+import com.yixinhuayuan.yiyu.mvp.ui.activity.PersonalCenterActivity;
 import com.yixinhuayuan.yiyu.mvp.ui.activity.SettingActivity;
 import com.yixinhuayuan.yiyu.mvp.ui.view.DayNightToggleButton;
 import com.yixinhuayuan.yiyu.mvp.ui.view.ToggleSettings;
@@ -97,11 +101,16 @@ public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        Log.d("AA", "MyFragment正在初始化数据");
+        @SuppressLint("WrongConstant")
+        SharedPreferences sp = getContext().getSharedPreferences(getContext().getPackageName()
+                , Context.MODE_APPEND);
+        boolean is_login = sp.getBoolean("is_login", false);
+        if (!is_login) {
+            startActivity(new Intent(getContext(), LoginActivity.class));
+        }
         //跳转登陆页面
         // NavHostFragment.findNavController(this).navigate(R.id.action_myFragment_to_loginActivity);
         //initThemeButton();
-        //startActivity(new Intent(getContext(), LoginActivity.class));
     }
 
     /**
@@ -253,12 +262,11 @@ public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.
 
     }
 
-    //
+    // 启动个人中心
     @OnClick(R.id.userDetails)
     void toUserDetails() {
-
-        Toast.makeText(getContext(), "你点击了个人主页", Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(getContext(), LoginActivity.class));
+        startActivity(new Intent(getContext()
+                , PersonalCenterActivity.class));
     }
 
 

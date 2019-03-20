@@ -1,10 +1,7 @@
-package com.yixinhuayuan.yiyu.di.module;
+package com.yixinhuayuan.yiyu.mvp.contract;
 
-import dagger.Binds;
-import dagger.Module;
-
-import com.yixinhuayuan.yiyu.mvp.contract.PersonalCenterContract;
-import com.yixinhuayuan.yiyu.mvp.model.PersonalCenterModel;
+import com.jess.arms.mvp.IView;
+import com.jess.arms.mvp.IModel;
 
 
 /**
@@ -19,9 +16,14 @@ import com.yixinhuayuan.yiyu.mvp.model.PersonalCenterModel;
  * <a href="https://github.com/JessYanCoding/MVPArmsTemplate">模版请保持更新</a>
  * ================================================
  */
-@Module
-public abstract class MyCenterActivityModule {
+public interface PersonalCenterContract {
+    //对于经常使用的关于UI的方法可以定义到IView中,如显示隐藏进度条,和显示文字消息
+    interface View extends IView {
 
-    @Binds
-    abstract PersonalCenterContract.Model bindMyCenterActivityModel(PersonalCenterModel model);
+    }
+
+    //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
+    interface Model extends IModel {
+
+    }
 }
