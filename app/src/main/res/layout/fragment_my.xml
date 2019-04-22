@@ -52,7 +52,7 @@
             android:layout_alignBottom="@+id/nickName"
             android:layout_alignParentRight="true"
             android:layout_marginLeft="10dp"
-            android:drawableEnd="@drawable/arrow_left"
+            android:drawableEnd="@drawable/arrow_right"
             android:paddingRight="15dp"
             android:text="个人主页  "
             android:textColor="#333333"
@@ -102,9 +102,10 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tv_myfgt_myworks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/arrow_left"
+            android:drawableEnd="@drawable/arrow_right"
             android:paddingLeft="30dp"
             android:paddingTop="15dp"
             android:paddingRight="15dp"
@@ -121,9 +122,10 @@
             android:background="#BEBEBE" />
 
         <TextView
+            android:id="@+id/tv_myfgt_trends"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/arrow_left"
+            android:drawableEnd="@drawable/arrow_right"
             android:paddingLeft="30dp"
             android:paddingTop="15dp"
             android:paddingRight="15dp"
@@ -140,10 +142,10 @@
             android:background="#BEBEBE" />
 
         <TextView
-
+            android:id="@+id/tv_myfgt_favorites"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/arrow_left"
+            android:drawableEnd="@drawable/arrow_right"
             android:paddingLeft="30dp"
             android:paddingTop="15dp"
             android:paddingRight="15dp"
@@ -154,11 +156,12 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tv_myfgt_setting"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@color/background_color2"
-        android:drawableEnd="@drawable/arrow_left"
+        android:drawableEnd="@drawable/arrow_right"
         android:paddingLeft="30dp"
         android:paddingTop="15dp"
         android:paddingRight="15dp"

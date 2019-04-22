@@ -1,26 +1,27 @@
-package com.yixinhuayuan.yiyu.mvp.ui.activity;
+package com.yixinhuayuan.yiyu.mvp.ui.activity.in_myfragment;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.view.ViewPager;
-import android.support.design.widget.TabLayout;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.OrientationHelper;
+import android.support.v7.widget.RecyclerView;
 
 import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 
-import com.yixinhuayuan.yiyu.app.utils.adapter.PcaTablOrPagerAdapter;
-import com.yixinhuayuan.yiyu.di.component.DaggerMyCenterActivityComponent;
-import com.yixinhuayuan.yiyu.mvp.contract.PersonalCenterContract;
-import com.yixinhuayuan.yiyu.mvp.presenter.PersonalCenterPresenter;
+import com.yixinhuayuan.yiyu.app.utils.adapter.PcaAttentionListAdapter;
+import com.yixinhuayuan.yiyu.di.component.DaggerFansListComponent;
+import com.yixinhuayuan.yiyu.mvp.contract.FansListContract;
+import com.yixinhuayuan.yiyu.mvp.presenter.MfgtFansListPresenter;
 
 import com.yixinhuayuan.yiyu.R;
 
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -29,7 +30,7 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * ================================================
  * Description:
  * <p>
- * Created by MVPArmsTemplate on 01/29/2019 17:10
+ * Created by MVPArmsTemplate on 04/02/2019 19:21
  * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
  * <a href="https://github.com/JessYanCoding">Follow me</a>
  * <a href="https://github.com/JessYanCoding/MVPArms">Star me</a>
@@ -37,18 +38,13 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * <a href="https://github.com/JessYanCoding/MVPArmsTemplate">模版请保持更新</a>
  * ================================================
  */
-public class PersonalCenterActivity extends BaseActivity<PersonalCenterPresenter> implements PersonalCenterContract.View {
-
-    // 个人主页的 作品或动态的标题容器
-    @BindView(R.id.tabl_title_pca)
-    TabLayout pcaTabl;
-    // 个人主页的 作品或动态定的页面容器
-    @BindView(R.id.vp_content_pca)
-    ViewPager pcaVpage;
+public class MfgtFansListActivity extends BaseActivity<MfgtFansListPresenter> implements FansListContract.View {
+    @BindView(R.id.rv_fl_fanslist)
+    RecyclerView fansList;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
-        DaggerMyCenterActivityComponent //如找不到该类,请编译一下项目
+        DaggerFansListComponent //如找不到该类,请编译一下项目
                 .builder()
                 .appComponent(appComponent)
                 .view(this)
@@ -58,12 +54,12 @@ public class PersonalCenterActivity extends BaseActivity<PersonalCenterPresenter
 
     @Override
     public int initView(@Nullable Bundle savedInstanceState) {
-        return R.layout.activity_my_center; //如果你不需要框架帮你设置 setContentView(id) 需要自行设置,请返回 0
+        return R.layout.activity_fans_list; //如果你不需要框架帮你设置 setContentView(id) 需要自行设置,请返回 0
     }
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        this.setTablAndVpager();
+        setAlAdapter();
     }
 
     @Override
@@ -93,17 +89,16 @@ public class PersonalCenterActivity extends BaseActivity<PersonalCenterPresenter
         finish();
     }
 
-    @OnClick(R.id.tv_edit_userinfo)
-    void gotoEditUserInfo() {
-        startActivity(new Intent(this, EditUserInfoActivity.class));
-    }
+    private void setAlAdapter() {
 
-    /**
-     * 给pcaTabl和pcaPager设置适配器进行数据匹配
-     */
-    private void setTablAndVpager() {
-        PcaTablOrPagerAdapter adapter = new PcaTablOrPagerAdapter(getSupportFragmentManager(), mPresenter.fragments, mPresenter.titles);
-        pcaVpage.setAdapter(adapter);
-        pcaTabl.setupWithViewPager(pcaVpage);
+        // 设置布局管理器
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        fansList.setLayoutManager(manager);
+        manager.setOrientation(OrientationHelper.VERTICAL);
+        // 设置适配器
+        PcaAttentionListAdapter adapter = new PcaAttentionListAdapter(this);
+        fansList.setAdapter(adapter);
+        //
+        fansList.setItemAnimator(new DefaultItemAnimator());
     }
 }

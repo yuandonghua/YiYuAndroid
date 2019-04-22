@@ -149,4 +149,7 @@ dependencies {
 
     // JPTabBar 底部导航栏
     implementation 'com.jpeng:JPTabBar:1.4.0'
+
+    // 使用recyclerview
+    implementation rootProject.ext.dependencies['recyclerview-v7']
 }

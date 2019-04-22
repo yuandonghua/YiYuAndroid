@@ -17,7 +17,13 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".mvp.ui.activity.EditUserInfoActivity"></activity>
+        <activity android:name=".mvp.ui.activity.in_myfragment.MfgtFavoritesActivity"></activity>
+        <activity android:name=".mvp.ui.activity.in_myfragment.MfgtTrendsActivity" />
+        <activity android:name=".mvp.ui.activity.in_myfragment.MfgtMyWorksActivity" />
+        <activity android:name=".mvp.ui.activity.in_myfragment.MfgtSettingActivity" />
+        <activity android:name=".mvp.ui.activity.in_myfragment.MfgtFansListActivity" />
+        <activity android:name=".mvp.ui.activity.in_myfragment.MfgtAttentionListActivity" />
+        <activity android:name=".mvp.ui.activity.EditUserInfoActivity" />
         <activity android:name=".mvp.ui.activity.PersonalCenterActivity" />
         <activity
             android:name=".wxapi.WXEntryActivity"

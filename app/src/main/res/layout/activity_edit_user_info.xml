@@ -13,7 +13,7 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:src="@drawable/arrow_left2" />
+        android:src="@drawable/arrow_left_back2" />
 
     <TextView
         android:id="@+id/tv_edituserinfo_title"
@@ -70,6 +70,7 @@
             android:textSize="22sp" />
 
         <EditText
+            android:background="@null"
             android:id="@+id/et_edit_nickname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -139,6 +140,7 @@
         android:background="@color/background_color1" />
 
     <EditText
+        android:background="@null"
         android:id="@+id/et_edit_usersign"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

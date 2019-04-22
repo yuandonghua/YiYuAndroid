@@ -12,15 +12,12 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dim.skin.SkinConfig;
 import com.dim.skin.SkinStyle;
@@ -30,7 +27,6 @@ import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 
 import com.wuyr.rippleanimation.RippleAnimation;
-import com.yixinhuayuan.yiyu.app.GlobalConfiguration;
 import com.yixinhuayuan.yiyu.di.component.DaggerMyComponent;
 import com.yixinhuayuan.yiyu.mvp.contract.MyContract;
 import com.yixinhuayuan.yiyu.mvp.presenter.MyPresenter;
@@ -38,15 +34,17 @@ import com.yixinhuayuan.yiyu.mvp.presenter.MyPresenter;
 import com.yixinhuayuan.yiyu.R;
 import com.yixinhuayuan.yiyu.mvp.ui.activity.LoginActivity;
 import com.yixinhuayuan.yiyu.mvp.ui.activity.PersonalCenterActivity;
-import com.yixinhuayuan.yiyu.mvp.ui.activity.SettingActivity;
+import com.yixinhuayuan.yiyu.mvp.ui.activity.in_myfragment.MfgtAttentionListActivity;
+import com.yixinhuayuan.yiyu.mvp.ui.activity.in_myfragment.MfgtFansListActivity;
+import com.yixinhuayuan.yiyu.mvp.ui.activity.in_myfragment.MfgtFavoritesActivity;
+import com.yixinhuayuan.yiyu.mvp.ui.activity.in_myfragment.MfgtMyWorksActivity;
+import com.yixinhuayuan.yiyu.mvp.ui.activity.in_myfragment.MfgtSettingActivity;
+import com.yixinhuayuan.yiyu.mvp.ui.activity.in_myfragment.MfgtTrendsActivity;
 import com.yixinhuayuan.yiyu.mvp.ui.view.DayNightToggleButton;
 import com.yixinhuayuan.yiyu.mvp.ui.view.ToggleSettings;
 
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 import butterknife.BindView;
 import butterknife.OnClick;
-import timber.log.Timber;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -269,5 +267,53 @@ public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.
                 , PersonalCenterActivity.class));
     }
 
+    /**
+     * 点击关注跳转到关注列表界面
+     */
+    @OnClick(R.id.attentionQuantity)
+    void toAttentionList() {
+        startActivity(new Intent(this.getContext(), MfgtAttentionListActivity.class));
+    }
+
+    /**
+     * 点击关注跳转到关注列表界面
+     */
+    @OnClick(R.id.fanQuantity)
+    void toFanQuantity() {
+        startActivity(new Intent(this.getContext(), MfgtFansListActivity.class));
+    }
+
+    /**
+     * 点击 我的界面的设置跳转到 设置界面
+     */
+    @OnClick(R.id.tv_myfgt_setting)
+    void toSetting() {
+
+        startActivity(new Intent(this.getContext(), MfgtSettingActivity.class));
+    }
+
+    /**
+     * 在 我的 界面点击 我的作品 选项跳转到我的作品界面
+     */
+    @OnClick(R.id.tv_myfgt_myworks)
+    void toMyWorks() {
+        startActivity(new Intent(this.getContext(), MfgtMyWorksActivity.class));
+    }
+
+    /**
+     * 在 我的 界面点击 我的动态 选项跳转到我的动态界面
+     */
+    @OnClick(R.id.tv_myfgt_trends)
+    void toMyTrends() {
+        startActivity(new Intent(this.getContext(), MfgtTrendsActivity.class));
+    }
+
+    /**
+     * 在 我的 界面点击 我的收藏 选项跳转到我的收藏界面
+     */
+    @OnClick(R.id.tv_myfgt_favorites)
+    void toMyFavorites() {
+        startActivity(new Intent(this.getContext(), MfgtFavoritesActivity.class));
+    }
 
 }

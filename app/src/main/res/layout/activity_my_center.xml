@@ -15,8 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/arrow_right" />
+            android:src="@drawable/arrow_left_back" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -70,12 +69,12 @@
             android:textSize="19sp" />
 
         <LinearLayout
-            android:layout_marginTop="15dp"
-            android:layout_below="@+id/tv_edit_userinfo"
             android:id="@+id/attention_or_fan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_edit_userinfo"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
             android:orientation="horizontal">
 
             <TextView
@@ -102,12 +101,16 @@
     </RelativeLayout>
 
     <android.support.design.widget.TabLayout
+        android:id="@+id/tabl_title_pca"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/background_color2" />
 
     <android.support.v4.view.ViewPager
+        android:id="@+id/vp_content_pca"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+
+        />
 
 </LinearLayout>
