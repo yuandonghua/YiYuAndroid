@@ -16,6 +16,8 @@ import com.yixinhuayuan.yiyu.mvp.presenter.MfgtSettingPresenter;
 import com.yixinhuayuan.yiyu.R;
 
 
+import butterknife.OnClick;
+
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
 
@@ -78,5 +80,10 @@ public class MfgtSettingActivity extends BaseActivity<MfgtSettingPresenter> impl
     @Override
     public void killMyself() {
         finish();
+    }
+
+    @OnClick(R.id.iv_mysetting_back)
+    void back(){
+        this.finish();
     }
 }

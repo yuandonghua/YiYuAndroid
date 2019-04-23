@@ -106,4 +106,12 @@ public class PersonalCenterActivity extends BaseActivity<PersonalCenterPresenter
         pcaVpage.setAdapter(adapter);
         pcaTabl.setupWithViewPager(pcaVpage);
     }
+
+    /**
+     * 关闭当前界面
+     */
+    @OnClick(R.id.iv_pc_back)
+    void back(){
+        this.finish();
+    }
 }

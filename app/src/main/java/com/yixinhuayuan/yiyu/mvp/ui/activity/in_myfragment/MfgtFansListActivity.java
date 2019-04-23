@@ -22,6 +22,7 @@ import com.yixinhuayuan.yiyu.R;
 
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -100,5 +101,13 @@ public class MfgtFansListActivity extends BaseActivity<MfgtFansListPresenter> im
         fansList.setAdapter(adapter);
         //
         fansList.setItemAnimator(new DefaultItemAnimator());
+    }
+
+    /**
+     * 关闭当前界面
+     */
+    @OnClick(R.id.iv_fl_back)
+    void back() {
+        this.finish();
     }
 }

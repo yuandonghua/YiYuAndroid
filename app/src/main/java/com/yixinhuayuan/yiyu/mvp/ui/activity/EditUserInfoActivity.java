@@ -19,6 +19,7 @@ import com.yixinhuayuan.yiyu.R;
 
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -102,4 +103,11 @@ public class EditUserInfoActivity extends BaseActivity<EditUserInfoPresenter> im
         finish();
     }
 
+    /**
+     * 关闭当前界面
+     */
+    @OnClick(R.id.iv_edit_back)
+    void back(){
+        this.finish();
+    }
 }

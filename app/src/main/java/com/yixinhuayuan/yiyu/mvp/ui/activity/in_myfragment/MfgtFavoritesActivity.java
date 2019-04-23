@@ -21,6 +21,7 @@ import com.yixinhuayuan.yiyu.R;
 
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -100,5 +101,13 @@ public class MfgtFavoritesActivity extends BaseActivity<MfgtFavoritesPresenter> 
         MffaTablOrPagerAdapter adapter = new MffaTablOrPagerAdapter(getSupportFragmentManager(), mPresenter.fragments, mPresenter.titles);
         favoritesPager.setAdapter(adapter);
         favoritesTitle.setupWithViewPager(favoritesPager);
+    }
+
+    /**
+     * 关闭当前界面
+     */
+    @OnClick(R.id.iv_mfgtmyworks_back)
+    void back(){
+        this.finish();
     }
 }

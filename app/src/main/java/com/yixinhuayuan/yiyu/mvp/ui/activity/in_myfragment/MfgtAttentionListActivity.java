@@ -22,6 +22,7 @@ import com.yixinhuayuan.yiyu.R;
 
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -101,5 +102,11 @@ public class MfgtAttentionListActivity extends BaseActivity<MfgtAttentionListPre
         attentionList.setAdapter(adapter);
         //
         attentionList.setItemAnimator(new DefaultItemAnimator());
+    }
+
+
+    @OnClick(R.id.iv_fl_back)
+    void back(){
+        this.finish();
     }
 }

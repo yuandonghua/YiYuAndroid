@@ -82,7 +82,9 @@ public class MfgtTrendsActivity extends BaseActivity<MfgtTrendsPresenter> implem
         finish();
     }
 
-
+    /**
+     * 结束当前界面
+     */
     @OnClick(R.id.iv_mfgtmytrends_back)
     void back(){
         this.finish();

@@ -12,6 +12,7 @@
         android:background="@drawable/my_center_bg">
 
         <ImageView
+            android:id="@+id/iv_pc_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
