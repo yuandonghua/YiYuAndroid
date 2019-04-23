@@ -16,6 +16,8 @@ import com.yixinhuayuan.yiyu.mvp.presenter.MfgtMyWorksPresenter;
 import com.yixinhuayuan.yiyu.R;
 
 
+import butterknife.OnClick;
+
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
 
@@ -79,4 +81,14 @@ public class MfgtMyWorksActivity extends BaseActivity<MfgtMyWorksPresenter> impl
     public void killMyself() {
         finish();
     }
+
+    /**
+     * 关闭当前页面
+     */
+    @OnClick(R.id.iv_mfgtmyworks_back)
+    void back() {
+        this.finish();
+    }
+
+
 }

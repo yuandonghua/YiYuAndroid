@@ -12,7 +12,7 @@
         android:background="@color/background_color2">
 
         <ImageView
-            android:id="@+id/iv_mfgtmyworks_back"
+            android:id="@+id/iv_mfgtmytrends_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"

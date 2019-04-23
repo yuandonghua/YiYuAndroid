@@ -16,6 +16,8 @@ import com.yixinhuayuan.yiyu.mvp.presenter.MfgtTrendsPresenter;
 import com.yixinhuayuan.yiyu.R;
 
 
+import butterknife.OnClick;
+
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
 
@@ -78,5 +80,11 @@ public class MfgtTrendsActivity extends BaseActivity<MfgtTrendsPresenter> implem
     @Override
     public void killMyself() {
         finish();
+    }
+
+
+    @OnClick(R.id.iv_mfgtmytrends_back)
+    void back(){
+        this.finish();
     }
 }
