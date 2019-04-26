@@ -35,6 +35,8 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * <a href="https://github.com/JessYanCoding/MVPArms/wiki">See me</a>
  * <a href="https://github.com/JessYanCoding/MVPArmsTemplate">模版请保持更新</a>
  * ================================================
+ * 用来编辑用户信息的Activity
+ * 在此界面可以对,昵称,性别,个性签名进行编辑
  */
 public class EditUserInfoActivity extends BaseActivity<EditUserInfoPresenter> implements EditUserInfoContract.View {
 
@@ -99,6 +101,7 @@ public class EditUserInfoActivity extends BaseActivity<EditUserInfoPresenter> im
     }
 
     @Override
+
     public void killMyself() {
         finish();
     }

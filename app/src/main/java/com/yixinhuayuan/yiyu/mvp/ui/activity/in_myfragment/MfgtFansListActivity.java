@@ -38,6 +38,7 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * <a href="https://github.com/JessYanCoding/MVPArms/wiki">See me</a>
  * <a href="https://github.com/JessYanCoding/MVPArmsTemplate">模版请保持更新</a>
  * ================================================
+ * 粉丝列表,展示自己被多少人关注的列表
  */
 public class MfgtFansListActivity extends BaseActivity<MfgtFansListPresenter> implements FansListContract.View {
     @BindView(R.id.rv_fl_fanslist)
