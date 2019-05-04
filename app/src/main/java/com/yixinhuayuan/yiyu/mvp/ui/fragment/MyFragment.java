@@ -27,6 +27,7 @@ import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 
 import com.wuyr.rippleanimation.RippleAnimation;
+import com.yixinhuayuan.yiyu.app.utils.userinfo.SPUserInfo;
 import com.yixinhuayuan.yiyu.di.component.DaggerMyComponent;
 import com.yixinhuayuan.yiyu.mvp.contract.MyContract;
 import com.yixinhuayuan.yiyu.mvp.presenter.MyPresenter;
@@ -75,6 +76,27 @@ public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.
     @BindView(R.id.userDetails)
     TextView userDetails;
 
+    /**
+     * 用户昵称
+     */
+    @BindView(R.id.nickName)
+    TextView nickName;
+    /**
+     * 个性签名
+     */
+    @BindView(R.id.userSign)
+    TextView userSign;
+    /**
+     * 关注数
+     */
+    @BindView(R.id.attentionQuantity)
+    TextView star;
+    /**
+     * 粉丝数
+     */
+    @BindView(R.id.fanQuantity)
+    TextView fans;
+
     public static MyFragment newInstance() {
         MyFragment fragment = new MyFragment();
         return fragment;
@@ -99,6 +121,9 @@ public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
+        // 初始化用户简介
+        initUserInfo();
+        // 判断是否登录
         @SuppressLint("WrongConstant")
         SharedPreferences sp = getContext().getSharedPreferences(getContext().getPackageName()
                 , Context.MODE_APPEND);
@@ -106,9 +131,6 @@ public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.
         if (!is_login) {
             startActivity(new Intent(getContext(), LoginActivity.class));
         }
-        //跳转登陆页面
-        // NavHostFragment.findNavController(this).navigate(R.id.action_myFragment_to_loginActivity);
-        //initThemeButton();
     }
 
     /**
@@ -314,6 +336,23 @@ public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.
     @OnClick(R.id.tv_myfgt_favorites)
     void toMyFavorites() {
         startActivity(new Intent(this.getContext(), MfgtFavoritesActivity.class));
+    }
+
+    /**
+     * 初始化我的界面用户简介数据
+     */
+    private void initUserInfo() {
+        SPUserInfo.setContext(getContext());
+        // 设置昵称
+        nickName.setText(SPUserInfo.spUserInfo().getString("nick_name", null));
+        // 设置关注数
+        star.setText("关注:" + SPUserInfo.spUserInfo().getInt("star", 0));
+        // 设置粉丝数
+        fans.setText("粉丝:" + SPUserInfo.spUserInfo().getInt("fans", 0));
+        // 设置个性签名
+        userSign.setText(SPUserInfo.spUserInfo().getString("introduce", null));
+
+        SPUserInfo.delContext();
     }
 
 }

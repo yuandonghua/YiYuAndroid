@@ -6,3 +6,11 @@ file=D:\ThePcDesktop\YiYu\YiYuAndroid\app\build\outputs\mapping\release\mapping.
 sha1=5d2f7deeacdc24419057e4b6c26a1eb931564815
 appId=6e5afd43cb
 
+file=D:\ThePcDesktop\YiYu\YiYuAndroid\app\build\outputs\mapping\debug\mapping.txt
+sha1=f7a567cab3e3b4cb8e27e9c25d51ed7031a752fc
+appId=6e5afd43cb
+
+file=D:\ThePcDesktop\YiYu\YiYuAndroid\app\build\outputs\mapping\release\mapping.txt
+sha1=5d2f7deeacdc24419057e4b6c26a1eb931564815
+appId=6e5afd43cb
+

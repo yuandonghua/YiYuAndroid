@@ -23,8 +23,8 @@ import com.yixinhuayuan.yiyu.R;
 import com.yixinhuayuan.yiyu.app.GlobalConfiguration;
 import com.yixinhuayuan.yiyu.app.utils.GlobalGetOrPostRequest;
 import com.yixinhuayuan.yiyu.app.utils.GlobalHttpClient;
-import com.yixinhuayuan.yiyu.app.utils.jsoninstance.GetMyUserInfoJson;
-import com.yixinhuayuan.yiyu.app.utils.jsoninstance.RegistryUserJson;
+import com.yixinhuayuan.yiyu.app.utils.jsoninstance.UserInfoJson;
+import com.yixinhuayuan.yiyu.app.utils.jsoninstance.LoginDataJson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,7 +37,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.FormBody;
-import okhttp3.Headers;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -253,7 +252,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
     }
 
     /**
-     * 通过获取到的微信的OpenId和其他用户数据进行登录注册并获取用户信息
+     * 在艺语的服务器上 通过微信数据进行登录/注册,并获取艺语服务器上的用户数据
      *
      * @param openId
      */
@@ -264,51 +263,67 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
             @Override
             public void run() {
                 super.run();
-
+                /**
+                 * 登录/注册
+                 * 首次登录会先进行注册
+                 * 第二次登录就不会注册了
+                 */
                 OkHttpClient httpClient = new OkHttpClient();
-                FormBody.Builder registryUserBody = new FormBody.Builder();
-                registryUserBody.add("account", openId)
-                        .add("type", "3");
-                // 请求注册登录接口
-                Request request = new Request.Builder()
-                        .url("http://yy.363626256.top/api/login")
-                        .post(registryUserBody.build())
+                FormBody.Builder loginBody = new FormBody.Builder();
+                loginBody.add("account", openId)
+                        .add("type", "3")
+                        .add("nickname", "微信一")
+                        .add("sex", "0")
+                        .add("photo", "www.baidu.com");
+                // 请求登录/注册接口
+                Request wxLogin = new Request.Builder()
+                        .url("http://yy.363626256.top/api/wxLogin")
+                        .post(loginBody.build())
                         .build();
                 try {
                     // 得到请求登录注册接口返回的数据
-                    Response RegistryResponse = httpClient.newCall(request).execute();
+                    Response loginData = httpClient.newCall(wxLogin).execute();
                     // 解析注册或登录返回的数据
-                    RegistryUserJson registrUserData = new Gson().fromJson(RegistryResponse.body().string(), RegistryUserJson.class);
+                    LoginDataJson loginJson = new Gson().fromJson(loginData.body().string(), LoginDataJson.class);
                     // 获取到注册或登录的请求头参数
-                    String authorization = RegistryResponse.headers().get("Authorization");
+                    String authorization = loginData.headers().get("Authorization");
                     Log.d("WXRegistryUser", "注册用户请求头信息:" + authorization);
 
+                    /**
+                     * 获取艺语服务器的用户信息
+                     */
                     // 通过获取到的请求头参数进行获取用户数据请求
-                    FormBody.Builder getUserInfoBody = new FormBody.Builder();
-                    Request request1 = new Request.Builder()
+                    FormBody.Builder userInfoBody = new FormBody.Builder();
+                    //请求 获取用户信息接口
+                    Request getUserInfo = new Request.Builder()
                             .url("http://yy.363626256.top/api/me")
-                            .post(getUserInfoBody.build())
+                            .post(userInfoBody.build())
                             .addHeader("Authorization", authorization)
                             .build();
-                    // 获取到返回的用户数据并解析
-                    Response response1 = httpClient.newCall(request).execute();
-                    GetMyUserInfoJson getMyUserInfo = new Gson().fromJson(response1.body().string()
-                            , GetMyUserInfoJson.class);
-                    GetMyUserInfoJson.DataBean userInfo = getMyUserInfo.getData();
+                    // 获取到 获取用户信息接口返回的数据
+                    Response userInfoData = httpClient.newCall(wxLogin).execute();
+                    UserInfoJson userInfoJson = new Gson().fromJson(userInfoData.body().string(), UserInfoJson.class);
+                    UserInfoJson.DataBean userInfo = userInfoJson.getData();
 
-                    Log.d("WXRegistryUser", "获取到的用户数据Code:" + getMyUserInfo.getCode());
+                    Log.d("WXRegistryUser", "获取到的用户数据Code:" + userInfoJson.getCode());
 
                     // 保存登录状态户用户数据
                     @SuppressLint("WrongConstant")
-                    SharedPreferences sp = getSharedPreferences(getBaseContext().getPackageName()
-                            , Context.MODE_APPEND);
-                    SharedPreferences.Editor edit = sp.edit();
-                    edit.putBoolean("is_login", getMyUserInfo.isStatus());
+                    SharedPreferences spUsererInfo = getSharedPreferences(getBaseContext().getPackageName(), Context.MODE_APPEND);
+                    SharedPreferences.Editor edit = spUsererInfo.edit();
+                    edit.putString("authorization", authorization);
+                    edit.putBoolean("is_login", userInfoJson.isStatus());// 是否登录成功
+                    edit.putInt("id", userInfo.getId());// ID
+                    edit.putInt("user_id", userInfo.getUser_id());// USER_ID
                     edit.putString("account", userInfo.getAccount());
-                    edit.putInt("id", userInfo.getId());
-                    edit.putInt("sta", userInfo.getStatus());
                     edit.putInt("type", userInfo.getType());
-                    edit.putInt("user_id", userInfo.getUser_id());
+                    edit.putInt("status", userInfo.getStatus());
+                    edit.putString("nick_name", userInfo.getNickname());// 昵称
+                    edit.putString("header", userInfo.getPhoto());// 头像
+                    edit.putInt("fans", userInfo.getFans());// 粉丝数
+                    edit.putInt("star", userInfo.getStar());// 关注数
+                    edit.putInt("sex", userInfo.getSex());// 性别
+                    edit.putString("introduce", userInfo.getIntroduce());// 个人介绍
                     edit.commit();
                 } catch (IOException e) {
                     e.printStackTrace();

@@ -4,40 +4,27 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.os.Message;
-import android.support.v4.provider.SelfDestructiveThread;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.jess.arms.http.OkHttpUrlLoader;
 import com.jess.arms.integration.AppManager;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.mvp.BasePresenter;
 import com.jess.arms.http.imageloader.ImageLoader;
 
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
-import timber.log.Timber;
 
 import javax.inject.Inject;
 
 import com.jess.arms.utils.ArmsUtils;
 import com.sina.weibo.sdk.WbSdk;
-import com.sina.weibo.sdk.auth.AccessTokenKeeper;
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WbAuthListener;
@@ -45,29 +32,22 @@ import com.sina.weibo.sdk.auth.WbConnectErrorMessage;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.tencent.connect.UserInfo;
 import com.tencent.connect.common.Constants;
-import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
-import com.tencent.tauth.UiError;
 import com.yixinhuayuan.yiyu.app.GlobalConfiguration;
-import com.yixinhuayuan.yiyu.app.utils.GlobalGetOrPostRequest;
-import com.yixinhuayuan.yiyu.app.utils.GlobalHttpClient;
-import com.yixinhuayuan.yiyu.app.utils.jsoninstance.GetMyUserInfoJson;
-import com.yixinhuayuan.yiyu.app.utils.jsoninstance.RegistryUserJson;
+import com.yixinhuayuan.yiyu.app.utils.jsoninstance.UserInfoJson;
+import com.yixinhuayuan.yiyu.app.utils.jsoninstance.LoginDataJson;
 import com.yixinhuayuan.yiyu.mvp.contract.LoginContract;
-import com.yixinhuayuan.yiyu.mvp.model.LoginModel;
 import com.yixinhuayuan.yiyu.mvp.model.QQLoginModel;
 import com.yixinhuayuan.yiyu.mvp.ui.activity.LoginActivity;
-import com.yixinhuayuan.yiyu.wxapi.WXEntryActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 
 /**
@@ -323,7 +303,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
     }
 
     /**
-     * 通过获取到的QQ信息,请求自己服务器的注册接登录口和获取用数据接口,并进行用户数据保存
+     * 通过QQ用户数据,向艺语服务器发出 登录/注册请求
      */
     public void QQRegistryUser(String openId) {
 
@@ -332,45 +312,54 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
             public void run() {
                 super.run();
                 OkHttpClient httpClient = new OkHttpClient();
-                FormBody.Builder registryUserBody = new FormBody.Builder();
-                registryUserBody.add("account", openId)
-                        .add("type", "2");
+                FormBody.Builder qqLoginBody = new FormBody.Builder();
+                qqLoginBody.add("account", openId)
+                        .add("type", "2")
+                        .add("nickname", "QQ一")
+                        .add("sex", "0")
+                        .add("photo", "www.baidu.com");
                 // 请求服务的注册登录接口
-                Request request = new Request.Builder()
+                Request qqLogin = new Request.Builder()
                         .url("http://yy.363626256.top/api/login")
-                        .post(registryUserBody.build())
+                        .post(qqLoginBody.build())
                         .build();
                 try {
                     // 获取注册登录接口返回的数据,并解析处理
-                    Response registryUserResponse = httpClient.newCall(request).execute();
-                    RegistryUserJson registryUserJson = new Gson().fromJson(registryUserResponse.body().string()
-                            , RegistryUserJson.class);
+                    Response loginData = httpClient.newCall(qqLogin).execute();
+                    LoginDataJson loginDataJson = new Gson().fromJson(loginData.body().string(), LoginDataJson.class);
                     // 获取注册登录接口的的请求头信息用于获取用户信息使用
-                    String authorization = registryUserResponse.headers().get("Authorization");
+                    String authorization = loginData.headers().get("Authorization");
                     // 请求获取用户信息的接口
-                    FormBody.Builder getUserInfoBody = new FormBody.Builder();
+                    FormBody.Builder userInfoBody = new FormBody.Builder();
                     Request request1 = new Request.Builder()
                             .url("http://yy.363626256.top/api/me")
-                            .post(getUserInfoBody.build())
+                            .post(userInfoBody.build())
                             .addHeader("Authorization", authorization)
                             .build();
                     // 获取请求获取用户新的接口返回的数据并解析处理
-                    Response userInfoResponse = httpClient.newCall(request1).execute();
-                    GetMyUserInfoJson getMyUserInfo = new Gson().fromJson(userInfoResponse.body().string()
-                            , GetMyUserInfoJson.class);
-                    GetMyUserInfoJson.DataBean userInfo = getMyUserInfo.getData();
-                    Log.d("QQRegistryUser", "获取注册后的用户数据: " + getMyUserInfo.getCode());
+                    Response getUserInfo = httpClient.newCall(request1).execute();
+                    UserInfoJson userInfoJson = new Gson().fromJson(getUserInfo.body().string()
+                            , UserInfoJson.class);
+                    UserInfoJson.DataBean userInfo = userInfoJson.getData();
+                    Log.d("QQRegistryUser", "获取注册后的用户数据: " + userInfoJson.getCode());
                     // 保存登录状态户用户数据
                     LoginActivity context = (LoginActivity) LoginPresenter.this.mRootView;
                     @SuppressLint("WrongConstant")
                     SharedPreferences sp = context.getSharedPreferences(context.getPackageName(), Context.MODE_APPEND);
                     SharedPreferences.Editor edit = sp.edit();
-                    edit.putBoolean("is_login", getMyUserInfo.isStatus());
+                    edit.putString("authorization", authorization);
+                    edit.putBoolean("is_login", userInfoJson.isStatus());// 是否登录成功
+                    edit.putInt("id", userInfo.getId());// ID
+                    edit.putInt("user_id", userInfo.getUser_id());// USER_ID
                     edit.putString("account", userInfo.getAccount());
-                    edit.putInt("id", userInfo.getId());
-                    edit.putInt("sta", userInfo.getStatus());
                     edit.putInt("type", userInfo.getType());
-                    edit.putInt("user_id", userInfo.getUser_id());
+                    edit.putInt("status", userInfo.getStatus());
+                    edit.putString("nick_name", userInfo.getNickname());// 昵称
+                    edit.putString("header", userInfo.getPhoto());// 头像
+                    edit.putInt("fans",userInfo.getFans());// 粉丝数
+                    edit.putInt("star",userInfo.getStar());// 关注数
+                    edit.putInt("sex",userInfo.getSex());// 性别
+                    edit.putString("introduce",userInfo.getIntroduce());// 个人介绍
                     edit.commit();
 
                 } catch (IOException e) {

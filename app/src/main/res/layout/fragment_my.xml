@@ -16,8 +16,8 @@
 
         <ImageView
             android:id="@+id/userAvatar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="53dp"
+            android:layout_height="53dp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
@@ -75,10 +75,10 @@
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="8dp"
-            android:text="关注:24"
+
             android:textColor="#333333"
             android:textSize="18sp" />
-
+        <!--android:text="关注:24"-->
         <TextView
             android:id="@+id/fanQuantity"
             android:layout_width="wrap_content"
@@ -88,9 +88,10 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="8dp"
             android:layout_toRightOf="@+id/attentionQuantity"
-            android:text="粉丝:24"
             android:textColor="#333333"
             android:textSize="18sp" />
+       <!-- android:text="粉丝:24"-->
+
     </RelativeLayout>
 
 
