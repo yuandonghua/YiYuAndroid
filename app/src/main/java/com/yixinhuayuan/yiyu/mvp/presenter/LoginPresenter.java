@@ -356,12 +356,13 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
                     edit.putInt("status", userInfo.getStatus());
                     edit.putString("nick_name", userInfo.getNickname());// 昵称
                     edit.putString("header", userInfo.getPhoto());// 头像
-                    edit.putInt("fans",userInfo.getFans());// 粉丝数
-                    edit.putInt("star",userInfo.getStar());// 关注数
-                    edit.putInt("sex",userInfo.getSex());// 性别
-                    edit.putString("introduce",userInfo.getIntroduce());// 个人介绍
+                    edit.putInt("fans", userInfo.getFans());// 粉丝数
+                    edit.putInt("star", userInfo.getStar());// 关注数
+                    edit.putInt("sex", userInfo.getSex());// 性别
+                    edit.putString("introduce", userInfo.getIntroduce());// 个人介绍
                     edit.commit();
 
+                    ((Activity) mRootView).finish();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

@@ -1,6 +1,9 @@
 package com.yixinhuayuan.yiyu.mvp.ui.activity;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -143,16 +146,16 @@ public class PersonalCenterActivity extends BaseActivity<PersonalCenterPresenter
      * 初始化我的界面用户简介数据
      */
     private void initUserInfo() {
-        SPUserInfo.setContext(this);
+        @SuppressLint("WrongConstant")
+        SharedPreferences spUsererInfo = getSharedPreferences(getBaseContext().getPackageName(), Context.MODE_APPEND);
         // 设置昵称
-        nickName.setText(SPUserInfo.spUserInfo().getString("nick_name", null));
+        nickName.setText(spUsererInfo.getString("nick_name", null));
         // 设置关注数
-        star.setText("关注:" + SPUserInfo.spUserInfo().getInt("star", 0));
+        star.setText("关注:" + spUsererInfo.getInt("star", 0));
         // 设置粉丝数
-        fans.setText("粉丝:" + SPUserInfo.spUserInfo().getInt("fans", 0));
+        fans.setText("粉丝:" + spUsererInfo.getInt("fans", 0));
         // 设置个性签名
-        userSign.setText(SPUserInfo.spUserInfo().getString("introduce", null));
+        userSign.setText(spUsererInfo.getString("introduce", null));
 
-        SPUserInfo.delContext();
     }
 }

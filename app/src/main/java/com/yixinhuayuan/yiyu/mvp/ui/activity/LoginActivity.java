@@ -1,7 +1,9 @@
 package com.yixinhuayuan.yiyu.mvp.ui.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -34,6 +36,7 @@ import com.yixinhuayuan.yiyu.mvp.model.QQLoginModel;
 import com.yixinhuayuan.yiyu.mvp.presenter.LoginPresenter;
 
 import com.yixinhuayuan.yiyu.R;
+import com.yixinhuayuan.yiyu.wxapi.WXEntryActivity;
 
 
 import org.json.JSONObject;
@@ -60,6 +63,8 @@ import static com.tencent.mm.opensdk.modelmsg.SendMessageToWX.Req.WXSceneTimelin
  * ================================================
  */
 public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginContract.View {
+
+    public static boolean is_login;
     /**
      * 返回按钮
      */
@@ -109,6 +114,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public int initView(@Nullable Bundle savedInstanceState) {
+
         return R.layout.activity_login; //如果你不需要框架帮你设置 setContentView(id) 需要自行设置,请返回 0
     }
 
@@ -129,6 +135,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         if (mSsoHandler == null) {
             mSsoHandler = new SsoHandler(LoginActivity.this);
         }
+
     }
 
 
@@ -212,4 +219,30 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     }
 
+    @Override
+    protected void onRestart() {
+        Log.d(TAG, "onRestart: 关闭LoginActivity");
+            this.finish();
+        super.onRestart();
+
+    }
+
+    @Override
+    protected void onResume() {
+        Log.d(TAG, "onResume: 关闭LoginActivity");
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        Log.d(TAG, "onPause: 关闭LoginActivity");
+        super.onPause();
+    }
+
+    /**
+     * 关闭LoginActivity
+     */
+    public static void finishLogin() {
+        new LoginActivity().finish();
+    }
 }

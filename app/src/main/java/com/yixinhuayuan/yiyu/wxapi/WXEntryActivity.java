@@ -25,6 +25,7 @@ import com.yixinhuayuan.yiyu.app.utils.GlobalGetOrPostRequest;
 import com.yixinhuayuan.yiyu.app.utils.GlobalHttpClient;
 import com.yixinhuayuan.yiyu.app.utils.jsoninstance.UserInfoJson;
 import com.yixinhuayuan.yiyu.app.utils.jsoninstance.LoginDataJson;
+import com.yixinhuayuan.yiyu.mvp.ui.activity.LoginActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,6 +47,7 @@ import okhttp3.ResponseBody;
  * 在微信授权页面,授权成功后(点击授权按钮)会回调该Activity进行用户数据的获取
  */
 public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler {
+
     /**
      * 获取微信数据的网络请求url
      */
@@ -59,7 +61,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
     TextView wxInfo;
 
     // 微信是否登录
-    private static boolean IS_LOGIN = false;
+    public static boolean IS_LOGIN = false;
     // IWXAPI 是第三方app和微信通信的openapi接口
     private IWXAPI wxapi;
 
@@ -254,10 +256,11 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
     /**
      * 在艺语的服务器上 通过微信数据进行登录/注册,并获取艺语服务器上的用户数据
      *
-     * @param openId
+     * @param wxopenId
      */
-    private void WXRegistryUser(String openId) {
-
+    private void WXRegistryUser(String wxopenId) {
+        @SuppressLint("WrongConstant")
+        SharedPreferences spUsererInfo = getSharedPreferences(getBaseContext().getPackageName(), Context.MODE_APPEND);
 
         new Thread() {
             @Override
@@ -270,21 +273,22 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                  */
                 OkHttpClient httpClient = new OkHttpClient();
                 FormBody.Builder loginBody = new FormBody.Builder();
-                loginBody.add("account", openId)
-                        .add("type", "3")
-                        .add("nickname", "微信一")
+                loginBody.add("account", wxopenId)
+                        .add("type", "2")
+                        .add("nickname", "QQ一")
                         .add("sex", "0")
                         .add("photo", "www.baidu.com");
                 // 请求登录/注册接口
                 Request wxLogin = new Request.Builder()
-                        .url("http://yy.363626256.top/api/wxLogin")
+                        .url("http://yy.363626256.top/api/login")
                         .post(loginBody.build())
                         .build();
                 try {
                     // 得到请求登录注册接口返回的数据
                     Response loginData = httpClient.newCall(wxLogin).execute();
                     // 解析注册或登录返回的数据
-                    LoginDataJson loginJson = new Gson().fromJson(loginData.body().string(), LoginDataJson.class);
+                    Log.d(TAG, "登录接口返回的数据:" + loginData.body().string());
+                    // LoginDataJson loginJson = new Gson().fromJson(loginData.body().string(), LoginDataJson.class);
                     // 获取到注册或登录的请求头参数
                     String authorization = loginData.headers().get("Authorization");
                     Log.d("WXRegistryUser", "注册用户请求头信息:" + authorization);
@@ -301,18 +305,17 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                             .addHeader("Authorization", authorization)
                             .build();
                     // 获取到 获取用户信息接口返回的数据
-                    Response userInfoData = httpClient.newCall(wxLogin).execute();
+                    Response userInfoData = httpClient.newCall(getUserInfo).execute();
                     UserInfoJson userInfoJson = new Gson().fromJson(userInfoData.body().string(), UserInfoJson.class);
                     UserInfoJson.DataBean userInfo = userInfoJson.getData();
 
                     Log.d("WXRegistryUser", "获取到的用户数据Code:" + userInfoJson.getCode());
 
                     // 保存登录状态户用户数据
-                    @SuppressLint("WrongConstant")
-                    SharedPreferences spUsererInfo = getSharedPreferences(getBaseContext().getPackageName(), Context.MODE_APPEND);
                     SharedPreferences.Editor edit = spUsererInfo.edit();
                     edit.putString("authorization", authorization);
                     edit.putBoolean("is_login", userInfoJson.isStatus());// 是否登录成功
+                    LoginActivity.is_login= userInfoJson.isStatus();
                     edit.putInt("id", userInfo.getId());// ID
                     edit.putInt("user_id", userInfo.getUser_id());// USER_ID
                     edit.putString("account", userInfo.getAccount());
@@ -325,10 +328,17 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                     edit.putInt("sex", userInfo.getSex());// 性别
                     edit.putString("introduce", userInfo.getIntroduce());// 个人介绍
                     edit.commit();
+                    Thread.sleep(500);
+
                 } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
+
         }.start();
+        Log.d(TAG, "WXEntryActivity:是否登录识别--->"+spUsererInfo.getBoolean("is_login",false));
+        this.finish();
     }
 }

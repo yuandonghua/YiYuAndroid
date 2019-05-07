@@ -12,6 +12,7 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -117,7 +118,6 @@ public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.
         return inflater.inflate(R.layout.fragment_my, container, false);
     }
 
-    public int a = 0;
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
@@ -338,21 +338,54 @@ public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.
         startActivity(new Intent(this.getContext(), MfgtFavoritesActivity.class));
     }
 
+
+    //是否第一次加载
+    private boolean isFirstLoading = true;
+
+    /**
+     * 在fragment可见的时候，刷新数据
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (!isFirstLoading) {
+            //如果不是第一次加载，刷新数据
+            initUserInfo();
+        }
+
+        isFirstLoading = false;
+    }
+
     /**
      * 初始化我的界面用户简介数据
      */
     private void initUserInfo() {
-        SPUserInfo.setContext(getContext());
+        @SuppressLint("WrongConstant")
+        SharedPreferences spUsererInfo =this.getActivity().getSharedPreferences(this.getActivity().getBaseContext().getPackageName(), Context.MODE_APPEND);
         // 设置昵称
-        nickName.setText(SPUserInfo.spUserInfo().getString("nick_name", null));
+        nickName.setText(spUsererInfo.getString("nick_name", null));
         // 设置关注数
-        star.setText("关注:" + SPUserInfo.spUserInfo().getInt("star", 0));
+        star.setText("关注:" + spUsererInfo.getInt("star", 0));
         // 设置粉丝数
-        fans.setText("粉丝:" + SPUserInfo.spUserInfo().getInt("fans", 0));
+        fans.setText("粉丝:" + spUsererInfo.getInt("fans", 0));
         // 设置个性签名
-        userSign.setText(SPUserInfo.spUserInfo().getString("introduce", null));
+        userSign.setText(spUsererInfo.getString("introduce", null));
 
-        SPUserInfo.delContext();
+        // 设置昵称
+        Log.d(TAG, "initUserInfo: "+spUsererInfo.getString("nick_name", null));
+        nickName.setText(spUsererInfo.getString("nick_name", null));
+        // 设置关注数
+        Log.d(TAG, "initUserInfo: "+spUsererInfo.getInt("star", 1));
+        star.setText("关注:" + spUsererInfo.getInt("star", 0));
+        // 设置粉丝数
+        Log.d(TAG, "initUserInfo: "+spUsererInfo.getInt("fans", 1));
+        fans.setText("粉丝:" + spUsererInfo.getInt("fans", 0));
+        // 设置个性签名
+        Log.d(TAG, "initUserInfo: "+spUsererInfo.getString("introduce", null));
+        userSign.setText(spUsererInfo.getString("introduce", null));
+
+
     }
 
 }

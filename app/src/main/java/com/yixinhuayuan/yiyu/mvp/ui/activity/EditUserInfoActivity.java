@@ -1,33 +1,32 @@
 package com.yixinhuayuan.yiyu.mvp.ui.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 
 import com.tencent.tac.storage.TACStorageReference;
 import com.tencent.tac.storage.TACStorageService;
+import com.yixinhuayuan.yiyu.app.utils.jsoninstance.EditUserInfoJson;
+import com.yixinhuayuan.yiyu.app.utils.jsoninstance.UserInfoJson;
 import com.yixinhuayuan.yiyu.app.utils.userinfo.SPUserInfo;
 import com.yixinhuayuan.yiyu.di.component.DaggerEditUserInfoComponent;
 import com.yixinhuayuan.yiyu.mvp.contract.EditUserInfoContract;
@@ -42,6 +41,8 @@ import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -278,7 +279,8 @@ public class EditUserInfoActivity extends BaseActivity<EditUserInfoPresenter> im
         new Thread() {
             @Override
             public void run() {
-                SPUserInfo.setContext(EditUserInfoActivity.this);
+                @SuppressLint("WrongConstant")
+                SharedPreferences spUsererInfo = getSharedPreferences(getBaseContext().getPackageName(), Context.MODE_APPEND);
                 OkHttpClient client = new OkHttpClient();
                 FormBody.Builder changeBody = new FormBody.Builder();
                 changeBody.add("nickname", editNickName.getText().toString())
@@ -289,18 +291,43 @@ public class EditUserInfoActivity extends BaseActivity<EditUserInfoPresenter> im
                 Request save = new Request.Builder()
                         .url("http://yy.363626256.top/api/v1/user/userInfo")
                         .put(changeBody.build())
-                        .addHeader("authorization", SPUserInfo.spUserInfo().getString("authorization", null))
+                        .addHeader("authorization", spUsererInfo.getString("authorization", null))
                         .build();
-                try {
-                    // 获取修改后的用户信息
-                    Response saveData = client.newCall(save).execute();
-                    Log.d("SAVE", saveData.body().string());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                // 获取修改后的用户信息
+                client.newCall(save).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
 
-                SPUserInfo.delContext();
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        int code = response.code();
+                        Log.d("SAVE", "修改信息的状态码:"+code+"");
+                       /* FormBody.Builder userInfoBody = new FormBody.Builder();
+                        Request getUserInfo = new Request.Builder()
+                                .url("http://yy.363626256.top/api/me")
+                                .post(userInfoBody.build())
+                                .addHeader("Authorization", SPUserInfo.spUserInfo().getString("authorization",""))
+                                .build();
+                        Response userInfoData = client.newCall(getUserInfo).execute();
+                        // 保存修改后的用户信息
+                        Gson gson = new Gson();
+                        UserInfoJson userInfoJson = gson.fromJson(userInfoData.body().string(),UserInfoJson.class);
+                        UserInfoJson.DataBean userInfo = userInfoJson.getData();
+                        @SuppressLint("WrongConstant")
+                        SharedPreferences spUsererInfo = getSharedPreferences(getBaseContext().getPackageName(), Context.MODE_APPEND);
+                        SharedPreferences.Editor edit = spUsererInfo.edit();
+                        edit.putString("nick_name", userInfo.getNickname());// 昵称
+                        edit.putString("header", userInfo.getPhoto());// 头像
+                        edit.putInt("sex", userInfo.getSex());// 性别
+                        edit.putString("introduce", userInfo.getIntroduce());// 个人介绍
+                        edit.commit();*/
+                    }
+                });
+
             }
         }.start();
+        this.finish();
     }
 }
