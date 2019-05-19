@@ -372,18 +372,10 @@ public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.
         // 设置个性签名
         userSign.setText(spUsererInfo.getString("introduce", null));
 
-        // 设置昵称
         Log.d(TAG, "initUserInfo: "+spUsererInfo.getString("nick_name", null));
-        nickName.setText(spUsererInfo.getString("nick_name", null));
-        // 设置关注数
         Log.d(TAG, "initUserInfo: "+spUsererInfo.getInt("star", 1));
-        star.setText("关注:" + spUsererInfo.getInt("star", 0));
-        // 设置粉丝数
         Log.d(TAG, "initUserInfo: "+spUsererInfo.getInt("fans", 1));
-        fans.setText("粉丝:" + spUsererInfo.getInt("fans", 0));
-        // 设置个性签名
         Log.d(TAG, "initUserInfo: "+spUsererInfo.getString("introduce", null));
-        userSign.setText(spUsererInfo.getString("introduce", null));
 
 
     }

@@ -25,6 +25,7 @@
             android:src="@drawable/arrow_left_back2" />
 
         <TextView
+            android:id="@+id/tv_title_mworks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -35,7 +36,8 @@
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_myfgtmyworks_list"
+        android:background="@color/background_color1"
+        android:id="@+id/rv_workslist_mmwa"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>

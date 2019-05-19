@@ -1,14 +1,27 @@
 package com.yixinhuayuan.yiyu.mvp.ui.activity.in_myfragment;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.OrientationHelper;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
 
+import com.dim.widget.EditText;
+import com.dim.widget.LinearLayout;
 import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 
+import com.yixinhuayuan.yiyu.app.utils.adapter.WorksListAdapter;
 import com.yixinhuayuan.yiyu.di.component.DaggerMfgtMyWorksComponent;
 import com.yixinhuayuan.yiyu.mvp.contract.MfgtMyWorksContract;
 import com.yixinhuayuan.yiyu.mvp.presenter.MfgtMyWorksPresenter;
@@ -16,7 +29,14 @@ import com.yixinhuayuan.yiyu.mvp.presenter.MfgtMyWorksPresenter;
 import com.yixinhuayuan.yiyu.R;
 
 
+import java.io.IOException;
+
+import butterknife.BindView;
 import butterknife.OnClick;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -34,6 +54,9 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * ================================================
  */
 public class MfgtMyWorksActivity extends BaseActivity<MfgtMyWorksPresenter> implements MfgtMyWorksContract.View {
+    // 拿到用于展示作品集列表的recycleview实例
+    @BindView(R.id.rv_workslist_mmwa)
+    RecyclerView worksList;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -52,7 +75,8 @@ public class MfgtMyWorksActivity extends BaseActivity<MfgtMyWorksPresenter> impl
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-
+        // 初始化作品集列表
+        setWorksListAdapter();
     }
 
     @Override
@@ -88,6 +112,17 @@ public class MfgtMyWorksActivity extends BaseActivity<MfgtMyWorksPresenter> impl
     @OnClick(R.id.iv_mfgtmyworks_back)
     void back() {
         this.finish();
+    }
+
+
+    private void setWorksListAdapter() {
+        GridLayoutManager manager = new GridLayoutManager(this,2);
+        worksList.setLayoutManager(manager);
+        manager.setOrientation(OrientationHelper.VERTICAL);
+        WorksListAdapter adapter = new WorksListAdapter(this);
+        worksList.setAdapter(adapter);
+        worksList.setItemAnimator(new DefaultItemAnimator());
+
     }
 
 
