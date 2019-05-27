@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.yixinhuayuan.yiyu">
 
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -10,6 +9,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
     <application
         android:name="com.jess.arms.base.BaseApplication"
         android:allowBackup="true"
@@ -17,7 +17,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".mvp.ui.activity.in_myfragment.MfgtFavoritesActivity"></activity>
+        <activity android:name=".mvp.ui.activity.in_publichfragment.PublishWorkActivity"></activity>
+        <activity android:name=".mvp.ui.activity.in_publichfragment.PublishTrendActivity" />
+        <activity android:name=".mvp.ui.activity.in_publichfragment.SelectPublishActivity" />
+        <activity android:name=".mvp.ui.activity.in_myfragment.MfgtFavoritesActivity" />
         <activity android:name=".mvp.ui.activity.in_myfragment.MfgtTrendsActivity" />
         <activity android:name=".mvp.ui.activity.in_myfragment.MfgtMyWorksActivity" />
         <activity android:name=".mvp.ui.activity.in_myfragment.MfgtSettingActivity" />

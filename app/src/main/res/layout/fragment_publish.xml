@@ -11,4 +11,22 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="发布" />
+
+    <Button
+        android:id="@+id/btn_publishtrend_spa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView4"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="动态" />
+
+    <Button
+        android:id="@+id/btn_publiswork_spa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_publishtrend_spa"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="作品" />
 </RelativeLayout>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_name_publishwork"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="作品名*"
+        android:textColor="#000000"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tv_class_publishwork"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_name_publishwork"
+        android:layout_marginTop="15dp"
+        android:text="类别*"
+        android:textColor="#000000"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tv_size_publishwork"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_class_publishwork"
+        android:layout_marginTop="15dp"
+        android:text="尺寸"
+        android:textColor="#000000"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tv_time_publishwork"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_size_publishwork"
+        android:layout_marginTop="15dp"
+        android:text="创作年代"
+        android:textColor="#000000"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tv_introduction_publishwork"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_time_publishwork"
+        android:layout_marginTop="15dp"
+        android:text="作品介绍"
+        android:textColor="#000000"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/et_introduction_publishwork"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tv_introduction_publishwork"
+        android:layout_marginTop="15dp"
+        android:background="@null"
+        android:gravity="start"
+        android:hint="输入创作理念或创作背景..."
+        android:textColor="#000000"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/et_name_publishwork"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="15dp"
+        android:layout_toRightOf="@id/tv_name_publishwork"
+        android:background="@null"
+        android:hint="输入作品名"
+        android:textColorHint="#C3C3C3"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tv_select_workclass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_name_publishwork"
+        android:layout_alignLeft="@id/et_name_publishwork"
+        android:layout_marginTop="15dp"
+        android:drawableRight="@drawable/arrow_right"
+        android:text="选择类别"
+        android:textColor="#C3C3C3"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tv_select_worksize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_select_workclass"
+        android:layout_alignLeft="@id/et_name_publishwork"
+        android:layout_marginTop="15dp"
+        android:drawableRight="@drawable/arrow_right"
+        android:text="选择尺寸"
+        android:textColor="#C3C3C3"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/et_time_worktime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_select_worksize"
+        android:layout_alignLeft="@id/et_name_publishwork"
+        android:layout_marginTop="15dp"
+        android:text="输入创作年代"
+        android:textColor="#C3C3C3"
+        android:textSize="18sp" />
+</RelativeLayout>

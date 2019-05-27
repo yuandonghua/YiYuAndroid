@@ -20,6 +20,10 @@ import com.yixinhuayuan.yiyu.mvp.contract.PublishContract;
 import com.yixinhuayuan.yiyu.mvp.presenter.PublishPresenter;
 
 import com.yixinhuayuan.yiyu.R;
+import com.yixinhuayuan.yiyu.mvp.ui.activity.in_publichfragment.PublishTrendActivity;
+import com.yixinhuayuan.yiyu.mvp.ui.activity.in_publichfragment.PublishWorkActivity;
+
+import butterknife.OnClick;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -129,5 +133,21 @@ public class PublishFragment extends BaseFragment<PublishPresenter> implements P
     @Override
     public void killMyself() {
 
+    }
+
+    /**
+     * 发布动态
+     */
+    @OnClick(R.id.btn_publishtrend_spa)
+    void publishTrend() {
+        startActivity(new Intent(this.getContext(), PublishTrendActivity.class));
+    }
+
+    /**
+     * 发布作品
+     */
+    @OnClick(R.id.btn_publiswork_spa)
+    void publishWork() {
+        startActivity(new Intent(this.getContext(), PublishWorkActivity.class));
     }
 }

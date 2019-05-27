@@ -114,14 +114,52 @@ public class MfgtMyWorksActivity extends BaseActivity<MfgtMyWorksPresenter> impl
         this.finish();
     }
 
-
+    /**
+     *
+     */
     private void setWorksListAdapter() {
-        GridLayoutManager manager = new GridLayoutManager(this,2);
+        httpData();
+        GridLayoutManager manager = new GridLayoutManager(this, 2);
         worksList.setLayoutManager(manager);
         manager.setOrientation(OrientationHelper.VERTICAL);
         WorksListAdapter adapter = new WorksListAdapter(this);
         worksList.setAdapter(adapter);
         worksList.setItemAnimator(new DefaultItemAnimator());
+
+    }
+
+
+    public void httpData() {
+
+        new Thread() {
+            @Override
+            public void run() {
+                @SuppressLint("WrongConstant")
+                SharedPreferences spUsererInfo = getSharedPreferences(getBaseContext().getPackageName(), Context.MODE_APPEND);
+                String string = spUsererInfo.getString("authorization", "Bearer anEisUMtAbGEbKvlxmNNPliECaph6r7FMAZQpVbv");
+                OkHttpClient client = new OkHttpClient();
+                // http://yy.363626256.top/api/v1/userClassify?user_id=7
+                String user_id = spUsererInfo.getInt("user_id", 7)+"";
+                FormBody.Builder body = new FormBody.Builder();
+                body.add("user_id",user_id);
+                Request builder = new Request.Builder()
+                        .url("http://yy.363626256.top/api/v1/userClassify")
+                        .post(body.build())
+                        //.addHeader("authorization", string)
+                        .build();
+                try {
+                    Response execute = client.newCall(builder).execute();
+
+                    String str = execute.body().string().toString();
+                    Log.d("YCHTEST",
+                            "code: " + execute.code() +
+                                    "||||" + str);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
 
     }
 
