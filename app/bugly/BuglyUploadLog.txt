@@ -22,3 +22,11 @@ file=D:\ThePcDesktop\YiYu\YiYuAndroid\app\build\outputs\mapping\release\mapping.
 sha1=5c2e8aea219806f439035ac4e2a70c508c96af55
 appId=6e5afd43cb
 
+file=D:\ThePcDesktop\YiYu\YiYuAndroid\app\build\outputs\mapping\debug\mapping.txt
+sha1=ca9630ac32c95c7ea57822f3f03c8da04f3e91fb
+appId=6e5afd43cb
+
+file=D:\ThePcDesktop\YiYu\YiYuAndroid\app\build\outputs\mapping\release\mapping.txt
+sha1=fbf297e8d4b6a9635a283e1c07c7d2e655247240
+appId=6e5afd43cb
+

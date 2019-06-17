@@ -5,4 +5,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <ImageView
+        android:layout_gravity="center"
+        android:src="@drawable/art_work2"
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
 </LinearLayout>

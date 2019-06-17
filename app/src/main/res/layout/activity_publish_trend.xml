@@ -44,8 +44,11 @@
     </RelativeLayout>
 
     <EditText
-        android:background="@drawable/trends_background"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:layout_margin="10dp" />
+        android:layout_margin="10dp"
+        android:background="@drawable/trends_background"
+        android:gravity="start"
+        android:textColor="#000000"
+        android:textSize="18sp" />
 </LinearLayout>

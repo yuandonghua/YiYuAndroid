@@ -1,15 +1,17 @@
 package com.yixinhuayuan.yiyu.mvp.presenter;
 
-import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 
+import com.dim.widget.ImageView;
+import com.dim.widget.TextView;
 import com.jess.arms.integration.AppManager;
 import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.mvp.BasePresenter;
@@ -24,11 +26,13 @@ import com.jpeng.jptabbar.OnTabSelectListener;
 import com.yixinhuayuan.yiyu.R;
 import com.yixinhuayuan.yiyu.mvp.contract.MainContract;
 import com.yixinhuayuan.yiyu.mvp.ui.activity.MainActivity;
+import com.yixinhuayuan.yiyu.mvp.ui.activity.in_publichfragment.PublishTrendActivity;
+import com.yixinhuayuan.yiyu.mvp.ui.activity.in_publichfragment.PublishWorkActivity;
 import com.yixinhuayuan.yiyu.mvp.ui.fragment.HomeFragment;
 import com.yixinhuayuan.yiyu.mvp.ui.fragment.MessageFragment;
 import com.yixinhuayuan.yiyu.mvp.ui.fragment.MyFragment;
-import com.yixinhuayuan.yiyu.mvp.ui.fragment.PublishFragment;
 import com.yixinhuayuan.yiyu.mvp.ui.fragment.TrendsFragment;
+import com.yixinhuayuan.yiyu.mvp.ui.view.dialog.MyDialog;
 
 
 /**
@@ -153,13 +157,16 @@ public class MainPresenter extends BasePresenter<MainContract.Model, MainContrac
                         }
                         break;
                     case PUBLISH:
-                        hideAllFragment();
+                        /*hideAllFragment();
                         if (publish == null) {
                             publish = new PublishFragment();
                             fragmentTransaction.add(R.id.nav_host_fragment, publish).commit();
                         } else {
                             fragmentTransaction.show(publish).commit();
-                        }
+                        }*/
+                        // 跳转到选择发布界面
+                        setSelectPublishDialog(jpTabBar);
+                        //((Activity) mRootView).startActivity(new Intent(((Activity) mRootView), SelectPublishActivity.class));
                         break;
                     case MESSAGE:
                         hideAllFragment();
@@ -209,4 +216,48 @@ public class MainPresenter extends BasePresenter<MainContract.Model, MainContrac
             fragmentTransaction.hide(my);
         }
     }
+
+    /**
+     * 点击 发布 出现的选择是发布动态还是发布作品的界面
+     * @param jpTabBar
+     */
+    private void setSelectPublishDialog(JPTabBar jpTabBar) {
+
+        MyDialog dialog = new MyDialog((MainActivity) mRootView);
+        View view = LayoutInflater.from((MainActivity) mRootView).inflate(R.layout.layout_select_publish_dialog, null);
+        dialog.show();
+        dialog.setContentView(view);
+        TextView trends = dialog.findViewById(R.id.tv_selecttrends_spdialog);
+        TextView woeks = dialog.findViewById(R.id.tv_selectwork_spdialog);
+        ImageView select = dialog.findViewById(R.id.iv_isselect_publish);
+
+        /**
+         * 跳转到发布动态界面
+         */
+        trends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) mRootView).startActivity(new Intent((MainActivity) mRootView, PublishTrendActivity.class));
+            }
+        });
+        /**
+         * 跳转到发布作品界面
+         */
+        woeks.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) mRootView).startActivity(new Intent((MainActivity) mRootView, PublishWorkActivity.class));
+            }
+        });
+        /**
+         * 关闭当前选着发布类型界面dialog
+         */
+        select.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+    }
+
 }

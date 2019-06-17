@@ -19,7 +19,9 @@
         android:theme="@style/AppTheme">
         <activity android:name=".mvp.ui.activity.in_publichfragment.PublishWorkActivity"></activity>
         <activity android:name=".mvp.ui.activity.in_publichfragment.PublishTrendActivity" />
-        <activity android:name=".mvp.ui.activity.in_publichfragment.SelectPublishActivity" />
+        <activity
+            android:name=".mvp.ui.activity.in_publichfragment.SelectPublishActivity"
+            android:theme="@style/Theme.WindowActivity" />
         <activity android:name=".mvp.ui.activity.in_myfragment.MfgtFavoritesActivity" />
         <activity android:name=".mvp.ui.activity.in_myfragment.MfgtTrendsActivity" />
         <activity android:name=".mvp.ui.activity.in_myfragment.MfgtMyWorksActivity" />

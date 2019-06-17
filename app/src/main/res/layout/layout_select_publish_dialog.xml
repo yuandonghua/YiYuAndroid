@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent">
+
+
+    <TextView
+        android:id="@+id/tv_selecttrends_spdialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/iv_isselect_publish"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="50dp"
+        android:layout_marginBottom="35dp"
+        android:background="@drawable/select_publish_bag"
+        android:gravity="center"
+        android:text="动态"
+        android:textColor="#000000"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tv_selectwork_spdialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/iv_isselect_publish"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="50dp"
+        android:layout_marginBottom="35dp"
+        android:background="@drawable/select_publish_bag"
+        android:gravity="center"
+        android:text="作品"
+        android:textColor="#000000"
+        android:textSize="18sp" />
+
+
+    <ImageView
+        android:id="@+id/iv_isselect_publish"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:src="@drawable/select_publish" />
+
+</RelativeLayout>
