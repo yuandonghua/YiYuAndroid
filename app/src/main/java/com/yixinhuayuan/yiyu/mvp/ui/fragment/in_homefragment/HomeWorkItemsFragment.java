@@ -1,4 +1,4 @@
-package com.yixinhuayuan.yiyu.mvp.ui.fragment;
+package com.yixinhuayuan.yiyu.mvp.ui.fragment.in_homefragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +17,10 @@ import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 
-import com.yixinhuayuan.yiyu.app.utils.adapter.InitHomeViewAdapter;
-import com.yixinhuayuan.yiyu.di.component.DaggerHomeComponent;
-import com.yixinhuayuan.yiyu.mvp.contract.HomeContract;
-import com.yixinhuayuan.yiyu.mvp.presenter.HomePresenter;
+import com.yixinhuayuan.yiyu.app.utils.adapter.InitItemsHomeAdapter;
+import com.yixinhuayuan.yiyu.di.component.DaggerHomeWorkItemsComponent;
+import com.yixinhuayuan.yiyu.mvp.contract.HomeWorkItemsContract;
+import com.yixinhuayuan.yiyu.mvp.presenter.HomeWorkItemsPresenter;
 
 import com.yixinhuayuan.yiyu.R;
 
@@ -34,24 +33,25 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * ================================================
  * Description:
  * <p>
- * Created by MVPArmsTemplate on 01/16/2019 00:34
- * <parseJsonUserInfo href="mailto:jess.yan.effort@gmail.com">Contact me</parseJsonUserInfo>
- * <parseJsonUserInfo href="https://github.com/JessYanCoding">Follow me</parseJsonUserInfo>
- * <parseJsonUserInfo href="https://github.com/JessYanCoding/MVPArms">Star me</parseJsonUserInfo>
- * <parseJsonUserInfo href="https://github.com/JessYanCoding/MVPArms/wiki">See me</parseJsonUserInfo>
- * <parseJsonUserInfo href="https://github.com/JessYanCoding/MVPArmsTemplate">模版请保持更新</parseJsonUserInfo>
+ * Created by MVPArmsTemplate on 06/19/2019 01:34
+ * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
+ * <a href="https://github.com/JessYanCoding">Follow me</a>
+ * <a href="https://github.com/JessYanCoding/MVPArms">Star me</a>
+ * <a href="https://github.com/JessYanCoding/MVPArms/wiki">See me</a>
+ * <a href="https://github.com/JessYanCoding/MVPArmsTemplate">模版请保持更新</a>
  * ================================================
+ * 用来适配首页顶部导航每个选项对应的数据的模板,主要作用用来展示作品
  */
-public class HomeFragment extends BaseFragment<HomePresenter> implements HomeContract.View {
+public class HomeWorkItemsFragment extends BaseFragment<HomeWorkItemsPresenter> implements HomeWorkItemsContract.View {
 
-    public static HomeFragment newInstance() {
-        HomeFragment fragment = new HomeFragment();
+    public static HomeWorkItemsFragment newInstance() {
+        HomeWorkItemsFragment fragment = new HomeWorkItemsFragment();
         return fragment;
     }
 
     @Override
     public void setupFragmentComponent(@NonNull AppComponent appComponent) {
-        DaggerHomeComponent //如找不到该类,请编译一下项目
+        DaggerHomeWorkItemsComponent //如找不到该类,请编译一下项目
                 .builder()
                 .appComponent(appComponent)
                 .view(this)
@@ -61,13 +61,11 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 
     @Override
     public View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        return inflater.inflate(R.layout.fragment_home_work_items, container, false);
     }
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        // 初始化首页界面
-        initHomeView();
 
     }
 
@@ -139,23 +137,24 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 
     }
 
-    /**
-     * 初始化RecyclerView控件 用来初始化首页界面
-     */
-    @BindView(R.id.rv_works_home)
-    RecyclerView homeWorks;
 
     /**
-     * 初始化首页 界面(轮播图，标题框，作品条目)
+     * 初始化展示作品的RecyclerView
      */
-    protected void initHomeView() {
+    @BindView(R.id.rv_items_home)
+    private RecyclerView items;
 
+    /**
+     * 初始化首页展示作品的部分View的数据
+     */
+    private void inintItems() {
         // 设置布局管理器
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
-        homeWorks.setLayoutManager(manager);
+        items.setLayoutManager(manager);
         manager.setOrientation(LinearLayout.VERTICAL);
-        // 设置适配器
-        homeWorks.setAdapter(new InitHomeViewAdapter(getContext()));
+        // 设置适配器 注意
+        items.setAdapter(new InitItemsHomeAdapter(getContext()));
     }
+
 
 }

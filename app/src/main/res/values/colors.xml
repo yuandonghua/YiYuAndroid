@@ -21,7 +21,10 @@
 
     <color name="background_color1">#F2F2F2</color>
     <color name="background_color2">#FFFFFF</color>
-
+    <color name="textcolor1">#000007</color>
+    <color name="textcolor2">#515151</color>
+    <color name="textcolor3">#979797</color>
+    <color name="buttoncolr">#FFCC33</color>
     <!--底部导航栏标题选中颜色-->
     <color name="nav_title_color">#C83A3A</color>
 
