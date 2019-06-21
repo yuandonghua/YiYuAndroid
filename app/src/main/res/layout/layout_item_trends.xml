@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/rl_trends"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl2_home"
+        android:layout_marginBottom="5dp">
+
+        <ImageView
+            android:id="@+id/iv_header_trends"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="8dp"
+            android:src="@drawable/user_avatar" />
+
+        <TextView
+            android:id="@+id/tv_nick_trends"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/iv_header_trends"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/iv_header_trends"
+            android:text="秋天的言语"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_sign_trends"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/iv_header_trends"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/iv_header_trends"
+            android:text="未来的一切都还是未知" />
+
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/buttoncolr"
+            android:text="关注"
+            android:textColor="@color/white" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_introduction_trends"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_trends"
+        android:layout_margin="2dp"
+        android:gravity="start"
+        android:text="你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好"
+        android:textColor="@color/textcolor2"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/iv_img1_trends"
+        android:layout_width="226dp"
+        android:layout_height="300dp"
+        android:layout_below="@id/tv_introduction_trends"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+
+        android:background="@color/pink" />
+
+    <ImageView
+        android:id="@+id/iv_img2_trends"
+        android:layout_width="186dp"
+        android:layout_height="148dp"
+        android:layout_below="@id/tv_introduction_trends"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginBottom="2dp"
+        android:layout_toRightOf="@id/iv_img1_trends"
+        android:background="@color/buttoncolr" />
+
+    <ImageView
+        android:id="@+id/iv_img3_trends"
+        android:layout_width="186dp"
+        android:layout_height="148dp"
+        android:layout_below="@id/iv_img2_trends"
+        android:layout_marginLeft="2dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_toRightOf="@id/iv_img1_trends"
+        android:background="@color/colorPrimary" />
+
+</RelativeLayout>

@@ -71,10 +71,10 @@ public class InitItemsHomeAdapter extends RecyclerView.Adapter<InitItemsHomeAdap
 
     @Override
     public int getItemCount() {
-        if (nicks != null && nicks.length > 0) {
+      /*  if (nicks != null && nicks.length > 0) {
             return nicks.length;
-        }
-        return 0;
+        }*/
+        return 10;
     }
 
     protected class MyViewHolder extends RecyclerView.ViewHolder {
@@ -93,11 +93,11 @@ public class InitItemsHomeAdapter extends RecyclerView.Adapter<InitItemsHomeAdap
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             this.mainImage = itemView.findViewById(R.id.iv_workimg_home);
-            this.headerImage = itemView.findViewById(R.id.iv_header_home);
+            this.headerImage = itemView.findViewById(R.id.iv_header_trends);
             this.workName = itemView.findViewById(R.id.tv_workname_home);
             this.workType = itemView.findViewById(R.id.tv_worktype_home);
-            this.userNick = itemView.findViewById(R.id.tv_nick_home);
-            this.userSign = itemView.findViewById(R.id.tv_sign_home);
+            this.userNick = itemView.findViewById(R.id.tv_nick_trends);
+            this.userSign = itemView.findViewById(R.id.tv_sign_trends);
             this.messages = itemView.findViewById(R.id.tv_message_home);
             this.shares = itemView.findViewById(R.id.tv_share_home);
             this.group = itemView.findViewById(R.id.rg_attention_home);

@@ -6,19 +6,26 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.dim.widget.LinearLayout;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 
+import com.yixinhuayuan.yiyu.app.utils.adapter.TrendsAdapter;
 import com.yixinhuayuan.yiyu.di.component.DaggerTrendsComponent;
 import com.yixinhuayuan.yiyu.mvp.contract.TrendsContract;
 import com.yixinhuayuan.yiyu.mvp.presenter.TrendsPresenter;
 
 import com.yixinhuayuan.yiyu.R;
+
+import butterknife.BindView;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -59,7 +66,8 @@ public class TrendsFragment extends BaseFragment<TrendsPresenter> implements Tre
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-
+        // 初始化动态页面
+        inintTrendsList();
     }
 
     /**
@@ -129,4 +137,24 @@ public class TrendsFragment extends BaseFragment<TrendsPresenter> implements Tre
     public void killMyself() {
 
     }
+
+    /**
+     * 拿到TrendsFragment的RecyclerView,用来展示动态列表
+     */
+    @BindView(R.id.rv_trendslist_trends)
+    RecyclerView trendsView;
+
+    /**
+     * 初始化动态页的动态列表
+     */
+    private void inintTrendsList() {
+        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        trendsView.setLayoutManager(manager);
+        manager.setOrientation(LinearLayout.VERTICAL);
+        trendsView.setAdapter(new TrendsAdapter(getContext()));
+        trendsView.setItemAnimator(new DefaultItemAnimator());
+
+    }
+
+
 }

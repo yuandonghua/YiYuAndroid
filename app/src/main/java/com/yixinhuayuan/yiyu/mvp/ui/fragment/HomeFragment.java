@@ -6,6 +6,7 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -156,6 +157,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         manager.setOrientation(LinearLayout.VERTICAL);
         // 设置适配器
         homeWorks.setAdapter(new InitHomeViewAdapter(getContext()));
+        homeWorks.setItemAnimator(new DefaultItemAnimator());
     }
 
 }

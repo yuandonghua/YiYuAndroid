@@ -28,10 +28,6 @@ import com.yixinhuayuan.yiyu.mvp.presenter.MainPresenter;
 
 import com.yixinhuayuan.yiyu.R;
 
-
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
 import butterknife.BindView;
 import timber.log.Timber;
 
