@@ -33,8 +33,17 @@ public class TrendsAdapter extends RecyclerView.Adapter<TrendsAdapter.TrendsHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TrendsHolder trendsHolder, int i) {
+    public void onBindViewHolder(@NonNull TrendsHolder holder, int i) {
 
+        // 设置点击事件
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    listener.onClick(i);
+                }
+            }
+        });
     }
 
     @Override
@@ -47,6 +56,18 @@ public class TrendsAdapter extends RecyclerView.Adapter<TrendsAdapter.TrendsHold
         public TrendsHolder(@NonNull View itemView) {
             super(itemView);
         }
+    }
+
+    //第一步 定义接口
+    public interface OnItemClickListener {
+        void onClick(int position);
+    }
+
+    private OnItemClickListener listener;
+
+    //第二步， 写一个公共的方法
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
 

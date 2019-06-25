@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color2"
+    android:background="@color/background_gray"
     android:orientation="vertical">
 
     <ImageView
@@ -137,7 +137,7 @@
         android:layout_width="match_parent"
         android:layout_height="10dp"
         android:layout_below="@+id/edit_sex_layout"
-        android:background="@color/background_color1" />
+        android:background="@color/background_white" />
 
     <EditText
         android:background="@null"

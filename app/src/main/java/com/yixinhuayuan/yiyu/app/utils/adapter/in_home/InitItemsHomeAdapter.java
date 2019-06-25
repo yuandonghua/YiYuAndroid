@@ -1,4 +1,4 @@
-package com.yixinhuayuan.yiyu.app.utils.adapter;
+package com.yixinhuayuan.yiyu.app.utils.adapter.in_home;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -93,11 +93,11 @@ public class InitItemsHomeAdapter extends RecyclerView.Adapter<InitItemsHomeAdap
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             this.mainImage = itemView.findViewById(R.id.iv_workimg_home);
-            this.headerImage = itemView.findViewById(R.id.iv_header_trends);
+            this.headerImage = itemView.findViewById(R.id.iv_header_trendsitem);
             this.workName = itemView.findViewById(R.id.tv_workname_home);
             this.workType = itemView.findViewById(R.id.tv_worktype_home);
-            this.userNick = itemView.findViewById(R.id.tv_nick_trends);
-            this.userSign = itemView.findViewById(R.id.tv_sign_trends);
+            this.userNick = itemView.findViewById(R.id.tv_nick_trendsitem);
+            this.userSign = itemView.findViewById(R.id.tv_sign_trendsitem);
             this.messages = itemView.findViewById(R.id.tv_message_home);
             this.shares = itemView.findViewById(R.id.tv_share_home);
             this.group = itemView.findViewById(R.id.rg_attention_home);

@@ -24,6 +24,8 @@ import com.yixinhuayuan.yiyu.mvp.contract.TrendsContract;
 import com.yixinhuayuan.yiyu.mvp.presenter.TrendsPresenter;
 
 import com.yixinhuayuan.yiyu.R;
+import com.yixinhuayuan.yiyu.mvp.ui.activity.in_trends.TrendsAttentionsActivity;
+import com.yixinhuayuan.yiyu.mvp.ui.activity.in_trends.TrendsDetailsActivity;
 
 import butterknife.BindView;
 
@@ -151,7 +153,14 @@ public class TrendsFragment extends BaseFragment<TrendsPresenter> implements Tre
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         trendsView.setLayoutManager(manager);
         manager.setOrientation(LinearLayout.VERTICAL);
-        trendsView.setAdapter(new TrendsAdapter(getContext()));
+        TrendsAdapter adapter = new TrendsAdapter(getContext());
+        trendsView.setAdapter(adapter);
+        adapter.setOnItemClickListener(new TrendsAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(int position) {
+                startActivity(new Intent(getContext(), TrendsDetailsActivity.class));
+            }
+        });
         trendsView.setItemAnimator(new DefaultItemAnimator());
 
     }

@@ -1,4 +1,4 @@
-package com.yixinhuayuan.yiyu.app.utils.adapter;
+package com.yixinhuayuan.yiyu.app.utils.adapter.in_home;
 
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;

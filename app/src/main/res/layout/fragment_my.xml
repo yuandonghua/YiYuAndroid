@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color1"
+    android:background="@color/background_white"
     android:orientation="vertical"
     app:nightBackground="@color/night_bg"
     tools:ignore="MissingPrefix">
@@ -12,7 +12,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background_color2">
+        android:background="@color/background_gray">
 
         <ImageView
             android:id="@+id/userAvatar"
@@ -99,7 +99,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="@color/background_color2"
+        android:background="@color/background_gray"
         android:orientation="vertical">
 
         <TextView
@@ -161,7 +161,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="@color/background_color2"
+        android:background="@color/background_gray"
         android:drawableEnd="@drawable/arrow_right"
         android:paddingLeft="30dp"
         android:paddingTop="15dp"

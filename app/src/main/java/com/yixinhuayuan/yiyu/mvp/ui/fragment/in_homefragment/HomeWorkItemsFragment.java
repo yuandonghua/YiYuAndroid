@@ -18,7 +18,7 @@ import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 
-import com.yixinhuayuan.yiyu.app.utils.adapter.InitItemsHomeAdapter;
+import com.yixinhuayuan.yiyu.app.utils.adapter.in_home.InitItemsHomeAdapter;
 import com.yixinhuayuan.yiyu.di.component.DaggerHomeWorkItemsComponent;
 import com.yixinhuayuan.yiyu.mvp.contract.HomeWorkItemsContract;
 import com.yixinhuayuan.yiyu.mvp.presenter.HomeWorkItemsPresenter;

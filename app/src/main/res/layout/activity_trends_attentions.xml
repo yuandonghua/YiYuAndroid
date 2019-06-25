@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_white"
     android:orientation="vertical">
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -12,9 +12,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="5dp"
-        android:background="@color/background_white"
         android:gravity="center"
-        android:text="动态"
+        android:text="点赞的人数"
         android:textColor="@color/textcolor1"
         android:textSize="18dp" />
 
@@ -23,11 +22,12 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/btn_save_userinfo"
-        android:background="#BEBEBE" />
+        android:background="@color/textcolor3" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_trendslist_trends"
+        android:id="@+id/rv_view_trendsattention"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background_gray" />
+
 </LinearLayout>

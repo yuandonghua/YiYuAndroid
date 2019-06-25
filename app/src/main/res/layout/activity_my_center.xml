@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color1"
+    android:background="@color/background_white"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -107,7 +107,7 @@
         android:id="@+id/tabl_title_pca"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background_color2" />
+        android:background="@color/background_gray" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_content_pca"

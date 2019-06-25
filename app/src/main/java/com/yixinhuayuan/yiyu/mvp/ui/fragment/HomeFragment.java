@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,7 @@ import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 
-import com.yixinhuayuan.yiyu.app.utils.adapter.InitHomeViewAdapter;
+import com.yixinhuayuan.yiyu.app.utils.adapter.in_home.InitHomeViewAdapter;
 import com.yixinhuayuan.yiyu.di.component.DaggerHomeComponent;
 import com.yixinhuayuan.yiyu.mvp.contract.HomeContract;
 import com.yixinhuayuan.yiyu.mvp.presenter.HomePresenter;
@@ -68,7 +67,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         // 初始化首页界面
-        initHomeView();
+        // initHomeView();
 
     }
 
