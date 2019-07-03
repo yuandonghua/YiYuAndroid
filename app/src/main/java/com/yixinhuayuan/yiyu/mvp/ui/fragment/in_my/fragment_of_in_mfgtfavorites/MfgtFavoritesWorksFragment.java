@@ -1,4 +1,4 @@
-package com.yixinhuayuan.yiyu.mvp.ui.fragment.fragment_of_in_pcaactivity;
+package com.yixinhuayuan.yiyu.mvp.ui.fragment.in_my.fragment_of_in_mfgtfavorites;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,9 +14,9 @@ import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 
-import com.yixinhuayuan.yiyu.di.component.DaggerMyTrendsComponent;
-import com.yixinhuayuan.yiyu.mvp.contract.MyTrendsContract;
-import com.yixinhuayuan.yiyu.mvp.presenter.PcaMyTrendsPresenter;
+import com.yixinhuayuan.yiyu.di.component.DaggerMfgtFavoritesWorksComponent;
+import com.yixinhuayuan.yiyu.mvp.contract.MfgtFavoritesWorksContract;
+import com.yixinhuayuan.yiyu.mvp.presenter.MfgtFavoritesWorksPresenter;
 
 import com.yixinhuayuan.yiyu.R;
 
@@ -27,7 +27,7 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * ================================================
  * Description:
  * <p>
- * Created by MVPArmsTemplate on 03/30/2019 13:53
+ * Created by MVPArmsTemplate on 04/11/2019 01:44
  * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
  * <a href="https://github.com/JessYanCoding">Follow me</a>
  * <a href="https://github.com/JessYanCoding/MVPArms">Star me</a>
@@ -35,16 +35,16 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * <a href="https://github.com/JessYanCoding/MVPArmsTemplate">模版请保持更新</a>
  * ================================================
  */
-public class PcaMyTrendsFragment extends BaseFragment<PcaMyTrendsPresenter> implements MyTrendsContract.View {
+public class MfgtFavoritesWorksFragment extends BaseFragment<MfgtFavoritesWorksPresenter> implements MfgtFavoritesWorksContract.View {
 
-    public static PcaMyTrendsFragment newInstance() {
-        PcaMyTrendsFragment fragment = new PcaMyTrendsFragment();
+    public static MfgtFavoritesWorksFragment newInstance() {
+        MfgtFavoritesWorksFragment fragment = new MfgtFavoritesWorksFragment();
         return fragment;
     }
 
     @Override
     public void setupFragmentComponent(@NonNull AppComponent appComponent) {
-        DaggerMyTrendsComponent //如找不到该类,请编译一下项目
+        DaggerMfgtFavoritesWorksComponent //如找不到该类,请编译一下项目
                 .builder()
                 .appComponent(appComponent)
                 .view(this)
@@ -54,7 +54,7 @@ public class PcaMyTrendsFragment extends BaseFragment<PcaMyTrendsPresenter> impl
 
     @Override
     public View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_my_trends, container, false);
+        return inflater.inflate(R.layout.fragment_mfgt_favorites_works, container, false);
     }
 
     @Override

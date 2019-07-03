@@ -2,36 +2,45 @@ package com.yixinhuayuan.yiyu.app.utils.adapter.in_home;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.dim.widget.ImageView;
+import com.dim.widget.FrameLayout;
 import com.dim.widget.LinearLayout;
-import com.dim.widget.TextView;
 import com.yixinhuayuan.yiyu.R;
-import com.yixinhuayuan.yiyu.app.utils.adapter.MyAdapter;
+import com.yixinhuayuan.yiyu.mvp.ui.activity.MainActivity;
+import com.yixinhuayuan.yiyu.mvp.ui.fragment.in_home.HomeSlideshowFragment;
+import com.yixinhuayuan.yiyu.mvp.ui.fragment.in_home.HomeWorkItemsFragment;
+import com.yixinhuayuan.yiyu.mvp.ui.fragment.in_home.HomeWorksListFragment;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import retrofit2.http.POST;
 
 /**
  * 用来初始化 首页 的界面,由于首页的布局是一个可滑动的布局采用了RecyclerView加载不同布局来实现,这个适配器就是讲适配两个布局在同一个RecyclerView展示出来.
  */
-public class InitHomeViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class InitHomeViewAdapter extends RecyclerView.Adapter<InitHomeViewAdapter.HomeViewHolder> {
 
 
     private Context context;
     private LayoutInflater inflate;
-    // ViewPager要展示的作品分类Fragment
+    private static ArrayList<Fragment> items = new ArrayList<>();
+
+    /**
+     * 初始化 两个条目
+     */static {
+        InitHomeViewAdapter adapter = new InitHomeViewAdapter();
+        adapter.initWorksViewData();
+        items.add(new HomeSlideshowFragment());
+        items.add(HomeWorksListFragment.newInstance(adapter.classify, adapter.tabTitles));
+    }
+
+    private View view;
+
+    /* // ViewPager要展示的作品分类Fragment
     private List<Fragment> classify;
     // TabLayout的标题
     private String[] tabTitles;
@@ -45,39 +54,15 @@ public class InitHomeViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     // 轮播图标题
     private String[] titles;
     //
-    private int previousSelectedPosition = 0;
+    private int previousSelectedPosition = 0;*/
 
     public InitHomeViewAdapter(Context context) {
         this.context = context;
         this.inflate = LayoutInflater.from(this.context);
+        //initWorksViewData();
     }
 
-    public InitHomeViewAdapter(Context context, FragmentManager fragmentManager, List<Fragment> classify, String[] tabTitles) {
-        this.context = context;
-        this.classify = classify;
-        this.tabTitles = tabTitles;
-        this.fragmentManager = fragmentManager;
-        this.inflate = LayoutInflater.from(this.context);
-    }
-
-    /**
-     * 根据RecyclerView的id在加载不同的id
-     * 此方法个人感觉实在设置RecyclerView的id
-     *
-     * @param position
-     * @return
-     */
-    @Override
-    public int getItemViewType(int position) {
-        switch (position) {
-            case 0:
-                return 1;
-            case 1:
-                return 2;
-            default:
-                return super.getItemViewType(position);
-        }
-
+    public InitHomeViewAdapter() {
     }
 
     /**
@@ -90,19 +75,9 @@ public class InitHomeViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
      */
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-
-        RecyclerView.ViewHolder holder = null;
-        switch (i) {
-            case 1:
-                View view1 = this.inflate.inflate(R.layout.layout_slideshow_home, viewGroup, false);
-                holder = new MyViewHolder1(view1);
-                break;
-            case 2:
-                View view2 = this.inflate.inflate(R.layout.layout_works_home, viewGroup, false);
-                holder = new MyViewHolder2(view2);
-                break;
-        }
+    public HomeViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        view = this.inflate.inflate(R.layout.layout_homeview_home, viewGroup, false);
+        HomeViewHolder holder = new HomeViewHolder(view);
         return holder;
     }
 
@@ -113,8 +88,12 @@ public class InitHomeViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
      * @param i
      */
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-
+    public void onBindViewHolder(@NonNull HomeViewHolder viewHolder, int i) {
+        FragmentTransaction transaction1 = ((MainActivity) context).getSupportFragmentManager().beginTransaction();
+        transaction1.add(R.id.fl_rvitem_homeview1, items.get(1));
+        //transaction1.add(R.id.fl_rvitem_homeview2, items.get(0));
+        transaction1.commit();
+/*
         switch (i) {
             case 1:
                 //MyViewHolder1 holder1 = (MyViewHolder1) viewHolder;
@@ -175,29 +154,25 @@ public class InitHomeViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 // 2147483647 / 2 = 1073741823 - (1073741823 % 5)
                 ((MyViewHolder1) viewHolder).slidesshow.setCurrentItem(5000000); // 设置到某个位置
                 break;
-            case 2:
-                MyViewHolder2 holder2 = (MyViewHolder2) viewHolder;
-                // 创建首页顶部导航栏的适配器
-                HomeWorksClassifyAdapter adapter = new HomeWorksClassifyAdapter(this.fragmentManager, this.classify, this.tabTitles);
-                // 将适配器设置给ViewPager
-                ViewPager pager = holder2.pager;
-                pager.setAdapter(adapter);
-                // 将TabLayout跟ViewPager进行关联
-                holder2.tab.setupWithViewPager(pager);
-                break;
-        }
+
+
+        }*/
 
 
     }
 
     @Override
     public int getItemCount() {
-        return 2;
+        /*if (items != null && items.size() > 0) {
+            return items.size();
+        }*/
+        return 1;
     }
+
 
     /**
      * 轮播图布局
-     */
+     *//*
     protected class MyViewHolder1 extends RecyclerView.ViewHolder {
         // 图片容器
         public ViewPager slidesshow;
@@ -213,18 +188,49 @@ public class InitHomeViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             this.point = itemView.findViewById(R.id.ll_point_home);
         }
     }
+*/
 
-    protected class MyViewHolder2 extends RecyclerView.ViewHolder {
-        protected TabLayout tab;
-        protected ViewPager pager;
 
-        public MyViewHolder2(@NonNull View itemView) {
+    protected class HomeViewHolder extends RecyclerView.ViewHolder {
+
+        //public FrameLayout layout1;
+        //public FrameLayout layout2;
+
+        public HomeViewHolder(@NonNull View itemView) {
             super(itemView);
-            this.tab = itemView.findViewById(R.id.tl_title_home);
-            this.pager = itemView.findViewById(R.id.vp_items_home);
+            //itemView.findViewById(R.id.fl_rvitem_homeview1);
+           // itemView.findViewById(R.id.fl_rvitem_homeview2);
         }
     }
 
+    /**
+     * 不同标题对应的ViewPager里面装的内容
+     */
+    private ArrayList<Fragment> classify;
+    /**
+     * TabLayout对应的每个标题
+     */
+    private String[] tabTitles;
 
+    private void initWorksViewData() {
+        // 初始化内容
+        ArrayList<Fragment> fragments = new ArrayList<>();
+        fragments.add(new HomeWorkItemsFragment());
+        fragments.add(new HomeWorkItemsFragment());
+        fragments.add(new HomeWorkItemsFragment());
+        fragments.add(new HomeWorkItemsFragment());
+        fragments.add(new HomeWorkItemsFragment());
+        fragments.add(new HomeWorkItemsFragment());
+        this.classify = fragments;
+        // 初始化标题
+        this.tabTitles = new String[]{
+                "标题一",
+                "标题二",
+                "标题三",
+                "标题四",
+                "标题五",
+                "标题六",
+        };
+    }
 
 }

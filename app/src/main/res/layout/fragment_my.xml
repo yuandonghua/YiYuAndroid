@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_white"
+    android:background="@color/background_gray"
     android:orientation="vertical"
     app:nightBackground="@color/night_bg"
     tools:ignore="MissingPrefix">
@@ -12,7 +12,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background_gray">
+        android:background="@color/background_white">
 
         <ImageView
             android:id="@+id/userAvatar"
@@ -99,7 +99,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="@color/background_gray"
+        android:background="@color/background_white"
         android:orientation="vertical">
 
         <TextView
@@ -123,7 +123,7 @@
             android:background="#BEBEBE" />
 
         <TextView
-            android:id="@+id/tv_myfgt_trends"
+            android:id="@+id/tv_myrends_my"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/arrow_right"
@@ -161,7 +161,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="@color/background_gray"
+        android:background="@color/background_white"
         android:drawableEnd="@drawable/arrow_right"
         android:paddingLeft="30dp"
         android:paddingTop="15dp"
@@ -172,6 +172,7 @@
         android:textSize="20sp" />
 
 
+<!--
     <RelativeLayout
         android:id="@+id/rl_theme"
         android:layout_width="match_parent"
@@ -219,6 +220,7 @@
             android:textSize="16sp"
             android:textStyle="bold" />
     </RelativeLayout>
+-->
 
 
 </LinearLayout>

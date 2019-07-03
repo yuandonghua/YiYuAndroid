@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="250dp"
+    android:layout_height="wrap_content"
+    android:background="@color/background_white"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="添加作品集"
+        android:textColor="@color/textcolor2"
+        android:textSize="16sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/textcolor3" />
+
+    <EditText
+        android:id="@+id/et_class_name_my"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@null"
+        android:gravity="center"
+        android:hint="请输入名称"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:textColor="@color/textcolor2"
+        android:textColorHint="@color/textcolor3"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/btn_add_works_my"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginRight="5dp"
+        android:background="@null"
+        android:gravity="center"
+        android:text="确定添加"
+        android:textColor="@color/textcolor2"
+        android:textSize="16sp" />
+</LinearLayout>

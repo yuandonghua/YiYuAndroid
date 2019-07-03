@@ -47,6 +47,7 @@
             android:layout_toLeftOf="@id/tv_message_home">
 
             <RadioButton
+
                 android:id="@+id/rb_attention_home"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -63,6 +64,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_toLeftOf="@+id/tv_share_home"
+            android:drawableLeft="@drawable/send_message"
             android:text="300"
             android:textColor="@color/textcolor3" />
 
@@ -74,6 +76,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="15dp"
+            android:drawableLeft="@drawable/share"
             android:text="400"
             android:textColor="@color/textcolor3" />
 

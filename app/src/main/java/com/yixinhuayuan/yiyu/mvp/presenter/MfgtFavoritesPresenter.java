@@ -13,8 +13,8 @@ import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import javax.inject.Inject;
 
 import com.yixinhuayuan.yiyu.mvp.contract.MyFgtFavoritesContract;
-import com.yixinhuayuan.yiyu.mvp.ui.fragment.fragment_of_in_mfgtfavorites.MfgtFavoritesTrendsFragment;
-import com.yixinhuayuan.yiyu.mvp.ui.fragment.fragment_of_in_mfgtfavorites.MfgtFavoritesWorksFragment;
+import com.yixinhuayuan.yiyu.mvp.ui.fragment.in_my.fragment_of_in_mfgtfavorites.MfgtFavoritesTrendsFragment;
+import com.yixinhuayuan.yiyu.mvp.ui.fragment.in_my.fragment_of_in_mfgtfavorites.MfgtFavoritesWorksFragment;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.yixinhuayuan.yiyu.mvp.ui.fragment.in_homefragment;
+package com.yixinhuayuan.yiyu.mvp.ui.fragment.in_my.fragment_of_in_mfgtfavorites;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,12 +18,13 @@ import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 
-import com.yixinhuayuan.yiyu.app.utils.adapter.in_home.InitItemsHomeAdapter;
-import com.yixinhuayuan.yiyu.di.component.DaggerHomeWorkItemsComponent;
-import com.yixinhuayuan.yiyu.mvp.contract.HomeWorkItemsContract;
-import com.yixinhuayuan.yiyu.mvp.presenter.HomeWorkItemsPresenter;
+import com.yixinhuayuan.yiyu.app.utils.adapter.TrendsAdapter;
+import com.yixinhuayuan.yiyu.di.component.DaggerMfgtFavoritesTrendsComponent;
+import com.yixinhuayuan.yiyu.mvp.contract.MfgtFavoritesTrendsContract;
+import com.yixinhuayuan.yiyu.mvp.presenter.MfgtFavoritesTrendsPresenter;
 
 import com.yixinhuayuan.yiyu.R;
+import com.yixinhuayuan.yiyu.mvp.ui.activity.in_trends.TrendsDetailsActivity;
 
 import butterknife.BindView;
 
@@ -34,25 +35,24 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * ================================================
  * Description:
  * <p>
- * Created by MVPArmsTemplate on 06/19/2019 01:34
+ * Created by MVPArmsTemplate on 04/11/2019 01:48
  * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
  * <a href="https://github.com/JessYanCoding">Follow me</a>
  * <a href="https://github.com/JessYanCoding/MVPArms">Star me</a>
  * <a href="https://github.com/JessYanCoding/MVPArms/wiki">See me</a>
  * <a href="https://github.com/JessYanCoding/MVPArmsTemplate">模版请保持更新</a>
  * ================================================
- * 用来适配首页顶部导航每个选项对应的数据的模板,主要作用用来展示作品
  */
-public class HomeWorkItemsFragment extends BaseFragment<HomeWorkItemsPresenter> implements HomeWorkItemsContract.View {
+public class MfgtFavoritesTrendsFragment extends BaseFragment<MfgtFavoritesTrendsPresenter> implements MfgtFavoritesTrendsContract.View {
 
-    public static HomeWorkItemsFragment newInstance() {
-        HomeWorkItemsFragment fragment = new HomeWorkItemsFragment();
+    public static MfgtFavoritesTrendsFragment newInstance() {
+        MfgtFavoritesTrendsFragment fragment = new MfgtFavoritesTrendsFragment();
         return fragment;
     }
 
     @Override
     public void setupFragmentComponent(@NonNull AppComponent appComponent) {
-        DaggerHomeWorkItemsComponent //如找不到该类,请编译一下项目
+        DaggerMfgtFavoritesTrendsComponent //如找不到该类,请编译一下项目
                 .builder()
                 .appComponent(appComponent)
                 .view(this)
@@ -62,13 +62,13 @@ public class HomeWorkItemsFragment extends BaseFragment<HomeWorkItemsPresenter> 
 
     @Override
     public View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_home_work_items, container, false);
+        return inflater.inflate(R.layout.fragment_mfgt_favorites_trends, container, false);
     }
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        // 初始化作品列表
-        inintItems();
+        // 初始化动态列表
+        this.inintTrendsList();
     }
 
     /**
@@ -139,25 +139,28 @@ public class HomeWorkItemsFragment extends BaseFragment<HomeWorkItemsPresenter> 
 
     }
 
+    /**
+     * 拿到用于展示我的收藏界面的动态列表
+     */
+    @BindView(R.id.rv_trendslist_myfavorites)
+    RecyclerView trendsList;
 
     /**
-     * 初始化展示作品的RecyclerView
+     * 初始化动态页的动态列表
      */
-    @BindView(R.id.rv_items_home)
-    RecyclerView items;
-
-    /**
-     * 初始化首页展示作品的部分View的数据
-     */
-    private void inintItems() {
-        // 设置布局管理器
+    private void inintTrendsList() {
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
-        items.setLayoutManager(manager);
+        trendsList.setLayoutManager(manager);
         manager.setOrientation(LinearLayout.VERTICAL);
-        // 设置适配器 注意
-        items.setAdapter(new InitItemsHomeAdapter(getContext()));
-        items.setItemAnimator(new DefaultItemAnimator());
+        TrendsAdapter adapter = new TrendsAdapter(getContext());
+        trendsList.setAdapter(adapter);
+        adapter.setOnItemClickListener(new TrendsAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(int position) {
+                startActivity(new Intent(getContext(), TrendsDetailsActivity.class));
+            }
+        });
+        trendsList.setItemAnimator(new DefaultItemAnimator());
     }
-
 
 }

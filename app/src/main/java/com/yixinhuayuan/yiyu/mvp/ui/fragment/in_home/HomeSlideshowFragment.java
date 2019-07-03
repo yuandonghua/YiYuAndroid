@@ -1,4 +1,4 @@
-package com.yixinhuayuan.yiyu.mvp.ui.fragment.fragment_of_in_mfgtfavorites;
+package com.yixinhuayuan.yiyu.mvp.ui.fragment.in_home;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,9 +14,9 @@ import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 
-import com.yixinhuayuan.yiyu.di.component.DaggerMfgtFavoritesWorksComponent;
-import com.yixinhuayuan.yiyu.mvp.contract.MfgtFavoritesWorksContract;
-import com.yixinhuayuan.yiyu.mvp.presenter.MfgtFavoritesWorksPresenter;
+import com.yixinhuayuan.yiyu.di.component.DaggerHomeSlideshowComponent;
+import com.yixinhuayuan.yiyu.mvp.contract.HomeSlideshowContract;
+import com.yixinhuayuan.yiyu.mvp.presenter.HomeSlideshowPresenter;
 
 import com.yixinhuayuan.yiyu.R;
 
@@ -27,7 +27,7 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * ================================================
  * Description:
  * <p>
- * Created by MVPArmsTemplate on 04/11/2019 01:44
+ * Created by MVPArmsTemplate on 06/28/2019 02:16
  * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
  * <a href="https://github.com/JessYanCoding">Follow me</a>
  * <a href="https://github.com/JessYanCoding/MVPArms">Star me</a>
@@ -35,16 +35,16 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * <a href="https://github.com/JessYanCoding/MVPArmsTemplate">模版请保持更新</a>
  * ================================================
  */
-public class MfgtFavoritesWorksFragment extends BaseFragment<MfgtFavoritesWorksPresenter> implements MfgtFavoritesWorksContract.View {
+public class HomeSlideshowFragment extends BaseFragment<HomeSlideshowPresenter> implements HomeSlideshowContract.View {
 
-    public static MfgtFavoritesWorksFragment newInstance() {
-        MfgtFavoritesWorksFragment fragment = new MfgtFavoritesWorksFragment();
+    public static HomeSlideshowFragment newInstance() {
+        HomeSlideshowFragment fragment = new HomeSlideshowFragment();
         return fragment;
     }
 
     @Override
     public void setupFragmentComponent(@NonNull AppComponent appComponent) {
-        DaggerMfgtFavoritesWorksComponent //如找不到该类,请编译一下项目
+        DaggerHomeSlideshowComponent //如找不到该类,请编译一下项目
                 .builder()
                 .appComponent(appComponent)
                 .view(this)
@@ -54,7 +54,7 @@ public class MfgtFavoritesWorksFragment extends BaseFragment<MfgtFavoritesWorksP
 
     @Override
     public View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_mfgt_favorites_works, container, false);
+        return inflater.inflate(R.layout.fragment_home_slideshow, container, false);
     }
 
     @Override

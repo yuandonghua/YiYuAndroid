@@ -13,8 +13,8 @@ import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import javax.inject.Inject;
 
 import com.yixinhuayuan.yiyu.mvp.contract.PersonalCenterContract;
-import com.yixinhuayuan.yiyu.mvp.ui.fragment.fragment_of_in_pcaactivity.PcaMyTrendsFragment;
-import com.yixinhuayuan.yiyu.mvp.ui.fragment.fragment_of_in_pcaactivity.PcaMyWorksFragment;
+import com.yixinhuayuan.yiyu.mvp.ui.fragment.in_my.fragment_of_in_pcaactivity.PcaMyTrendsFragment;
+import com.yixinhuayuan.yiyu.mvp.ui.fragment.in_my.fragment_of_in_pcaactivity.PcaMyWorksFragment;
 
 import java.util.ArrayList;
 import java.util.List;

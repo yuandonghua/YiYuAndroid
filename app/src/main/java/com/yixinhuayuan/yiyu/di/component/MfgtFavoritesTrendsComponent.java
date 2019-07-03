@@ -9,7 +9,7 @@ import com.yixinhuayuan.yiyu.di.module.MfgtFavoritesTrendsModule;
 import com.yixinhuayuan.yiyu.mvp.contract.MfgtFavoritesTrendsContract;
 
 import com.jess.arms.di.scope.FragmentScope;
-import com.yixinhuayuan.yiyu.mvp.ui.fragment.fragment_of_in_mfgtfavorites.MfgtFavoritesTrendsFragment;
+import com.yixinhuayuan.yiyu.mvp.ui.fragment.in_my.fragment_of_in_mfgtfavorites.MfgtFavoritesTrendsFragment;
 
 
 /**

@@ -9,7 +9,7 @@ import com.yixinhuayuan.yiyu.di.module.MyTrendsModule;
 import com.yixinhuayuan.yiyu.mvp.contract.MyTrendsContract;
 
 import com.jess.arms.di.scope.FragmentScope;
-import com.yixinhuayuan.yiyu.mvp.ui.fragment.fragment_of_in_pcaactivity.PcaMyTrendsFragment;
+import com.yixinhuayuan.yiyu.mvp.ui.fragment.in_my.fragment_of_in_pcaactivity.PcaMyTrendsFragment;
 
 
 /**

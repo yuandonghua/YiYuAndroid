@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="2dp"
+    android:background="@color/background_white"
+    android:paddingLeft="2dp"
+    android:paddingRight="2dp">
+
+    <TextView
+        android:id="@+id/tv_day_mytrend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="14"
+        android:textColor="@color/textcolor1"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_month_mytrend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/tv_day_mytrend"
+        android:text="8月"
+        android:textColor="@color/textcolor1"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/iv_img_mytrend"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/tv_month_mytrend"
+        android:src="@drawable/art_work" />
+
+    <TextView
+        android:id="@+id/tv_introduction_mytrend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tv_count_mytrend"
+        android:layout_alignTop="@+id/iv_img_mytrend"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/iv_img_mytrend"
+        android:text="月亮孤悬于城头,如一滴泪页游人游荡的像虚无,大片大片的黑顺着墙根蔓延..."
+        android:textColor="@color/textcolor3"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_count_mytrend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/iv_img_mytrend"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/iv_img_mytrend"
+        android:text="共 5 张"
+        android:textColor="@color/textcolor3"
+        android:textSize="12sp" />
+
+</RelativeLayout>

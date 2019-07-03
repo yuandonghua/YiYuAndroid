@@ -4,10 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <TextView
-        android:gravity="center"
+    <!-- <TextView
+         android:gravity="center"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:text="这是我的收藏界面的 动态 显示的是时间轴展示的动态"
+         android:textSize="19sp" />-->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_trendslist_myfavorites"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="这是我的收藏界面的 动态 显示的是时间轴展示的动态"
-        android:textSize="19sp" />
+        android:background="@color/background_gray" />
 </LinearLayout>

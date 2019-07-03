@@ -1,4 +1,4 @@
-package com.yixinhuayuan.yiyu.mvp.ui.fragment.fragment_of_in_pcaactivity;
+package com.yixinhuayuan.yiyu.mvp.ui.fragment.in_my.fragment_of_in_pcaactivity;
 
 import android.content.Intent;
 import android.os.Bundle;

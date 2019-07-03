@@ -3,13 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/background_white"
-    >
+    android:background="@color/background_gray"
+    android:orientation="vertical">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background_gray">
+        android:background="@color/background_white">
 
         <ImageView
             android:id="@+id/iv_mfgtmytrends_back"
@@ -33,4 +33,10 @@
             android:textColor="#000000"
             android:textSize="22sp" />
     </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_mytrendlist_my"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background_gray" />
 </LinearLayout>

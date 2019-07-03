@@ -23,6 +23,9 @@ import com.yixinhuayuan.yiyu.R;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -61,7 +64,7 @@ public class MfgtAttentionListActivity extends BaseActivity<MfgtAttentionListPre
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        setAlAdapter();
+        initAttentionList();
     }
 
     @Override
@@ -91,7 +94,7 @@ public class MfgtAttentionListActivity extends BaseActivity<MfgtAttentionListPre
         finish();
     }
 
-    private void setAlAdapter() {
+    private void initAttentionList() {
 
         // 设置布局管理器
         LinearLayoutManager manager = new LinearLayoutManager(this);
@@ -106,7 +109,19 @@ public class MfgtAttentionListActivity extends BaseActivity<MfgtAttentionListPre
 
 
     @OnClick(R.id.iv_fl_back)
-    void back(){
+    void back() {
         this.finish();
+    }
+
+
+    public void downloadAttention() {
+        new Thread() {
+            @Override
+            public void run() {
+                OkHttpClient client = new OkHttpClient();
+                FormBody.Builder downloadBody = new FormBody.Builder();
+
+            }
+        }.start();
     }
 }

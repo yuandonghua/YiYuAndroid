@@ -5,18 +5,18 @@ import dagger.Component;
 
 import com.jess.arms.di.component.AppComponent;
 
-import com.yixinhuayuan.yiyu.di.module.HomeWorkItemsModule;
-import com.yixinhuayuan.yiyu.mvp.contract.HomeWorkItemsContract;
+import com.yixinhuayuan.yiyu.di.module.HomeSlideshowModule;
+import com.yixinhuayuan.yiyu.mvp.contract.HomeSlideshowContract;
 
 import com.jess.arms.di.scope.FragmentScope;
-import com.yixinhuayuan.yiyu.mvp.ui.fragment.in_home.HomeWorkItemsFragment;
+import com.yixinhuayuan.yiyu.mvp.ui.fragment.in_home.HomeSlideshowFragment;
 
 
 /**
  * ================================================
  * Description:
  * <p>
- * Created by MVPArmsTemplate on 06/19/2019 01:34
+ * Created by MVPArmsTemplate on 06/28/2019 02:16
  * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
  * <a href="https://github.com/JessYanCoding">Follow me</a>
  * <a href="https://github.com/JessYanCoding/MVPArms">Star me</a>
@@ -25,17 +25,17 @@ import com.yixinhuayuan.yiyu.mvp.ui.fragment.in_home.HomeWorkItemsFragment;
  * ================================================
  */
 @FragmentScope
-@Component(modules = HomeWorkItemsModule.class, dependencies = AppComponent.class)
-public interface HomeWorkItemsComponent {
-    void inject(HomeWorkItemsFragment fragment);
+@Component(modules = HomeSlideshowModule.class, dependencies = AppComponent.class)
+public interface HomeSlideshowComponent {
+    void inject(HomeSlideshowFragment fragment);
 
     @Component.Builder
     interface Builder {
         @BindsInstance
-        HomeWorkItemsComponent.Builder view(HomeWorkItemsContract.View view);
+        HomeSlideshowComponent.Builder view(HomeSlideshowContract.View view);
 
-        HomeWorkItemsComponent.Builder appComponent(AppComponent appComponent);
+        HomeSlideshowComponent.Builder appComponent(AppComponent appComponent);
 
-        HomeWorkItemsComponent build();
+        HomeSlideshowComponent build();
     }
 }

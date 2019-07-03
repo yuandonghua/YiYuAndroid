@@ -28,7 +28,6 @@ import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 
 import com.wuyr.rippleanimation.RippleAnimation;
-import com.yixinhuayuan.yiyu.app.utils.userinfo.SPUserInfo;
 import com.yixinhuayuan.yiyu.di.component.DaggerMyComponent;
 import com.yixinhuayuan.yiyu.mvp.contract.MyContract;
 import com.yixinhuayuan.yiyu.mvp.presenter.MyPresenter;
@@ -65,12 +64,12 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  */
 public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.View {
 
-    /**
+    /* *//**
      * 主题切换按钮
-     */
+     *//*
     @BindView(R.id.dayNightToggleButton)
     DayNightToggleButton dayNightToggleButton;
-    private boolean initDayOrNight = true;
+    private boolean initDayOrNight = true;*/
     /**
      * 跳到个人中心的控件
      */
@@ -121,8 +120,7 @@ public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        // 初始化用户简介
-        initUserInfo();
+
         // 判断是否登录
         @SuppressLint("WrongConstant")
         SharedPreferences sp = getContext().getSharedPreferences(getContext().getPackageName()
@@ -130,12 +128,15 @@ public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.
         boolean is_login = sp.getBoolean("is_login", false);
         if (!is_login) {
             startActivity(new Intent(getContext(), LoginActivity.class));
+        } else {
+            // 初始化用户简介
+            initUserInfo();
         }
     }
 
-    /**
+    /* *//**
      * 初始化主题风格view
-     */
+     *//*
     private void initThemeButton() {
 
         ToggleSettings mBuilderSettings = new ToggleSettings.Builder()
@@ -167,14 +168,16 @@ public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.
 
             }
         });
-    }
+    }*/
+
+    /* */
 
     /**
      * 切换皮肤设置
      *
      * @param buttonView
      * @param skinStyle
-     */
+     *//*
     private void selectDayOrNight(View buttonView, SkinStyle skinStyle) {
         //切换动画
         RippleAnimation.create(buttonView).setDuration(250).start();
@@ -194,9 +197,8 @@ public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.
         public void afterChange() {
         }
 
-    }
-
-    private void initStatusBar() {
+    }*/
+   /* private void initStatusBar() {
         Window window = getActivity().getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
@@ -213,6 +215,7 @@ public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.
             }
         }
     }
+*/
 
     /**
      * 通过此方法可以使 Fragment 能够与外界做一些交互和通信, 比如说外部的 Activity 想让自己持有的某个 Fragment 对象执行一些方法,
@@ -262,7 +265,17 @@ public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.
 
     @Override
     public void hideLoading() {
-
+        // 判断是否登录
+        @SuppressLint("WrongConstant")
+        SharedPreferences sp = getContext().getSharedPreferences(getContext().getPackageName()
+                , Context.MODE_APPEND);
+        boolean is_login = sp.getBoolean("is_login", false);
+        if (!is_login) {
+            startActivity(new Intent(getContext(), LoginActivity.class));
+        } else {
+            // 初始化用户简介
+            initUserInfo();
+        }
     }
 
     @Override
@@ -282,7 +295,9 @@ public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.
 
     }
 
-    // 启动个人中心
+    /**
+     * 去往个人中心
+     */
     @OnClick(R.id.userDetails)
     void toUserDetails() {
         startActivity(new Intent(getContext()
@@ -325,7 +340,7 @@ public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.
     /**
      * 在 我的 界面点击 我的动态 选项跳转到我的动态界面
      */
-    @OnClick(R.id.tv_myfgt_trends)
+    @OnClick(R.id.tv_myrends_my)
     void toMyTrends() {
         startActivity(new Intent(this.getContext(), MfgtTrendsActivity.class));
     }
@@ -339,30 +354,12 @@ public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.
     }
 
 
-    //是否第一次加载
-    private boolean isFirstLoading = true;
-
-    /**
-     * 在fragment可见的时候，刷新数据
-     */
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        if (!isFirstLoading) {
-            //如果不是第一次加载，刷新数据
-            initUserInfo();
-        }
-
-        isFirstLoading = false;
-    }
-
     /**
      * 初始化我的界面用户简介数据
      */
     private void initUserInfo() {
         @SuppressLint("WrongConstant")
-        SharedPreferences spUsererInfo =this.getActivity().getSharedPreferences(this.getActivity().getBaseContext().getPackageName(), Context.MODE_APPEND);
+        SharedPreferences spUsererInfo = this.getActivity().getSharedPreferences(this.getActivity().getBaseContext().getPackageName(), Context.MODE_APPEND);
         // 设置昵称
         nickName.setText(spUsererInfo.getString("nick_name", null));
         // 设置关注数
@@ -372,10 +369,10 @@ public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.
         // 设置个性签名
         userSign.setText(spUsererInfo.getString("introduce", null));
 
-        Log.d(TAG, "initUserInfo: "+spUsererInfo.getString("nick_name", null));
-        Log.d(TAG, "initUserInfo: "+spUsererInfo.getInt("star", 1));
-        Log.d(TAG, "initUserInfo: "+spUsererInfo.getInt("fans", 1));
-        Log.d(TAG, "initUserInfo: "+spUsererInfo.getString("introduce", null));
+        Log.d(TAG, "initUserInfo: " + spUsererInfo.getString("nick_name", null));
+        Log.d(TAG, "initUserInfo: " + spUsererInfo.getInt("star", 1));
+        Log.d(TAG, "initUserInfo: " + spUsererInfo.getInt("fans", 1));
+        Log.d(TAG, "initUserInfo: " + spUsererInfo.getString("introduce", null));
 
 
     }
