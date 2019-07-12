@@ -222,21 +222,9 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     protected void onRestart() {
         Log.d(TAG, "onRestart: 关闭LoginActivity");
-            this.finish();
+        this.killMyself();
         super.onRestart();
 
-    }
-
-    @Override
-    protected void onResume() {
-        Log.d(TAG, "onResume: 关闭LoginActivity");
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        Log.d(TAG, "onPause: 关闭LoginActivity");
-        super.onPause();
     }
 
     /**

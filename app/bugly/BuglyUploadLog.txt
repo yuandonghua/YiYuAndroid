@@ -38,3 +38,27 @@ file=D:\ThePcDesktop\YiYu\YiYuAndroid\app\build\outputs\mapping\release\mapping.
 sha1=48d6fac6fccbfadb90a8a7bf63ad94afb6cb4924
 appId=6e5afd43cb
 
+file=D:\ThePcDesktop\YiYu\YiYuAndroid\app\build\outputs\mapping\debug\mapping.txt
+sha1=899b31c0e728e492c4711a55b77e4ed31820e25b
+appId=6e5afd43cb
+
+file=D:\ThePcDesktop\YiYu\YiYuAndroid\app\build\outputs\mapping\release\mapping.txt
+sha1=74885ae2bde68080d3b0c6048e39e7fa6ee18235
+appId=6e5afd43cb
+
+file=D:\ThePcDesktop\YiYu\YiYuAndroid\app\build\outputs\mapping\debug\mapping.txt
+sha1=3fbb630954765fcff58c0afca70433d7b2fdf64a
+appId=6e5afd43cb
+
+file=D:\ThePcDesktop\YiYu\YiYuAndroid\app\build\outputs\mapping\release\mapping.txt
+sha1=900601137aa3d9684ca30edc5976c82e35afd528
+appId=6e5afd43cb
+
+file=D:\ThePcDesktop\YiYu\YiYuAndroid\app\build\outputs\mapping\debug\mapping.txt
+sha1=a883924c847cb07819b43cf819287578fa15f9ed
+appId=6e5afd43cb
+
+file=D:\ThePcDesktop\YiYu\YiYuAndroid\app\build\outputs\mapping\release\mapping.txt
+sha1=7c6bb47ef352e7e45f33237eff527a2c0408a1cb
+appId=6e5afd43cb
+

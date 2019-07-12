@@ -3,12 +3,11 @@ package com.yixinhuayuan.yiyu.app.utils.jsoninstance;
 import java.util.List;
 
 public class MyWorksDownloadJson {
-
     /**
      * status : true
      * code : 200
      * message : SUCCESS
-     * data : [{"id":16,"user_id":22,"class_name":"第一个作品集","number":0,"image_url":"https://yy363626256-1258529412.cos.ap-beijing.myqcloud.com/image/t4YU3Hc2HqYAuIIxMoTgMonjMa7lHXhRzU35T0Lf.jpeg"},{"id":17,"user_id":22,"class_name":"第二个作品集","number":0,"image_url":"https://yy363626256-1258529412.cos.ap-beijing.myqcloud.com/image/t4YU3Hc2HqYAuIIxMoTgMonjMa7lHXhRzU35T0Lf.jpeg"}]
+     * data : [{"id":16,"user_id":22,"class_name":"第一个作品集","number":0,"image_url":"https://yy363626256-1258529412.cos.ap-beijing.myqcloud.com/image/t4YU3Hc2HqYAuIIxMoTgMonjMa7lHXhRzU35T0Lf.jpeg"},{"id":17,"user_id":22,"class_name":"第二个作品集","number":0,"image_url":"https://yy363626256-1258529412.cos.ap-beijing.myqcloud.com/image/t4YU3Hc2HqYAuIIxMoTgMonjMa7lHXhRzU35T0Lf.jpeg"},{"id":18,"user_id":22,"class_name":"第三个作品集","number":0,"image_url":"https://yy363626256-1258529412.cos.ap-beijing.myqcloud.com/image/t4YU3Hc2HqYAuIIxMoTgMonjMa7lHXhRzU35T0Lf.jpeg"},{"id":19,"user_id":22,"class_name":"第四个作品集","number":0,"image_url":"https://yy363626256-1258529412.cos.ap-beijing.myqcloud.com/image/t4YU3Hc2HqYAuIIxMoTgMonjMa7lHXhRzU35T0Lf.jpeg"},{"id":20,"user_id":22,"class_name":"第五个作品集","number":0,"image_url":"https://yy363626256-1258529412.cos.ap-beijing.myqcloud.com/image/t4YU3Hc2HqYAuIIxMoTgMonjMa7lHXhRzU35T0Lf.jpeg"},{"id":21,"user_id":22,"class_name":"千岁","number":0,"image_url":"https://yy363626256-1258529412.cos.ap-beijing.myqcloud.com/image/t4YU3Hc2HqYAuIIxMoTgMonjMa7lHXhRzU35T0Lf.jpeg"},{"id":22,"user_id":22,"class_name":"风月令","number":0,"image_url":"https://yy363626256-1258529412.cos.ap-beijing.myqcloud.com/image/t4YU3Hc2HqYAuIIxMoTgMonjMa7lHXhRzU35T0Lf.jpeg"},{"id":23,"user_id":22,"class_name":"定风坡","number":0,"image_url":"https://yy363626256-1258529412.cos.ap-beijing.myqcloud.com/image/t4YU3Hc2HqYAuIIxMoTgMonjMa7lHXhRzU35T0Lf.jpeg"},{"id":24,"user_id":22,"class_name":"千秋令","number":0,"image_url":"https://yy363626256-1258529412.cos.ap-beijing.myqcloud.com/image/t4YU3Hc2HqYAuIIxMoTgMonjMa7lHXhRzU35T0Lf.jpeg"},{"id":25,"user_id":22,"class_name":"123","number":0,"image_url":"https://yy363626256-1258529412.cos.ap-beijing.myqcloud.com/image/t4YU3Hc2HqYAuIIxMoTgMonjMa7lHXhRzU35T0Lf.jpeg"},{"id":26,"user_id":22,"class_name":"任江浩","number":0,"image_url":"https://yy363626256-1258529412.cos.ap-beijing.myqcloud.com/image/t4YU3Hc2HqYAuIIxMoTgMonjMa7lHXhRzU35T0Lf.jpeg"}]
      */
 
     private boolean status;
@@ -103,4 +102,5 @@ public class MyWorksDownloadJson {
             this.image_url = image_url;
         }
     }
+
 }

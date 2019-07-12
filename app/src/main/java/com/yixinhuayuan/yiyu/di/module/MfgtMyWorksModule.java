@@ -4,7 +4,7 @@ import dagger.Binds;
 import dagger.Module;
 
 import com.yixinhuayuan.yiyu.mvp.contract.MfgtMyWorksContract;
-import com.yixinhuayuan.yiyu.mvp.model.MfgtWorksModel;
+import com.yixinhuayuan.yiyu.mvp.model.MfgtMyWorksModel;
 
 
 /**
@@ -23,5 +23,5 @@ import com.yixinhuayuan.yiyu.mvp.model.MfgtWorksModel;
 public abstract class MfgtMyWorksModule {
 
     @Binds
-    abstract MfgtMyWorksContract.Model bindMfgtMyWorksModel(MfgtWorksModel model);
+    abstract MfgtMyWorksContract.Model bindMfgtMyWorksModel(MfgtMyWorksModel model);
 }

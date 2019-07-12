@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WorksListAdapter extends RecyclerView.Adapter<WorksListAdapter.WorksItemHolder> {
+
+    private static final String TAG = WorksListAdapter.class.getSimpleName().toString();
     private Context context;
     // private int[] images = new int[]{R.drawable.art_work1, R.drawable.art_work2};
     //private String[] clas = new String[]{"山水", "人物", "花鸟"};
@@ -24,7 +26,7 @@ public class WorksListAdapter extends RecyclerView.Adapter<WorksListAdapter.Work
     // 用户数据
     private int user_id;
     // 请求到的 我的作品集的数据
-    private List<MyWorksData> myWorksData = new ArrayList<MyWorksData>();
+    private List<MyWorksData> myWorksData;
 
     public WorksListAdapter(Context context, List<MyWorksData> myWorksData) {
         this.context = context;
@@ -43,14 +45,13 @@ public class WorksListAdapter extends RecyclerView.Adapter<WorksListAdapter.Work
 
     @Override
     public void onBindViewHolder(@NonNull WorksItemHolder worksItemHolder, int i) {
+        int num = i - 1;
         if (i == 0) {
             worksItemHolder.count.setVisibility(View.GONE);
             worksItemHolder.clas.setText("添加作品集");
             worksItemHolder.imag.setImageResource(R.drawable.art_work);
 
         } else {
-            int num = i - 1;
-
             worksItemHolder.imag.setImageResource(R.drawable.art_work2);
             worksItemHolder.clas.setText(myWorksData.get(num).getClass_name() + "");
             worksItemHolder.count.setText("共" + myWorksData.get(num).getNumber() + "件");
@@ -66,7 +67,11 @@ public class WorksListAdapter extends RecyclerView.Adapter<WorksListAdapter.Work
         worksItemHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                return false;
+                if (longClickListener != null) {
+                    longClickListener.onLongClick(i, myWorksData.get(num).getId());
+                }
+                //return false;
+                return true;
             }
         });
     }
@@ -74,10 +79,10 @@ public class WorksListAdapter extends RecyclerView.Adapter<WorksListAdapter.Work
     @Override
     public int getItemCount() {
         if (myWorksData != null && myWorksData.size() > 0) {
-            Log.d("adapter", "getItemCount: " + myWorksData.size());
+            Log.d(TAG, "getItemCount: " + myWorksData.size());
             return myWorksData.size() + 1;
         }
-        return 0;
+        return 1;
     }
 
 
@@ -107,13 +112,13 @@ public class WorksListAdapter extends RecyclerView.Adapter<WorksListAdapter.Work
     }
 
     // 设置长按事件
-    /*public interface OnItemClickListener {
-        void onClick(int position);
+    public interface OnItemLongClickListener {
+        void onLongClick(int position, int id);
     }
 
-    private OnItemClickListener listener;
+    private OnItemLongClickListener longClickListener;
 
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.listener = listener;
-    }*/
+    public void setOnItemLongClickListener(OnItemLongClickListener longClickListener) {
+        this.longClickListener = longClickListener;
+    }
 }

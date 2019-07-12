@@ -1,15 +1,19 @@
 package com.yixinhuayuan.yiyu.mvp.ui.activity;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +36,7 @@ import butterknife.BindView;
 import timber.log.Timber;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
+
 /**
  * ================================================
  * Description:
@@ -105,6 +110,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         // mNavController = Navigation.findNavController(this, R.id.nav_host_fragment);
         // NavigationUI.setupWithNavController(bottomNavigationView, mNavController);
 
+        // 添加权限
+        mPresenter.isPermission();
         // 底部导航栏的一些属性设置和事件处理
         mPresenter.mianNavSomeSet(main_acty_nav);
     }

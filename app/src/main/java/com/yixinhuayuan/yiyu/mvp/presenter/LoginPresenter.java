@@ -43,6 +43,7 @@ import com.yixinhuayuan.yiyu.app.utils.jsoninstance.LoginDataJson;
 import com.yixinhuayuan.yiyu.mvp.contract.LoginContract;
 import com.yixinhuayuan.yiyu.mvp.model.QQLoginModel;
 import com.yixinhuayuan.yiyu.mvp.ui.activity.LoginActivity;
+import com.yixinhuayuan.yiyu.mvp.ui.fragment.MyFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -138,7 +139,6 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
 
                 try {
                     String openid = values.getString("openid");
-
                     QQRegistryUser(openid);
 
                 } catch (
@@ -338,32 +338,60 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
                             .build();
                     // 获取请求获取用户新的接口返回的数据并解析处理
                     Response getUserInfo = httpClient.newCall(request1).execute();
-                    UserInfoJson userInfoJson = new Gson().fromJson(getUserInfo.body().string()
-                            , UserInfoJson.class);
-                    UserInfoJson.DataBean userInfo = userInfoJson.getData();
-                    Log.d("QQRegistryUser", "获取注册后的用户数据: " + userInfoJson.getCode());
+                    Log.d("LoginPresenter", "QQ用户数据getUserInfo is: " + getUserInfo);
+                    // Json解析
+                    JSONObject jsonObject = new JSONObject(getUserInfo.body().string());
+                    Log.d("LoginPresenter", "Json解析的数据1 is: " + jsonObject);
+                    JSONObject object = jsonObject.getJSONObject("data");
+                    Log.d("LoginPresenter", "Json解析的数据2 is: " + object);
+                    // Gson解析
+                    //UserInfoJson userInfoJson = new Gson().fromJson(getUserInfo.body().string(), UserInfoJson.class);
+                    //Log.d("LoginPresenter", "Gson解析的数据1 is: " + userInfoJson);
+                    //UserInfoJson.DataBean userInfo = userInfoJson.getData();
+                   // Log.d("LoginPresenter", "Gson解析的数据2 is: " + userInfo);
+                    Log.d("LoginPresenter", "请求状态码: " + jsonObject.getInt("code"));
                     // 保存登录状态户用户数据
                     LoginActivity context = (LoginActivity) LoginPresenter.this.mRootView;
                     @SuppressLint("WrongConstant")
                     SharedPreferences sp = context.getSharedPreferences(context.getPackageName(), Context.MODE_APPEND);
                     SharedPreferences.Editor edit = sp.edit();
                     edit.putString("authorization", authorization);
-                    edit.putBoolean("is_login", userInfoJson.isStatus());// 是否登录成功
-                    edit.putInt("id", userInfo.getId());// ID
-                    edit.putInt("user_id", userInfo.getUser_id());// USER_ID
-                    edit.putString("account", userInfo.getAccount());
-                    edit.putInt("type", userInfo.getType());
-                    edit.putInt("status", userInfo.getStatus());
-                    edit.putString("nick_name", userInfo.getNickname());// 昵称
-                    edit.putString("header", userInfo.getPhoto());// 头像
-                    edit.putInt("fans", userInfo.getFans());// 粉丝数
-                    edit.putInt("star", userInfo.getStar());// 关注数
-                    edit.putInt("sex", userInfo.getSex());// 性别
-                    edit.putString("introduce", userInfo.getIntroduce());// 个人介绍
-                    edit.commit();
-
+                    /*if (userInfo != null) {
+                        Log.d("LoginPresenter", "Gson执行");
+                        edit.putBoolean("is_login", userInfoJson.isStatus());// 是否登录成功
+                        edit.putInt("id", userInfo.getId());// ID
+                        edit.putInt("user_id", userInfo.getUser_id());// USER_ID
+                        edit.putString("account", userInfo.getAccount());
+                        edit.putInt("type", userInfo.getType());
+                        edit.putInt("status", userInfo.getStatus());
+                        edit.putString("nick_name", userInfo.getNickname());// 昵称
+                        edit.putString("header", userInfo.getPhoto());// 头像
+                        edit.putInt("fans", userInfo.getFans());// 粉丝数
+                        edit.putInt("star", userInfo.getStar());// 关注数
+                        edit.putInt("sex", userInfo.getSex());// 性别
+                        edit.putString("introduce", userInfo.getIntroduce());// 个人介绍
+                        edit.commit();
+                    } else {*/
+                        Log.d("LoginPresenter", "Json执行");
+                        edit.putBoolean("is_login", jsonObject.getBoolean("status"));// 是否登录成功
+                        LoginActivity.is_login = jsonObject.getBoolean("status");
+                        edit.putInt("id", object.getInt("id"));// ID
+                        edit.putInt("user_id", object.getInt("user_id"));// USER_ID
+                        edit.putString("account", object.getString("account"));
+                        edit.putInt("type", object.getInt("type"));
+                        edit.putInt("status", object.getInt("status"));
+                        edit.putString("nick_name", object.getString("nickname"));// 昵称
+                        edit.putString("header", object.getString("photo"));// 头像
+                        edit.putInt("fans", object.getInt("fans"));// 粉丝数
+                        edit.putInt("star", object.getInt("star"));// 关注数
+                        edit.putInt("sex", object.getInt("sex"));// 性别
+                        edit.putString("introduce", object.getString("introduce"));// 个人介绍
+                        edit.commit();
+                    //}
                     ((Activity) mRootView).finish();
                 } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }

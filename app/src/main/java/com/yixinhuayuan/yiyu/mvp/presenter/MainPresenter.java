@@ -1,11 +1,16 @@
 package com.yixinhuayuan.yiyu.mvp.presenter;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +38,8 @@ import com.yixinhuayuan.yiyu.mvp.ui.fragment.MessageFragment;
 import com.yixinhuayuan.yiyu.mvp.ui.fragment.MyFragment;
 import com.yixinhuayuan.yiyu.mvp.ui.fragment.TrendsFragment;
 import com.yixinhuayuan.yiyu.mvp.ui.view.dialog.MyDialog;
+
+import static com.yixinhuayuan.yiyu.mvp.presenter.EditUserInfoPresenter.WRITE_SDCARD_PERMISSION_REQUEST_CODE;
 
 
 /**
@@ -260,4 +267,17 @@ public class MainPresenter extends BasePresenter<MainContract.Model, MainContrac
         });
     }
 
+
+
+    /**
+     * 判断用户以前有没有对我们的应用程序允许获取手机状态信息的权限，
+     */
+    public void isPermission() {
+        if (ContextCompat.checkSelfPermission(((Activity) mRootView), Manifest.permission.READ_PHONE_STATE)
+                != PackageManager.PERMISSION_GRANTED) {
+            // 申请读写内存卡内容的权限
+            ActivityCompat.requestPermissions(((Activity) mRootView),
+                    new String[]{Manifest.permission.READ_PHONE_STATE},0);
+        }
+    }
 }

@@ -7,8 +7,6 @@ android {
             keyAlias '艺语'
             keyPassword '123qwe'
             storeFile file('D:/ThePcDesktop/YiYu/YiYuAndroid/yiyu')
-            // C:\Users\bilibili_QaQGuLiang\Desktop\yiyu\YiYuAndroid\yiyu
-            //storeFile file('C:/Users/bilibili_QaQGuLiang/Desktop/yiyu/YiYuAndroid/yiyu')
             storePassword '123qwe'
         }
     }
@@ -40,14 +38,15 @@ android {
             multiDexKeepProguard file('multidex-config.pro')
         }
         release {
+            signingConfig signingConfigs.config
             buildConfigField "boolean", "LOG_DEBUG", "false"
             buildConfigField "boolean", "USE_CANARY", "false"
             minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             shrinkResources true
             zipAlignEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             multiDexKeepProguard file('multidex-config.pro')
-            signingConfig signingConfigs.config
+
         }
     }
     lintOptions {

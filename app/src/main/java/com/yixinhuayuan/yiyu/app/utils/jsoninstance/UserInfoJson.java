@@ -10,7 +10,7 @@ public class UserInfoJson {
      * status : true
      * code : 200
      * message : SUCCESS
-     * data : {"id":7,"user_id":20,"account":"zhangjinyu3","type":1,"status":1,"nickname":"提将","photo":"https://yy363626256-1258529412.cos.ap-beijing.myqcloud.com/image/o1pUkbbNmB7bhDAAk4MT6rTVZb6bybHiNW5KY86R.jpeg","fans":0,"star":0,"sex":1,"introduce":"","art_beat":0}
+     * data : {"id":8,"user_id":21,"account":"EDBE50D8C4D75D9E2005DBD7A699335C","type":2,"status":1,"nickname":"郑言语","photo":"www.baidu.com","fans":0,"star":0,"sex":0,"introduce":"这是第一个账号","art_beat":0}
      */
 
     private boolean status;
@@ -52,17 +52,17 @@ public class UserInfoJson {
 
     public static class DataBean {
         /**
-         * id : 7
-         * user_id : 20
-         * account : zhangjinyu3
-         * type : 1
+         * id : 8
+         * user_id : 21
+         * account : EDBE50D8C4D75D9E2005DBD7A699335C
+         * type : 2
          * status : 1
-         * nickname : 提将
-         * photo : https://yy363626256-1258529412.cos.ap-beijing.myqcloud.com/image/o1pUkbbNmB7bhDAAk4MT6rTVZb6bybHiNW5KY86R.jpeg
+         * nickname : 郑言语
+         * photo : www.baidu.com
          * fans : 0
          * star : 0
-         * sex : 1
-         * introduce :
+         * sex : 0
+         * introduce : 这是第一个账号
          * art_beat : 0
          */
 

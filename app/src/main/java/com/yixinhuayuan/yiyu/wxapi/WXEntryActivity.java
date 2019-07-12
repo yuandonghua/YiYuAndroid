@@ -291,7 +291,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                     // LoginDataJson loginJson = new Gson().fromJson(loginData.body().string(), LoginDataJson.class);
                     // 获取到注册或登录的请求头参数
                     String authorization = loginData.headers().get("Authorization");
-                    Log.d("WXRegistryUser", "注册用户请求头信息:" + authorization);
+                    Log.d(TAG, "注册用户请求头信息:" + authorization);
 
                     /**
                      * 获取艺语服务器的用户信息
@@ -306,39 +306,61 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                             .build();
                     // 获取到 获取用户信息接口返回的数据
                     Response userInfoData = httpClient.newCall(getUserInfo).execute();
-                    UserInfoJson userInfoJson = new Gson().fromJson(userInfoData.body().string(), UserInfoJson.class);
+                    String json = userInfoData.body().string();
+                    JSONObject jsonObject = new JSONObject(json);
+                    JSONObject object = jsonObject.getJSONObject("data");
+                    UserInfoJson userInfoJson = new Gson().fromJson(json, UserInfoJson.class);
                     UserInfoJson.DataBean userInfo = userInfoJson.getData();
 
-                    Log.d("WXRegistryUser", "获取到的用户数据Code:" + userInfoJson.getCode());
+                    Log.d(TAG, "获取到的用户数据Code:" + jsonObject.getInt("code") + ",json_str: " + json + ",userInfoJson: " + userInfoJson.toString());
 
                     // 保存登录状态户用户数据
                     SharedPreferences.Editor edit = spUsererInfo.edit();
                     edit.putString("authorization", authorization);
-                    edit.putBoolean("is_login", userInfoJson.isStatus());// 是否登录成功
-                    LoginActivity.is_login= userInfoJson.isStatus();
-                    edit.putInt("id", userInfo.getId());// ID
-                    edit.putInt("user_id", userInfo.getUser_id());// USER_ID
-                    edit.putString("account", userInfo.getAccount());
-                    edit.putInt("type", userInfo.getType());
-                    edit.putInt("status", userInfo.getStatus());
-                    edit.putString("nick_name", userInfo.getNickname());// 昵称
-                    edit.putString("header", userInfo.getPhoto());// 头像
-                    edit.putInt("fans", userInfo.getFans());// 粉丝数
-                    edit.putInt("star", userInfo.getStar());// 关注数
-                    edit.putInt("sex", userInfo.getSex());// 性别
-                    edit.putString("introduce", userInfo.getIntroduce());// 个人介绍
-                    edit.commit();
-                    Thread.sleep(500);
+                    if (userInfo != null) {
+                        edit.putBoolean("is_login", userInfoJson.isStatus());// 是否登录成功
+                        LoginActivity.is_login = userInfoJson.isStatus();
+                        edit.putInt("id", userInfo.getId());// ID
+                        edit.putInt("user_id", userInfo.getUser_id());// USER_ID
+                        edit.putString("account", userInfo.getAccount());
+                        edit.putInt("type", userInfo.getType());
+                        edit.putInt("status", userInfo.getStatus());
+                        edit.putString("nick_name", userInfo.getNickname());// 昵称
+                        edit.putString("header", userInfo.getPhoto());// 头像
+                        edit.putInt("fans", userInfo.getFans());// 粉丝数
+                        edit.putInt("star", userInfo.getStar());// 关注数
+                        edit.putInt("sex", userInfo.getSex());// 性别
+                        edit.putString("introduce", userInfo.getIntroduce());// 个人介绍
+                        edit.commit();
+                    } else {
+
+
+                        Log.d("WXRegistryUser", "userInfoJson 为空");
+                        edit.putBoolean("is_login", jsonObject.getBoolean("status"));// 是否登录成功
+                        LoginActivity.is_login = jsonObject.getBoolean("status");
+                        edit.putInt("id", object.getInt("id"));// ID
+                        edit.putInt("user_id", object.getInt("user_id"));// USER_ID
+                        edit.putString("account", object.getString("account"));
+                        edit.putInt("type", object.getInt("type"));
+                        edit.putInt("status", object.getInt("status"));
+                        edit.putString("nick_name", object.getString("nickname"));// 昵称
+                        edit.putString("header", object.getString("photo"));// 头像
+                        edit.putInt("fans", object.getInt("fans"));// 粉丝数
+                        edit.putInt("star", object.getInt("star"));// 关注数
+                        edit.putInt("sex", object.getInt("sex"));// 性别
+                        edit.putString("introduce", object.getString("introduce"));// 个人介绍
+                        edit.commit();
+                    }
 
                 } catch (IOException e) {
                     e.printStackTrace();
-                } catch (InterruptedException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
 
         }.start();
-        Log.d(TAG, "WXEntryActivity:是否登录识别--->"+spUsererInfo.getBoolean("is_login",false));
+        Log.d(TAG, "WXEntryActivity:是否登录识别--->" + WXEntryActivity.IS_LOGIN);
         this.finish();
     }
 }
