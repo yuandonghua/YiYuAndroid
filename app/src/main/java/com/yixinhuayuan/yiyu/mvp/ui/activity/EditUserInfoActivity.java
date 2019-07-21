@@ -1,6 +1,5 @@
 package com.yixinhuayuan.yiyu.mvp.ui.activity;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -18,16 +17,13 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 
 import com.tencent.tac.storage.TACStorageReference;
 import com.tencent.tac.storage.TACStorageService;
-import com.yixinhuayuan.yiyu.app.utils.jsoninstance.EditUserInfoJson;
-import com.yixinhuayuan.yiyu.app.utils.jsoninstance.UserInfoJson;
-import com.yixinhuayuan.yiyu.app.utils.userinfo.SPUserInfo;
+import com.yixinhuayuan.yiyu.app.GlobalConfiguration;
 import com.yixinhuayuan.yiyu.di.component.DaggerEditUserInfoComponent;
 import com.yixinhuayuan.yiyu.mvp.contract.EditUserInfoContract;
 import com.yixinhuayuan.yiyu.mvp.presenter.EditUserInfoPresenter;
@@ -70,7 +66,7 @@ public class EditUserInfoActivity extends BaseActivity<EditUserInfoPresenter> im
     /**
      * 拿到编辑性别的RadioGroup对象
      */
-    @BindView(R.id.rg_edit_sex)
+    @BindView(R.id.rg_sex_edituserinfo)
     RadioGroup editSexGroup;
     /**
      * 拿到性别是男的RadioButton
@@ -94,8 +90,28 @@ public class EditUserInfoActivity extends BaseActivity<EditUserInfoPresenter> im
     @BindView(R.id.et_edit_nickname)
     EditText editNickName;
 
-    // 性别识别 0:未知,1:男,2:女
+    @BindView(R.id.et_edituserinfo)
+    EditText editSign;
+
+    /**
+     * 性别识别 0:未知,1:男,2:女
+     */
     private String sex;
+
+
+    /**
+     * 发送修改用户信息请求
+     */
+    @OnClick(R.id.btn_save_edituserinfo)
+    void changeUserInfo() {
+        String photo_url;
+        String nick = this.editNickName.getText().toString().trim();
+        String sign = this.editSign.getText().toString().trim();
+        String sex = this.sex;
+        // 修改请求
+        mPresenter.requestChangeUserinfo(nick, sex, sign, this);
+    }
+
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -145,6 +161,8 @@ public class EditUserInfoActivity extends BaseActivity<EditUserInfoPresenter> im
     @Override
 
     public void killMyself() {
+        // 设置返回码
+        setResult(GlobalConfiguration.EDIT_USERINFO_ACT);
         finish();
     }
 
@@ -153,7 +171,7 @@ public class EditUserInfoActivity extends BaseActivity<EditUserInfoPresenter> im
      */
     @OnClick(R.id.iv_edit_back)
     void back() {
-        this.finish();
+        this.killMyself();
     }
 
 
@@ -268,66 +286,5 @@ public class EditUserInfoActivity extends BaseActivity<EditUserInfoPresenter> im
                     break;
             }
         }
-    }
-
-
-    /**
-     * 保存用户信息
-     */
-    @OnClick(R.id.btn_save_userinfo)
-    void saveUserInfo() {
-        new Thread() {
-            @Override
-            public void run() {
-                @SuppressLint("WrongConstant")
-                SharedPreferences spUsererInfo = getSharedPreferences(getBaseContext().getPackageName(), Context.MODE_APPEND);
-                OkHttpClient client = new OkHttpClient();
-                FormBody.Builder changeBody = new FormBody.Builder();
-                changeBody.add("nickname", editNickName.getText().toString())
-                        .add("sex", sex)
-                        .add("photo", "www.baidu.com")
-                        .add("introduce", "这是第一个账号");
-                // 请求 修改用户信息 接口
-                Request save = new Request.Builder()
-                        .url("http://yy.363626256.top/api/v1/user/userInfo")
-                        .put(changeBody.build())
-                        .addHeader("authorization", spUsererInfo.getString("authorization", null))
-                        .build();
-                // 获取修改后的用户信息
-                client.newCall(save).enqueue(new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-
-                    }
-
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        int code = response.code();
-                        Log.d("SAVE", "修改信息的状态码:"+code+"");
-                       /* FormBody.Builder userInfoBody = new FormBody.Builder();
-                        Request getUserInfo = new Request.Builder()
-                                .url("http://yy.363626256.top/api/me")
-                                .post(userInfoBody.build())
-                                .addHeader("Authorization", SPUserInfo.spUserInfo().getString("authorization",""))
-                                .build();
-                        Response userInfoData = client.newCall(getUserInfo).execute();
-                        // 保存修改后的用户信息
-                        Gson gson = new Gson();
-                        UserInfoJson userInfoJson = gson.fromJson(userInfoData.body().string(),UserInfoJson.class);
-                        UserInfoJson.DataBean userInfo = userInfoJson.getData();
-                        @SuppressLint("WrongConstant")
-                        SharedPreferences spUsererInfo = getSharedPreferences(getBaseContext().getPackageName(), Context.MODE_APPEND);
-                        SharedPreferences.Editor edit = spUsererInfo.edit();
-                        edit.putString("nick_name", userInfo.getNickname());// 昵称
-                        edit.putString("header", userInfo.getPhoto());// 头像
-                        edit.putInt("sex", userInfo.getSex());// 性别
-                        edit.putString("introduce", userInfo.getIntroduce());// 个人介绍
-                        edit.commit();*/
-                    }
-                });
-
-            }
-        }.start();
-        this.finish();
     }
 }

@@ -28,6 +28,7 @@
     <color name="pink1">#E1E63170</color>
     <color name="pink2">#E1FFB4CD</color>
     <!--底部导航栏标题选中颜色-->
-    <color name="nav_title_color">#C83A3A</color>
+    <color name="nav_title_color">#0B6B91</color>
 
+    <color name="login_icon_color">#397FFE</color>
 </resources>

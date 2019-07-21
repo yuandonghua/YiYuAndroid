@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="48dp"
-    android:height="48dp"
+    android:width="32dp"
+    android:height="32dp"
     android:viewportWidth="1024"
     android:viewportHeight="1024">
 
     <path
-        android:fillColor="#FFFFFF"
+        android:fillColor="@color/login_icon_color"
         android:pathData="M824.8,613.2 C808.8,561.8,790.4,518.6,762.1,447.9
 C766.5,262.2,689.3,112,511.5,112 C331.7,112,256.2,265.2,261,447.9
 C232.6,518.7,214.3,561.6,198.3,613.2 C164.3,722.7,175.3,768,183.7,769

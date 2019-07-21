@@ -28,6 +28,7 @@ import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 
 import com.wuyr.rippleanimation.RippleAnimation;
+import com.yixinhuayuan.yiyu.app.GlobalConfiguration;
 import com.yixinhuayuan.yiyu.di.component.DaggerMyComponent;
 import com.yixinhuayuan.yiyu.mvp.contract.MyContract;
 import com.yixinhuayuan.yiyu.mvp.presenter.MyPresenter;
@@ -64,12 +65,14 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  */
 public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.View {
 
-    /* *//**
+    /**
      * 主题切换按钮
-     *//*
+     */
+    /*
     @BindView(R.id.dayNightToggleButton)
     DayNightToggleButton dayNightToggleButton;
-    private boolean initDayOrNight = true;*/
+    private boolean initDayOrNight = true;
+    */
     /**
      * 跳到个人中心的控件
      */
@@ -122,12 +125,13 @@ public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.
     public void initData(@Nullable Bundle savedInstanceState) {
 
         // 判断是否登录
+        // 创建SharedPreferences对象 拿到存储在本地的用户数据
         @SuppressLint("WrongConstant")
         SharedPreferences sp = getContext().getSharedPreferences(getContext().getPackageName()
                 , Context.MODE_APPEND);
         boolean is_login = sp.getBoolean("is_login", false);
         if (!is_login) {
-            startActivity(new Intent(getContext(), LoginActivity.class));
+            startActivityForResult(new Intent(MyFragment.this.getActivity(), LoginActivity.class), 101);
         } else {
             // 初始化用户简介
             initUserInfo();
@@ -265,7 +269,7 @@ public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.
 
     @Override
     public void hideLoading() {
-        // 判断是否登录
+
         @SuppressLint("WrongConstant")
         SharedPreferences sp = getContext().getSharedPreferences(getContext().getPackageName()
                 , Context.MODE_APPEND);
@@ -300,8 +304,7 @@ public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.
      */
     @OnClick(R.id.userDetails)
     void toUserDetails() {
-        startActivity(new Intent(getContext()
-                , PersonalCenterActivity.class));
+        startActivityForResult(new Intent(getContext(), PersonalCenterActivity.class), GlobalConfiguration.MY_FRAGMRNT);
     }
 
     /**
@@ -377,4 +380,22 @@ public class MyFragment extends BaseFragment<MyPresenter> implements MyContract.
 
     }
 
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (resultCode) {
+
+            case GlobalConfiguration.LOGIN_ACT:
+                Log.d(TAG, "返回码为 resultCode: " + resultCode);
+                this.showLoading();
+                initUserInfo();
+                break;
+            case GlobalConfiguration.PERSONAL_CENTER_ACT:
+                Log.d(TAG, "返回码为 resultCode: " + resultCode);
+                this.showLoading();
+                initUserInfo();
+                break;
+        }
+    }
 }

@@ -35,6 +35,25 @@ import com.yixinhuayuan.yiyu.mvp.model.api.Api;
  */
 @Keep
 public final class GlobalConfiguration implements ConfigModule {
+
+    /**
+     * 用户信息编辑Activity
+     */
+    public static final int EDIT_USERINFO_ACT = 104;
+    /**
+     * 用户信息中心Activity
+     */
+    public static final int PERSONAL_CENTER_ACT = 103;
+    /**
+     * 登录Activity
+     */
+    public static final int LOGIN_ACT = 102;
+    /**
+     * 我的界面
+     */
+    public static final int MY_FRAGMRNT = 101;
+
+
     //    public static String sDomain = Api.APP_DOMAIN;
     /**
      * QQ平台的APPID
@@ -77,7 +96,7 @@ public final class GlobalConfiguration implements ConfigModule {
      * 有关哪些 OpenAPI 需要权限申请，请查看：http://open.weibo.com/wiki/%E5%BE%AE%E5%8D%9AAPI
      * 关于 Scope 概念及注意事项，请查看：http://open.weibo.com/wiki/Scope
      */
-    public static final String SCOPE =null
+    public static final String SCOPE = null
             /*"email,direct_messages_read,direct_messages_write,"
                     + "friendships_groups_read,friendships_groups_write,statuses_to_me_read,"
                     + "follow_app_official_microblog," + "invitation_write"*/;

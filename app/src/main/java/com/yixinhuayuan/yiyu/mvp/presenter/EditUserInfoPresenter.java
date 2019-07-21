@@ -183,4 +183,25 @@ public class EditUserInfoPresenter extends BasePresenter<EditUserInfoContract.Mo
     }
 
 
+    String photo_url = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1563258775123&di=4d4d7aef0c214242cac97f89f0132d5a&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201801%2F31%2F20180131185509_LBFas.png";
+
+    /**
+     * @param nick
+     * @param sex
+     * @param sign
+     * @param activity
+     */
+    public void requestChangeUserinfo(String nick, String sex, String sign, Activity activity) {
+        new Thread() {
+            @Override
+            public void run() {
+                mModel.requestChangeUserinfo(nick, sex, "photo_url", sign, "http://yy.363626256.top/api/v1/user/userInfo", null, activity);
+
+                // 当线程执行完结束当前界面
+                mRootView.killMyself();
+            }
+        }.start();
+    }
+
+
 }

@@ -1,8 +1,11 @@
 package com.yixinhuayuan.yiyu.wxapi;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
@@ -24,7 +27,6 @@ import com.yixinhuayuan.yiyu.app.GlobalConfiguration;
 import com.yixinhuayuan.yiyu.app.utils.GlobalGetOrPostRequest;
 import com.yixinhuayuan.yiyu.app.utils.GlobalHttpClient;
 import com.yixinhuayuan.yiyu.app.utils.jsoninstance.UserInfoJson;
-import com.yixinhuayuan.yiyu.app.utils.jsoninstance.LoginDataJson;
 import com.yixinhuayuan.yiyu.mvp.ui.activity.LoginActivity;
 
 import org.json.JSONException;
@@ -65,6 +67,20 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
     // IWXAPI 是第三方app和微信通信的openapi接口
     private IWXAPI wxapi;
 
+    private int num = 0;
+    private Handler wHandler = new Handler() {
+        @Override
+        public void dispatchMessage(Message msg) {
+            super.dispatchMessage(msg);
+            if (msg.arg1 == 1) {
+                WXEntryActivity.this.finish();
+            }
+
+        }
+    };
+    private boolean handlerInten;
+
+
     @Override
     public int initView(@Nullable Bundle savedInstanceState) {
         return R.layout.activity_wxentry;
@@ -76,17 +92,20 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
         wxapi = WXAPIFactory.createWXAPI(this, GlobalConfiguration.WX_APP_ID, false);
 
         //注意：
-        //第三方开发者如果使用透明界面来实现WXEntryActivity，需要判断handleIntent的返回值，
+        //要第三方开发者如果使用透明界面来实现WXEntryActivity，需判断handleIntent的返回值，
         // 如果返回值为false，则说明入参不合法未被SDK处理，应finish当前透明界面，
         // 避免外部通过传递非法参数的Intent导致停留在透明界面，引起用户的疑惑
-        /*if (wxapi != null) {
-            try {*/
-        wxapi.handleIntent(getIntent(), this);
-            /*} catch (Exception e) {
+        if (wxapi != null) {
+            try {
+                handlerInten = wxapi.handleIntent(getIntent(), this);
+                if (!handlerInten) {
+                    this.finish();
+                }
+            } catch (Exception e) {
                 e.printStackTrace();
-                wxInfo.setText(e.getMessage());
+                // wxInfo.setText(e.getMessage());
             }
-        }*/
+        }
 
     }
 
@@ -177,7 +196,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                                     JSONObject jsonObject = new JSONObject(accessTokenData);
                                     String access_token = jsonObject.getString("access_token");
                                     String openid = jsonObject.getString("openid");
-                                    wxInfo.setText("access_token: " + access_token + "\n" + "openid: " + openid);
+                                    //wxInfo.setText("access_token: " + access_token + "\n" + "openid: " + openid);
                                     getWXUserInfo(access_token, openid);
                                 } catch (IOException e) {
                                     e.printStackTrace();
@@ -350,8 +369,12 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                         edit.putInt("sex", object.getInt("sex"));// 性别
                         edit.putString("introduce", object.getString("introduce"));// 个人介绍
                         edit.commit();
-                    }
 
+
+                    }
+                    Message message = new Message();
+                    message.arg1 = 1;
+                    wHandler.sendMessage(message);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
@@ -360,7 +383,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
             }
 
         }.start();
-        Log.d(TAG, "WXEntryActivity:是否登录识别--->" + WXEntryActivity.IS_LOGIN);
-        this.finish();
+
+        //this.finish();
     }
 }

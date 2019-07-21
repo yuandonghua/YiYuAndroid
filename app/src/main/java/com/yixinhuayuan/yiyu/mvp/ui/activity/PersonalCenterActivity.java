@@ -15,8 +15,8 @@ import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 
+import com.yixinhuayuan.yiyu.app.GlobalConfiguration;
 import com.yixinhuayuan.yiyu.app.utils.adapter.PcaTablOrPagerAdapter;
-import com.yixinhuayuan.yiyu.app.utils.userinfo.SPUserInfo;
 import com.yixinhuayuan.yiyu.di.component.DaggerMyCenterActivityComponent;
 import com.yixinhuayuan.yiyu.mvp.contract.PersonalCenterContract;
 import com.yixinhuayuan.yiyu.mvp.presenter.PersonalCenterPresenter;
@@ -120,9 +120,12 @@ public class PersonalCenterActivity extends BaseActivity<PersonalCenterPresenter
         finish();
     }
 
+    /**
+     * 去往用户信息编辑界面
+     */
     @OnClick(R.id.tv_edit_userinfo)
     void gotoEditUserInfo() {
-        startActivity(new Intent(this, EditUserInfoActivity.class));
+        startActivityForResult(new Intent(this, EditUserInfoActivity.class), GlobalConfiguration.PERSONAL_CENTER_ACT);
     }
 
     /**
@@ -139,7 +142,8 @@ public class PersonalCenterActivity extends BaseActivity<PersonalCenterPresenter
      */
     @OnClick(R.id.iv_pc_back)
     void back() {
-        this.finish();
+        setResult(GlobalConfiguration.PERSONAL_CENTER_ACT, new Intent(this, MainActivity.class));
+        this.killMyself();
     }
 
     /**
@@ -156,6 +160,21 @@ public class PersonalCenterActivity extends BaseActivity<PersonalCenterPresenter
         fans.setText("粉丝:" + spUsererInfo.getInt("fans", 0));
         // 设置个性签名
         userSign.setText(spUsererInfo.getString("introduce", null));
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (resultCode) {
+            // 用户编辑界面关闭后刷新本界面数据
+            case GlobalConfiguration.EDIT_USERINFO_ACT:
+                this.showLoading();
+                this.initUserInfo();
+                break;
+        }
+
 
     }
 }

@@ -74,7 +74,7 @@ public class MessageFragment extends BaseFragment<MessagePresenter> implements M
                 , Context.MODE_APPEND);
         boolean is_login = sp.getBoolean("is_login", false);
         if (!is_login) {
-            startActivity(new Intent(getContext(), LoginActivity.class));
+            // startActivity(new Intent(getContext(), LoginActivity.class));
         }
 
     }

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.util.Log;
@@ -38,18 +39,15 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.yixinhuayuan.yiyu.app.GlobalConfiguration;
-import com.yixinhuayuan.yiyu.app.utils.jsoninstance.UserInfoJson;
 import com.yixinhuayuan.yiyu.app.utils.jsoninstance.LoginDataJson;
 import com.yixinhuayuan.yiyu.mvp.contract.LoginContract;
 import com.yixinhuayuan.yiyu.mvp.model.QQLoginModel;
 import com.yixinhuayuan.yiyu.mvp.ui.activity.LoginActivity;
-import com.yixinhuayuan.yiyu.mvp.ui.fragment.MyFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-
 
 /**
  * ================================================
@@ -102,13 +100,15 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
      * @param tencent
      */
     public void QQLogin(Tencent tencent) {
-
+        Log.d("LoginPresenter", "QQ登录开始");
         mTencent = tencent;
         if (!mTencent.isSessionValid()) {
+            Log.d("LoginPresenter", "调用QQ登陆API");
             qqLoginFlag = 1;
             mTencent.login((Activity) mRootView, "all", mIUiListener);
         } else {
             ArmsUtils.snackbarText("QQ登陆实例对象无效");
+            Log.d("LoginPresenter", "QQ登陆实例对象无效");
         }
     }
 
@@ -116,7 +116,9 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
      * 获取QQ用户信息
      */
     public void updateQQUserInfo() {
+        Log.d("LoginPresenter", "获取QQ用户信息");
         if (mTencent != null && mTencent.isSessionValid()) {
+            Log.d("LoginPresenter", "获取QQ用户信息A");
             qqLoginFlag = 2;
             UserInfo mInfo = new UserInfo((Activity) mRootView, mTencent.getQQToken());
             mInfo.getOpenId(mIUiListener);
@@ -128,18 +130,21 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
      * QQ登陆，获取用户信息回调监听
      */
     public IUiListener mIUiListener = new QQLoginModel() {
+
         @Override
         protected void doComplete(JSONObject values) {
+            Log.d("LoginPresenter", "QQ登陆,获取用户信息回调监听");
             if (qqLoginFlag == 1) {
                 ArmsUtils.snackbarText("QQ登陆成功");
                 initOpenidAndToken(values);
                 updateQQUserInfo();
+                Log.d("LoginPresenter", "QQ登陆成功");
             } else if (qqLoginFlag == 2) {
                 mRootView.showUserInfo(values.toString());
-
+                Log.d("LoginPresenter", "QQ登陆成功,处理返回的数据");
                 try {
                     String openid = values.getString("openid");
-                    QQRegistryUser(openid);
+                    //QQRegistryUser(openid);
 
                 } catch (
                         JSONException e) {
@@ -158,6 +163,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
      */
     public void initOpenidAndToken(JSONObject jsonObject) {
         try {
+            Log.d("LoginPresenter", "处理QQ返回的数据");
             String token = jsonObject.getString(Constants.PARAM_ACCESS_TOKEN);
             String expires = jsonObject.getString(Constants.PARAM_EXPIRES_IN);
             String openId = jsonObject.getString(Constants.PARAM_OPEN_ID);
@@ -306,7 +312,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
      * 通过QQ用户数据,向艺语服务器发出 登录/注册请求
      */
     public void QQRegistryUser(String openId) {
-
+        Log.d("LoginPresenter", "请求登录接口");
         new Thread() {
             @Override
             public void run() {
@@ -348,7 +354,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
                     //UserInfoJson userInfoJson = new Gson().fromJson(getUserInfo.body().string(), UserInfoJson.class);
                     //Log.d("LoginPresenter", "Gson解析的数据1 is: " + userInfoJson);
                     //UserInfoJson.DataBean userInfo = userInfoJson.getData();
-                   // Log.d("LoginPresenter", "Gson解析的数据2 is: " + userInfo);
+                    // Log.d("LoginPresenter", "Gson解析的数据2 is: " + userInfo);
                     Log.d("LoginPresenter", "请求状态码: " + jsonObject.getInt("code"));
                     // 保存登录状态户用户数据
                     LoginActivity context = (LoginActivity) LoginPresenter.this.mRootView;
@@ -372,23 +378,25 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
                         edit.putString("introduce", userInfo.getIntroduce());// 个人介绍
                         edit.commit();
                     } else {*/
-                        Log.d("LoginPresenter", "Json执行");
-                        edit.putBoolean("is_login", jsonObject.getBoolean("status"));// 是否登录成功
-                        LoginActivity.is_login = jsonObject.getBoolean("status");
-                        edit.putInt("id", object.getInt("id"));// ID
-                        edit.putInt("user_id", object.getInt("user_id"));// USER_ID
-                        edit.putString("account", object.getString("account"));
-                        edit.putInt("type", object.getInt("type"));
-                        edit.putInt("status", object.getInt("status"));
-                        edit.putString("nick_name", object.getString("nickname"));// 昵称
-                        edit.putString("header", object.getString("photo"));// 头像
-                        edit.putInt("fans", object.getInt("fans"));// 粉丝数
-                        edit.putInt("star", object.getInt("star"));// 关注数
-                        edit.putInt("sex", object.getInt("sex"));// 性别
-                        edit.putString("introduce", object.getString("introduce"));// 个人介绍
-                        edit.commit();
+                    Log.d("LoginPresenter", "Json执行");
+                    edit.putBoolean("is_login", jsonObject.getBoolean("status"));// 是否登录成功
+                    LoginActivity.is_login = jsonObject.getBoolean("status");
+                    edit.putInt("id", object.getInt("id"));// ID
+                    edit.putInt("user_id", object.getInt("user_id"));// USER_ID
+                    edit.putString("account", object.getString("account"));
+                    edit.putInt("type", object.getInt("type"));
+                    edit.putInt("status", object.getInt("status"));
+                    edit.putString("nick_name", object.getString("nickname"));// 昵称
+                    edit.putString("header", object.getString("photo"));// 头像
+                    edit.putInt("fans", object.getInt("fans"));// 粉丝数
+                    edit.putInt("star", object.getInt("star"));// 关注数
+                    edit.putInt("sex", object.getInt("sex"));// 性别
+                    edit.putString("introduce", object.getString("introduce"));// 个人介绍
+                    edit.commit();
                     //}
-                    ((Activity) mRootView).finish();
+                   /* Intent intent = new Intent(((LoginActivity) mRootView), MainActivity.class);
+                    ((LoginActivity) mRootView).setResult(102, intent);
+                    ((LoginActivity) mRootView).finish();*/
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {

@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jess.arms.base.BaseActivity;
@@ -36,6 +37,7 @@ import com.yixinhuayuan.yiyu.mvp.model.QQLoginModel;
 import com.yixinhuayuan.yiyu.mvp.presenter.LoginPresenter;
 
 import com.yixinhuayuan.yiyu.R;
+import com.yixinhuayuan.yiyu.mvp.ui.fragment.MyFragment;
 import com.yixinhuayuan.yiyu.wxapi.WXEntryActivity;
 
 
@@ -74,17 +76,17 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
      * QQ登陆按钮
      */
     @BindView(R.id.btnLoginQQ)
-    ImageView btnLoginQQ;
+    LinearLayout btnLoginQQ;
     /**
      * 微信登陆按钮
      */
     @BindView(R.id.btnLoginWX)
-    ImageView btnLoginWX;
+    LinearLayout btnLoginWX;
     /**
      * 微博登陆按钮
      */
     @BindView(R.id.btnLoginWB)
-    ImageView btnLoginWB;
+    LinearLayout btnLoginWB;
     /**
      * 腾讯API的实例对象
      */
@@ -216,15 +218,15 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         }
         super.onActivityResult(requestCode, resultCode, data);
 
-
     }
 
     @Override
     protected void onRestart() {
         Log.d(TAG, "onRestart: 关闭LoginActivity");
+        Intent intent = new Intent(this,MainActivity.class);
+        setResult(102, intent);
         this.killMyself();
         super.onRestart();
-
     }
 
     /**
